@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package projetjava;
+import projetjava.Graphique.MainGraphique;
 
 /**
  *
@@ -16,6 +17,7 @@ public class ProjetJava {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        MainGraphique.launch();
     }
     
 }
