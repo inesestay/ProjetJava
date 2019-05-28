@@ -11,18 +11,21 @@ package projetjava.Graphique;
  */
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.BoxLayout;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class MyWindow extends JFrame implements ActionListener {
 	
     JButton button1, buttonConnexionBDD;
+    JLabel label1, label2, label3;
     JPanel panelForButtons;    
     JPanel panelConnexion;
 
@@ -41,6 +44,9 @@ public class MyWindow extends JFrame implements ActionListener {
         canvas.setOption(0);
         
         panelConnexion=new JPanel();
+        
+        panelConnexion.setLayout(new GridLayout(4,1));
+        
         
         buttonConnexionBDD= new JButton("Connexion");		
         buttonConnexionBDD.addActionListener(this);
