@@ -11,6 +11,8 @@ package projetjava.Graphique;
  */
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -28,6 +30,9 @@ public class MyWindow extends JFrame implements ActionListener {
     JLabel label1, label2, label3;
     JPanel panelForButtons;    
     JPanel panelConnexion;
+    JTextField idBDD;
+    JTextField pswBDD;
+    JTextField nomBDD;
 
     MyCanvas canvas;
 		
@@ -45,25 +50,52 @@ public class MyWindow extends JFrame implements ActionListener {
         
         panelConnexion=new JPanel();
         
-        panelConnexion.setLayout(new GridLayout(4,1));
+        panelConnexion.setLayout(new GridBagLayout());
         
+        GridBagConstraints c = new GridBagConstraints();
         
         buttonConnexionBDD= new JButton("Connexion");		
         buttonConnexionBDD.addActionListener(this);
             
-        JTextField idBDD = new JTextField();
-        JTextField pswBDD = new JTextField();
-        JTextField nomBDD = new JTextField();
+        idBDD = new JTextField();
+        pswBDD = new JTextField();
+        nomBDD = new JTextField();
+        
+        label1 = new JLabel("ID connexion");        
+        label2 = new JLabel("Password connexion");
+        label3 = new JLabel("Nom BDD");
+
 
         idBDD.setColumns(10);            
         pswBDD.setColumns(10);
         nomBDD.setColumns(10);
         
-        panelConnexion.add(idBDD);        
-        panelConnexion.add(pswBDD);
-        panelConnexion.add(nomBDD);
-        panelConnexion.add(buttonConnexionBDD);
+        c.gridy = 0;
+        c.gridx = 0;
+        panelConnexion.add(label1, c);
+        
+        c.gridx = 1;
+        panelConnexion.add(idBDD, c);
+        
+        c.gridy = 1;
+        c.gridx = 0;
+        panelConnexion.add(label2, c);
+        
+        c.gridx = 1;
+        panelConnexion.add(pswBDD, c);
+        
+        c.gridy = 2;
+        c.gridx = 0;
+        panelConnexion.add(label3, c);
+        
+        c.gridx = 1;
+        panelConnexion.add(nomBDD, c);
+        
+        c.gridy = 3;
+        c.gridx = 1;
+        panelConnexion.add(buttonConnexionBDD, c);
 
+        panelConnexion.setBackground(Color.GREEN);
         
         add(panelConnexion, BorderLayout.CENTER);	
 	add(panelForButtons, BorderLayout.SOUTH);      
@@ -75,7 +107,12 @@ public class MyWindow extends JFrame implements ActionListener {
             System.exit(0);
         }
         else if(e.getSource()==buttonConnexionBDD) {
-            System.out.println("YES");
+            /*
+            System.out.println("Val 1 : " + idBDD.getText());            
+            System.out.println("Val 2 : " + pswBDD.getText());
+            System.out.println("Val 3 : " + nomBDD.getText());
+            */
+            //Mettre la connexion à la BDD
         }
     }
 }
