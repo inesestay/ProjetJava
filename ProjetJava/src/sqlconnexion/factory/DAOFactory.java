@@ -23,15 +23,38 @@ import sqlconnexion.DAO.*;
 public class DAOFactory {
     
  
-  protected static final Connection conn = SdzConnection.getInstance();   
+ /**
+     * constante static containing the connection variable of the class
+     */
+    protected static final Connection conn;   
    
-  /**
-  * Retourne un objet Classe interagissant avec la BDD
-  * @return DAO
-  */
-  public static DAO getClasseDAO(){
-    return new ClasseDAO(conn);
-  }
+    
+    /**
+     * this is a specific way to init final variable throwing exceptions
+     */
+    static{
+        Connection tmp = null;
+        
+        try {
+            // subscribe to your DriverManager as we use mysql-connector add this :
+            Class.forName("com.mysql.jdbc.Driver"); 
+            // get the connection variable
+            // jdbc:mysl:// is the protocol URI (like http:// is for http)
+            // localhost cause we are from a wamp server
+            // ecole is the name of database
+            // second parameter the id for connecting to the mysql db ( on phpmyadmin)
+            // thirs parameter is the password
+            tmp = DriverManager.getConnection("jdbc:mysql://localhost/ecole","root","");
+         } catch (ClassNotFoundException ex) {
+                Logger.getLogger(DAOFactory.class.getName()).log(Level.SEVERE, null, ex);
+         }
+         catch (SQLException ex) {
+            Logger.getLogger(DAOFactory.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        conn = tmp;
+    }
+    
+
 
   /**
   * Retourne un objet Professeur interagissant avec la BDD

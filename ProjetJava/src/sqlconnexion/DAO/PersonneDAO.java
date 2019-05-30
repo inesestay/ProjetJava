@@ -27,11 +27,12 @@ public PersonneDAO(Connection conn) {
       ResultSet result = this.connect.createStatement(
         ResultSet.TYPE_SCROLL_INSENSITIVE,
         ResultSet.CONCUR_UPDATABLE).executeQuery("INSERT INTO personne VALUES("+obj.getId()+","+obj.getNom()+","+obj.getPrenom()+")" );
-        return true;    
+        
     } catch (SQLException e) {
         System.out.println("pas create");
+         return false;
     }
-    return false;
+   return true;    
   }
 
   public boolean delete(Personne obj) {
@@ -40,11 +41,14 @@ public PersonneDAO(Connection conn) {
       ResultSet result = this.connect.createStatement(
         ResultSet.TYPE_SCROLL_INSENSITIVE,
         ResultSet.CONCUR_UPDATABLE).executeQuery("DELETE FROM 'personne' WHERE id = " + obj.getId());
-        return true;    
+        
     } catch (SQLException e) {
         System.out.println("pas delete");
+        return false;
+        
     }
-    return false;
+    
+    return true;    
   }
    
   public boolean update(Personne obj) {
@@ -57,12 +61,12 @@ public PersonneDAO(Connection conn) {
       ResultSet result = this.connect.createStatement(
         ResultSet.TYPE_SCROLL_INSENSITIVE,
         ResultSet.CONCUR_UPDATABLE).executeQuery("UPDATE personne SET nom= 'nomModif', prenom= 'prenomModif', type= 'typeModif' WHERE id = " + obj.getId());
-        return true;    
+        return false;
     } catch (SQLException e) {
         System.out.println("pas update");
     }
-      
-    return false;
+      return true;   
+    
   }
    
   public Personne find(int id) {
