@@ -6,8 +6,12 @@
 package sqlconnexion.DAO;
 import sqlconnexion.Model.Personne;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -21,18 +25,25 @@ public PersonneDAO(Connection conn) {
     super(conn);
   }
 
-  public boolean create(Personne obj) {
-      
-    try {
-      ResultSet result = this.connect.createStatement(
-        ResultSet.TYPE_SCROLL_INSENSITIVE,
-        ResultSet.CONCUR_UPDATABLE).executeQuery("INSERT INTO personne VALUES("+obj.getId()+","+obj.getNom()+","+obj.getPrenom()+")" );
-        return true;    
-    } catch (SQLException e) {
-        System.out.println("pas create");
+  @Override
+    public boolean create(Personne obj) {
+         try {
+            PreparedStatement statement = this.connect.prepareStatement(
+                    "INSERT INTO personne VALUES(?,?,?,?)"
+                    );
+            statement.setObject(1,obj.getId(), Types.INTEGER); 
+            statement.setObject(2,obj.getNom(),Types.VARCHAR); 
+            statement.setObject(3,obj.getPrenom(),Types.VARCHAR); 
+            statement.setObject(4,obj.getType(),Types.VARCHAR); 
+            statement.executeUpdate(); 
+        } catch (SQLException ex) {
+            System.out.println("pas create");
+            return false;
+        }
+        //en spécifiant bien les types SQL cibles 
+        
+        return true;
     }
-    return false;
-  }
 
   public boolean delete(Personne obj) {
       
@@ -40,11 +51,14 @@ public PersonneDAO(Connection conn) {
       ResultSet result = this.connect.createStatement(
         ResultSet.TYPE_SCROLL_INSENSITIVE,
         ResultSet.CONCUR_UPDATABLE).executeQuery("DELETE FROM 'personne' WHERE id = " + obj.getId());
-        return true;    
+        
     } catch (SQLException e) {
         System.out.println("pas delete");
+        return false;
+        
     }
-    return false;
+    
+    return true;    
   }
    
   public boolean update(Personne obj) {
@@ -57,12 +71,12 @@ public PersonneDAO(Connection conn) {
       ResultSet result = this.connect.createStatement(
         ResultSet.TYPE_SCROLL_INSENSITIVE,
         ResultSet.CONCUR_UPDATABLE).executeQuery("UPDATE personne SET nom= 'nomModif', prenom= 'prenomModif', type= 'typeModif' WHERE id = " + obj.getId());
-        return true;    
+        return false;
     } catch (SQLException e) {
         System.out.println("pas update");
     }
-      
-    return false;
+      return true;   
+    
   }
    
   public Personne find(int id) {
