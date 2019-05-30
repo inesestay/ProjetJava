@@ -3,6 +3,9 @@
  * and open the template in the editor.
  */
 package sqlconnexion.DAO;
+import java.sql.Connection;
+import com.sdz.connection.SdzConnection;
+
 
 import java.sql.*;
 
