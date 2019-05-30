@@ -5,6 +5,10 @@
  */
 package projetjava;
 
+import sqlconnexion.Model.Personne;
+import sqlconnexion.DAO.DAO;
+import sqlconnexion.DAO.PersonneDAO;
+
 /**
  *
  * @author inese
@@ -16,6 +20,11 @@ public class ProjetJava {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+         DAO<Personne> personneDao = new PersonneDAO(SdzConnection.getInstance());
+    for(int i = 1; i < 5; i++){
+      Personne personne = personneDao.find(i);
+      System.out.println("Personne  N°" + personne.getId() + "  - " + personne.getNom() + " " + personne.getPrenom() + "  - " + personne.getType());
+    }
     }
     
 }
