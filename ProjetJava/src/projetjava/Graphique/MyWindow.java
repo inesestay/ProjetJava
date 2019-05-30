@@ -15,6 +15,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -29,11 +30,18 @@ public class MyWindow extends JFrame implements ActionListener {
     JLabel label1, label2, label3;
     JPanel panelForButtons, panelPrincipal;
     JTextField idBDD, pswBDD, nomBDD;
-    JComboBox tablesBox;
+    JComboBox tablesBox, tablesBoxAdd;
     MyCanvas canvas;
 		
+    ArrayList<JLabel> arrayJLabel;
+    ArrayList<JTextField> arrayJTextField;
+    
     public MyWindow() {
 	super();
+        
+        arrayJLabel = null;
+        arrayJTextField = null;
+        
 	setLayout(new BorderLayout());
         
         buttonConnexionBDD= new JButton("Connexion");		
@@ -105,6 +113,8 @@ public class MyWindow extends JFrame implements ActionListener {
             updatePannelPrincipal(4);  
         }else if(e.getSource()==tablesBox) {
             System.out.println((String)tablesBox.getSelectedItem());
+        }else if(e.getSource()==tablesBoxAdd) {
+            updateMenuAjout((String)tablesBoxAdd.getSelectedItem());
         }
     }
     // 0 : menu connexion
@@ -193,7 +203,8 @@ public class MyWindow extends JFrame implements ActionListener {
                 panelPrincipal.setBackground(Color.GRAY);
                 break;
             case 2:
-                
+                panelPrincipal.removeAll();
+                menuAjout();
                 break;
             case 3:
                 
@@ -202,6 +213,81 @@ public class MyWindow extends JFrame implements ActionListener {
                 panelPrincipal.removeAll();
                 displayMenu();
                 break;
+        }
+        
+        panelPrincipal.updateUI();
+    }
+    
+    public void menuAjout(){
+        String[] listTableName = { "Personne", "Inscription"};
+        
+        tablesBoxAdd = new JComboBox(listTableName);
+        tablesBoxAdd.addActionListener(this);
+        
+        panelPrincipal.setLayout(new GridBagLayout());
+        GridBagConstraints d = new GridBagConstraints();
+        
+        d.gridy = 0;
+        d.gridx = 0;
+        d.gridwidth = 2;
+        panelPrincipal.add(tablesBoxAdd, d);
+        
+        updateMenuAjout((String)tablesBoxAdd.getSelectedItem());
+    }
+    
+    public void updateMenuAjout(String ines){
+        
+        if(arrayJLabel == null){
+            arrayJLabel = new ArrayList<JLabel>();
+        }else{
+            for(JLabel nelly : arrayJLabel){
+                panelPrincipal.remove(nelly);
+                arrayJLabel = new ArrayList<JLabel>();
+            }
+        }
+        
+        if(arrayJTextField == null){
+            arrayJTextField = new ArrayList<JTextField>();
+        }else{
+            for(JTextField nelly : arrayJTextField){
+                panelPrincipal.remove(nelly);
+                arrayJTextField = new ArrayList<JTextField>();
+            }
+        }
+        ArrayList<String> arrayElement = new ArrayList<String>();
+        
+        if(ines == "Personne"){
+            arrayElement.add("nom");            
+            arrayElement.add("prenom");
+            arrayElement.add("type");
+        }else if("Inscription" == ines){
+            arrayElement.add("Classe");            
+            arrayElement.add("Personne");
+        }
+        
+        for(String nelly : arrayElement){
+            arrayJLabel.add(new JLabel(nelly));
+            arrayJTextField.add(new JTextField());
+        }
+        
+        GridBagConstraints d = new GridBagConstraints();
+        
+        d.gridy = 0;
+        d.gridx = 0;
+        
+        d.gridwidth = 2;
+        panelPrincipal.add(tablesBoxAdd, d);
+        
+        d.gridwidth = 1;
+        
+        for(int i = 0; i < arrayElement.size(); i++){
+            
+            arrayJTextField.get(i).setColumns(15);
+            d.gridy ++;
+            d.gridx = 0;
+            panelPrincipal.add(arrayJLabel.get(i), d);
+            d.gridx = 1;
+            panelPrincipal.add(arrayJTextField.get(i), d);
         }
         
         panelPrincipal.updateUI();
