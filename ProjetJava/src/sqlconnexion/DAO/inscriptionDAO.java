@@ -4,41 +4,43 @@
  * and open the template in the editor.
  */
 package sqlconnexion.DAO;
-import sqlconnexion.Model.Personne;
+
+/**
+ *
+ * @author inese
+ */
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import sqlconnexion.Model.Inscription;
 
-
-/**
- *
- * @author nelly
- */
-public class PersonneDAO extends DAO<Personne> {
+public class inscriptionDAO extends DAO<Inscription> {
     
-public PersonneDAO(Connection conn) {
+public inscriptionDAO(Connection conn) {
     
     
     super(conn);
   }
 
   @Override
-    public boolean create(Personne obj){
-            
-    if(("".equals(obj.getNom())) || (obj.getPrenom()=="") || (obj.getType()=="")){
+    public boolean create(Inscription obj){
+
+    System.out.println("salut");
+    if((obj.getClassID()==0) || (obj.getPersonneID()==0)){
         System.out.println("il manque un champ");
         return false;
     }
 
     try{
-        PreparedStatement statement = this.connect.prepareStatement("INSERT INTO personne(nom,prenom,type) VALUES(?,?,?)");
-        statement.setObject(1,obj.getNom(),Types.VARCHAR);
-        statement.setObject(2,obj.getPrenom(),Types.VARCHAR); 
-        statement.setObject(3,obj.getType(),Types.VARCHAR); 
+        PreparedStatement statement = this.connect.prepareStatement("INSERT INTO inscription(classID,personneID) VALUES(?,?)");
+
+        statement.setObject(2,obj.getClassID(),Types.INTEGER); 
+        statement.setObject(3,obj.getPersonneID(),Types.INTEGER); 
         statement.executeUpdate();
-        System.out.println("personne créée");      
+        System.out.println("inscription créée");      
     }catch (SQLException ex) {
         System.out.println("pas create : " + ex.getMessage());
         return false;
@@ -47,15 +49,16 @@ public PersonneDAO(Connection conn) {
     return true;
 }
 
-  public boolean delete(Personne obj) {
+@Override
+  public boolean delete(Inscription obj) {
 
    try {
             PreparedStatement statement = this.connect.prepareStatement(
-                    "DELETE FROM personne WHERE id = " + obj.getId()+""
+                    "DELETE FROM inscription WHERE id = " + obj.getId()+""
                     );
            
             statement.executeUpdate(); 
-             System.out.println("personne supp");
+             System.out.println("inscription supp");
         } catch (SQLException ex) {
             System.out.println("pas supp");
             return false;
@@ -65,16 +68,17 @@ public PersonneDAO(Connection conn) {
         return true;
   }
    
-  public boolean update(Personne obj) {
+@Override
+  public boolean update(Inscription obj) {
       
      
      
      try {
             PreparedStatement statement = this.connect.prepareStatement(
-                    "UPDATE personne SET nom= '"+ obj.getNom() +"', prenom= '"+ obj.getPrenom()+"', type= '"+obj.getType()+"' WHERE id = " + obj.getId()+"");
+                    "UPDATE inscription SET classID= '"+ obj.getClassID() +"', personneID= '"+ obj.getPersonneID()+" WHERE id = " + obj.getId()+"");
            
             statement.executeUpdate(); 
-             System.out.println("personne update");
+             System.out.println("inscription update");
         } catch (SQLException ex) {
             System.out.println("pas udpade");
             return false;
@@ -84,18 +88,20 @@ public PersonneDAO(Connection conn) {
         return true;
   }
    
-  public Personne find(int id) {
-    Personne personne = new Personne();      
+@Override
+  public Inscription find(int id) {
+    Inscription inscription = new Inscription();      
       
     try {
       ResultSet result = this.connect.createStatement(
         ResultSet.TYPE_SCROLL_INSENSITIVE,
         ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM personne WHERE id = " + id);
       if(result.first())
-        personne = new Personne(id,result.getString("nom"),result.getString("prenom"),result.getString("type"));         
+        inscription = new Inscription(id,result.getInt("classID"),result.getInt("personneID"));         
     } catch (SQLException e) {
       e.printStackTrace();
     }
-    return personne;
+    return inscription;
   }
 }
+
