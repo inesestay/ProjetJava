@@ -25,6 +25,13 @@ public class Personne {
         
     }
     
+    public Personne (String nom, String prenom, String type)
+    {
+        this.id= -1;
+        this.nom=nom;
+        this.prenom=prenom;
+        this.type=type;
+    }
     
     public Personne (int id, String nom, String prenom, String type)
     {

@@ -13,21 +13,21 @@ public class Bulletin {
     ///CHARACTERISTICS
     private int id;
     private String appreciation;
-    private int trimID;
+    private int trimestreID;
     private int inscriptionID;
     
     ///METHODS
     public Bulletin(){
         id=0;
         appreciation="";
-        trimID=0;
+        trimestreID=0;
         inscriptionID=0;
     }
     
-    public Bulletin(int id,String appreciation,int trimID ,int inscriptionID ){
+    public Bulletin(int id,String appreciation,int trimestreID ,int inscriptionID ){
         this.id=id;
         this.appreciation=appreciation;
-        this.trimID=trimID;
+        this.trimestreID=trimestreID;
         this.inscriptionID=inscriptionID;
     }
     
@@ -48,12 +48,12 @@ public class Bulletin {
         this.appreciation = appreciation;
     }
 
-    public int getTrimID() {
-        return trimID;
+    public int getTrimestreID() {
+        return trimestreID;
     }
 
-    public void setTrimID(int trimID) {
-        this.trimID = trimID;
+    public void setTrimestreID(int trimID) {
+        this.trimestreID = trimID;
     }
 
     public int getInscriptionID() {

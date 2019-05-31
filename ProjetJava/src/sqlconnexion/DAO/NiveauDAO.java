@@ -4,40 +4,37 @@
  * and open the template in the editor.
  */
 package sqlconnexion.DAO;
-import sqlconnexion.Model.Personne;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
-
+import sqlconnexion.Model.*;
 
 /**
  *
  * @author nelly
  */
-public class PersonneDAO extends DAO<Personne> {
+public class NiveauDAO extends DAO<Niveau> {
     
-public PersonneDAO(Connection conn) {
-    
+public NiveauDAO(Connection conn) {
     
     super(conn);
   }
 
   @Override
-    public boolean create(Personne obj) {
+    public boolean create(Niveau obj) {
          try {
             PreparedStatement statement = this.connect.prepareStatement(
-                    "INSERT INTO personne VALUES(?,?,?,?)"
-                    ); 
+                    "INSERT INTO niveau VALUES(?,?)");
             statement.setObject(1,null,Types.INTEGER); 
             statement.setObject(2,obj.getNom(),Types.VARCHAR); 
-            statement.setObject(3,obj.getPrenom(),Types.VARCHAR); 
-            statement.setObject(4,obj.getType(),Types.VARCHAR); 
+            
             statement.executeUpdate(); 
-             System.out.println("personne créée");
+             System.out.println("Niveau créée");
         } catch (SQLException ex) {
-            System.out.println("pas create : " + ex.getMessage());
+            System.out.println("pas create Niveau");
             return false;
         }
         //en spécifiant bien les types SQL cibles 
@@ -45,19 +42,17 @@ public PersonneDAO(Connection conn) {
         return true;
     }
 
-  public boolean delete(Personne obj) {
-      
-    
+  public boolean delete(Niveau obj) {
+     
   
    try {
             PreparedStatement statement = this.connect.prepareStatement(
-                    "DELETE FROM personne WHERE id = " + obj.getId()+""
-                    );
+                    "DELETE FROM niveau WHERE id = " + obj.getId()+"" );
            
             statement.executeUpdate(); 
-             System.out.println("personne supp");
+             System.out.println("Niveau supp");
         } catch (SQLException ex) {
-            System.out.println("pas supp");
+            System.out.println("pas supp Niveau");
             return false;
         }
         //en spécifiant bien les types SQL cibles 
@@ -65,18 +60,16 @@ public PersonneDAO(Connection conn) {
         return true;
   }
    
-  public boolean update(Personne obj) {
+  public boolean update(Niveau obj) {
       
-     
-     
-     try {
+  try{
             PreparedStatement statement = this.connect.prepareStatement(
-                    "UPDATE personne SET nom= '"+ obj.getNom() +"', prenom= '"+ obj.getPrenom()+"', type= '"+obj.getType()+"' WHERE id = " + obj.getId()+"");
+                    "UPDATE niveau SET nom= '"+ obj.getNom() +"' WHERE id = " + obj.getId()+"");
            
             statement.executeUpdate(); 
-             System.out.println("personne update");
+             System.out.println("Niveau update");
         } catch (SQLException ex) {
-            System.out.println("pas udpade");
+            System.out.println("pas udpade Niveau");
             return false;
         }
         //en spécifiant bien les types SQL cibles 
@@ -84,18 +77,18 @@ public PersonneDAO(Connection conn) {
         return true;
   }
    
-  public Personne find(int id) {
-    Personne personne = new Personne();      
+  public Niveau find(int id) {
+    Niveau d = new Niveau();      
       
     try {
       ResultSet result = this.connect.createStatement(
         ResultSet.TYPE_SCROLL_INSENSITIVE,
-        ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM personne WHERE id = " + id);
+        ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM niveau WHERE id = " + id);
       if(result.first())
-        personne = new Personne(id,result.getString("nom"),result.getString("prenom"),result.getString("type"));         
+        d = new Niveau(id,result.getString("nom"));         
     } catch (SQLException e) {
       e.printStackTrace();
     }
-    return personne;
+    return d;
   }
 }
