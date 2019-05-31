@@ -255,7 +255,7 @@ public class MyWindow extends JFrame implements ActionListener {
             if(table == "Personne"){
                 DAO<Personne> pers = DAOFactory.getPersonneDAO();
                 //idd a regler
-                pers.create(new Personne(1, arrayJTextField.get(0).getText(),arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText()));
+                pers.create(new Personne(arrayJTextField.get(0).getText(),arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText()));
                 errorText.setText("Personne ajoute !");
             }
         }

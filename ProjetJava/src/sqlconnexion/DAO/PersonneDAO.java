@@ -29,15 +29,15 @@ public PersonneDAO(Connection conn) {
          try {
             PreparedStatement statement = this.connect.prepareStatement(
                     "INSERT INTO personne VALUES(?,?,?,?)"
-                    );
-            statement.setObject(1,obj.getId(), Types.INTEGER); 
+                    ); 
+            statement.setObject(1,null,Types.INTEGER); 
             statement.setObject(2,obj.getNom(),Types.VARCHAR); 
             statement.setObject(3,obj.getPrenom(),Types.VARCHAR); 
             statement.setObject(4,obj.getType(),Types.VARCHAR); 
             statement.executeUpdate(); 
              System.out.println("personne créée");
         } catch (SQLException ex) {
-            System.out.println("pas create");
+            System.out.println("pas create : " + ex.getMessage());
             return false;
         }
         //en spécifiant bien les types SQL cibles 
