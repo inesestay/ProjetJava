@@ -26,7 +26,7 @@ import javax.swing.JTextField;
 
 public class MyWindow extends JFrame implements ActionListener {
 	
-    JButton button1, button2,buttonConnexionBDD, addMenu, delMenu, dispMenu, menu;
+    JButton button1, button2,buttonConnexionBDD, addMenu, delMenu, dispMenu, menu, addElement;
     JLabel label1, label2, label3;
     JPanel panelForButtons, panelPrincipal;
     JTextField idBDD, pswBDD, nomBDD;
@@ -53,6 +53,7 @@ public class MyWindow extends JFrame implements ActionListener {
         delMenu = new JButton("Suppresion element");
         dispMenu = new JButton("Affichage table");
         menu = new JButton("Menu principal");
+        addElement = new JButton("Ajout Element");
 
 			
         button1.addActionListener(this);
@@ -64,6 +65,7 @@ public class MyWindow extends JFrame implements ActionListener {
         delMenu.addActionListener(this);
         dispMenu.addActionListener(this);
         menu.addActionListener(this);
+        addElement.addActionListener(this);
 
 
         panelForButtons=new JPanel();
@@ -115,6 +117,8 @@ public class MyWindow extends JFrame implements ActionListener {
             System.out.println((String)tablesBox.getSelectedItem());
         }else if(e.getSource()==tablesBoxAdd) {
             updateMenuAjout((String)tablesBoxAdd.getSelectedItem());
+        }else if(e.getSource()==addElement){
+            
         }
     }
     // 0 : menu connexion
@@ -218,6 +222,10 @@ public class MyWindow extends JFrame implements ActionListener {
         panelPrincipal.updateUI();
     }
     
+    public void creationObjetRequetteAjout(){
+        //ici
+    }
+    
     public void menuAjout(){
         String[] listTableName = { "Personne", "Inscription"};
         
@@ -236,6 +244,8 @@ public class MyWindow extends JFrame implements ActionListener {
     }
     
     public void updateMenuAjout(String ines){
+        
+        panelPrincipal.remove(addElement);
         
         if(arrayJLabel == null){
             arrayJLabel = new ArrayList<JLabel>();
@@ -289,6 +299,10 @@ public class MyWindow extends JFrame implements ActionListener {
             d.gridx = 1;
             panelPrincipal.add(arrayJTextField.get(i), d);
         }
+        
+        d.gridy ++;
+        d.gridx = 0;
+        panelPrincipal.add(addElement);
         
         panelPrincipal.updateUI();
     }
