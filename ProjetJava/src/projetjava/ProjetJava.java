@@ -28,7 +28,7 @@ public class ProjetJava {
          * Connection with factory and DAO 
          * can be everywhere in the code cause DAOFactory is a static method
          ********************************************************/
-        
+        /*
           try{
             Connexion c= new Connexion("ecole","root","");
             DAO<Personne> pers = DAOFactory.getPersonneDAO();
@@ -50,6 +50,7 @@ public class ProjetJava {
             catch (Exception e){
               System.out.println("oof");
           }
+        */
         // TODO code application logic here
         MainGraphique.launch();
     }
