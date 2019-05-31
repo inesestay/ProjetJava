@@ -37,8 +37,8 @@ public inscriptionDAO(Connection conn) {
     try{
         PreparedStatement statement = this.connect.prepareStatement("INSERT INTO inscription(classID,personneID) VALUES(?,?)");
 
-        statement.setObject(2,obj.getClassID(),Types.INTEGER); 
-        statement.setObject(3,obj.getPersonneID(),Types.INTEGER); 
+        statement.setObject(1,obj.getClassID(),Types.INTEGER); 
+        statement.setObject(2,obj.getPersonneID(),Types.INTEGER); 
         statement.executeUpdate();
         System.out.println("inscription créée");      
     }catch (SQLException ex) {
