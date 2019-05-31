@@ -12,20 +12,17 @@ package sqlconnexion.Model;
 public class Niveau {
     ///CHARACTERISTICS
     private int id;
-    private int classeID;
-    private int etudiantID;
+    private String nom;
     
     ///CONSTRUCTORS
     public Niveau(){
         id=0;
-        classeID=0;
-        etudiantID=0;
+        nom="";
     }
     
-    public Niveau(int id, int classeID,int etudiantID){
+    public Niveau(int id, String nom){
         this.id=id;
-        this.classeID=classeID;
-        this.etudiantID=etudiantID;
+        this.nom=nom;
     }
     
     ///GETTERS AND SETTERS
@@ -38,21 +35,12 @@ public class Niveau {
         this.id = id;
     }
 
-    public int getClasseID() {
-        return classeID;
+    public String getNom() {
+        return nom;
     }
 
-    public void setClasseID(int classeID) {
-        this.classeID = classeID;
+    public void setNom(String nom) {
+        this.nom = nom;
     }
-
-    public int getEtudiantID() {
-        return etudiantID;
-    }
-
-    public void setEtudiantID(int etudiantID) {
-        this.etudiantID = etudiantID;
-    }
-
    
 }

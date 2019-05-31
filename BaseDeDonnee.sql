@@ -1,7 +1,7 @@
 
 CREATE TABLE AnneeScolaire(
-id int(11) NOT NULL,
-PRIMARY KEY (id)
+AnneeScolaireID int(11) NOT NULL,
+PRIMARY KEY (AnneeScolaireID)
 );
 
 CREATE TABLE Trimestre(
@@ -9,8 +9,8 @@ id int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
 numero int(11) NOT NULL,
 debut int(11) NOT NULL,
 fin int(11) NOT NULL,
-AnnéeScolaireId int(11) NOT NULL,
-FOREIGN KEY (AnnéeScolaireId) REFERENCES AnnéeScolaire(id)
+anneescolaireID int(11) NOT NULL,
+FOREIGN KEY (anneescolaireID) REFERENCES anneescolaireID(id)
 );
 
 CREATE TABLE Niveau(
@@ -21,12 +21,10 @@ nom varchar(255) NOT NULL
 CREATE TABLE Classe(
 id int(11) NOT NULL  PRIMARY KEY AUTO_INCREMENT ,
 nom varchar(255) NOT NULL,
-EcoleId varchar(255) NOT NULL,
-NiveauId int(11) NOT NULL,
-AnnéeScolaireId int(11) NOT NULL,
-FOREIGN KEY (EcoleId) REFERENCES Ecole(id_ecole),
-FOREIGN KEY (NiveauId) REFERENCES Niveau(id),
-FOREIGN KEY (AnnéeScolaireId) REFERENCES AnnéeScolaire(id)
+niveauId int(11) NOT NULL,
+anneescolaireID int(11) NOT NULL,
+FOREIGN KEY (niveauId) REFERENCES Niveau(id),
+FOREIGN KEY (anneescolaireID) REFERENCES anneescolaireID(id)
 );
 
 CREATE TABLE Discipline(
@@ -84,12 +82,4 @@ appreciation varchar(255) NOT NULL,
 note int(11) NOT NULL,
 detailBulletinID int(11) NOT NULL,
 FOREIGN KEY (detailBulletinID) REFERENCES DetailBulletin(id)
-);
-
-CREATE TABLE Enseignant(
-
-);
-
-CREATE TABLE Eleve(
-
 );
