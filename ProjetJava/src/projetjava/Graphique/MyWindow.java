@@ -15,6 +15,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -23,15 +24,18 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import projetjava.Connexion;
 
 public class MyWindow extends JFrame implements ActionListener {
 	
     JButton button1, button2,buttonConnexionBDD, addMenu, delMenu, dispMenu, menu, addElement;
-    JLabel label1, label2, label3;
+    JLabel label1, label2, label3, errorText;
     JPanel panelForButtons, panelPrincipal;
     JTextField idBDD, pswBDD, nomBDD;
     JComboBox tablesBox, tablesBoxAdd;
     MyCanvas canvas;
+    
+    Connexion myBDD;
 		
     ArrayList<JLabel> arrayJLabel;
     ArrayList<JTextField> arrayJTextField;
@@ -95,16 +99,30 @@ public class MyWindow extends JFrame implements ActionListener {
             updatePannelPrincipal(1);
         }
         else if(e.getSource()==buttonConnexionBDD) {
-            /*
-            System.out.println("Val 1 : " + idBDD.getText());            
-            System.out.println("Val 2 : " + pswBDD.getText());
-            System.out.println("Val 3 : " + nomBDD.getText());
-            */
-            //Mettre la connexion à la BDD
-            panelForButtons.add(button2);
-            panelForButtons.updateUI();
+            try{
+                myBDD = null;
+                myBDD = new Connexion(nomBDD.getText(),idBDD.getText(),pswBDD.getText());
+            }
+            catch(SQLException e1){
+                errorText.setText("Error sql : " + (String)e1.getMessage());
+            }
+            catch(ClassNotFoundException e1){
+                errorText.setText("Error class not found : " + (String)e1.getMessage());
+            }
+            catch (Exception e1){
+                errorText.setText("Error : " + (String)e1.getMessage());
+
+            }
             
-            updatePannelPrincipal(1);
+            
+            if(myBDD != null){
+                panelForButtons.add(button2);
+                panelForButtons.updateUI();
+            
+                updatePannelPrincipal(1);
+            }
+            panelPrincipal.updateUI();
+            
             
         }else if(e.getSource()==addMenu) {
             updatePannelPrincipal(2);  
@@ -146,6 +164,7 @@ public class MyWindow extends JFrame implements ActionListener {
                 label1 = new JLabel("ID connexion");        
                 label2 = new JLabel("Password connexion");
                 label3 = new JLabel("Nom BDD");
+                errorText = new JLabel("");
 
 
                 idBDD.setColumns(10);            
@@ -177,6 +196,11 @@ public class MyWindow extends JFrame implements ActionListener {
                 c.gridx = 0;
                 c.gridwidth = 2;
                 panelPrincipal.add(buttonConnexionBDD, c);
+                
+                c.gridy = 4;
+                c.gridx = 0;
+                c.gridwidth = 2;
+                panelPrincipal.add(errorText, c);
 
                 panelPrincipal.setBackground(Color.CYAN);
                 
@@ -300,9 +324,10 @@ public class MyWindow extends JFrame implements ActionListener {
             panelPrincipal.add(arrayJTextField.get(i), d);
         }
         
-        d.gridy ++;
+        d.gridy += 2;
         d.gridx = 0;
-        panelPrincipal.add(addElement);
+        d.gridwidth = 2;
+        panelPrincipal.add(addElement, d);
         
         panelPrincipal.updateUI();
     }
