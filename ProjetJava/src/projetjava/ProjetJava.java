@@ -6,7 +6,7 @@
 package projetjava;
 import java.sql.Connection;
 import java.sql.SQLException;
-import sqlconnexion.Model.Personne;
+import sqlconnexion.Model.*;
 import sqlconnexion.DAO.DAO;
 import sqlconnexion.DAO.PersonneDAO;
 import sqlconnexion.factory.DAOFactory;

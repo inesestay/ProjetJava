@@ -57,11 +57,19 @@ public class DAOFactory {
 
 
   /**
-  * Retourne un objet Professeur interagissant avec la BDD
+  * Retourne un objet Personne interagissant avec la BDD
   * @return DAO
   */
   public static DAO getPersonneDAO(){
     return new PersonneDAO(conn);
+  }
+  
+  /**
+  * Retourne un objet Discipline interagissant avec la BDD
+  * @return DAO
+  */
+  public static DAO getDisciplineDAO(){
+    return new DisciplineDAO(conn);
   }
 
      
