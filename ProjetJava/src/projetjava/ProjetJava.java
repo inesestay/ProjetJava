@@ -10,6 +10,7 @@ import sqlconnexion.Model.Personne;
 import sqlconnexion.DAO.DAO;
 import sqlconnexion.DAO.PersonneDAO;
 import sqlconnexion.factory.DAOFactory;
+import projetjava.Graphique.MainGraphique;
 
 /**
  *
@@ -49,8 +50,8 @@ public class ProjetJava {
             catch (Exception e){
               System.out.println("oof");
           }
-       
-        
+        // TODO code application logic here
+        MainGraphique.launch();
     }
     
 }
