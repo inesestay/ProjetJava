@@ -1,7 +1,7 @@
 
 CREATE TABLE AnneeScolaire(
-AnneeScolaireID int(11) NOT NULL,
-PRIMARY KEY (AnneeScolaireID)
+AnneeScolaireID int(11) NOT NULL  PRIMARY KEY
+
 );
 
 CREATE TABLE Trimestre(
@@ -28,7 +28,7 @@ FOREIGN KEY (anneescolaireID) REFERENCES anneescolaireID(id)
 );
 
 CREATE TABLE Discipline(
-id varchar(255) NOT NULL  PRIMARY KEY AUTO_INCREMENT ,
+id int(11) NOT NULL  PRIMARY KEY AUTO_INCREMENT ,
 nom varchar(255) NOT NULL
 );
 
@@ -40,7 +40,7 @@ type varchar(255) NOT NULL
 );
 
 CREATE TABLE Enseignement(
-id varchar(255) NOT NULL  PRIMARY KEY AUTO_INCREMENT ,
+id int(11) NOT NULL  PRIMARY KEY AUTO_INCREMENT ,
 classeID varchar(255) NOT NULL,
 disciplineId varchar(255) NOT NULL,
 personneId varchar(255) NOT NULL,
