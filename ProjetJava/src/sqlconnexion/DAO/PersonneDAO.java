@@ -47,6 +47,7 @@ public PersonneDAO(Connection conn) {
     return true;
 }
 
+@Override
   public boolean delete(Personne obj) {
 
    try {
@@ -65,6 +66,7 @@ public PersonneDAO(Connection conn) {
         return true;
   }
    
+@Override
   public boolean update(Personne obj) {
       
      
@@ -84,6 +86,7 @@ public PersonneDAO(Connection conn) {
         return true;
   }
    
+@Override
   public Personne find(int id) {
     Personne personne = new Personne();      
       
