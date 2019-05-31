@@ -25,6 +25,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import projetjava.Connexion;
+import sqlconnexion.DAO.DAO;
+import sqlconnexion.Model.Personne;
+import sqlconnexion.factory.DAOFactory;
 
 public class MyWindow extends JFrame implements ActionListener {
 	
@@ -136,7 +139,7 @@ public class MyWindow extends JFrame implements ActionListener {
         }else if(e.getSource()==tablesBoxAdd) {
             updateMenuAjout((String)tablesBoxAdd.getSelectedItem());
         }else if(e.getSource()==addElement){
-            
+            creationObjetRequetteAjout((String)tablesBoxAdd.getSelectedItem());
         }
     }
     // 0 : menu connexion
@@ -246,8 +249,19 @@ public class MyWindow extends JFrame implements ActionListener {
         panelPrincipal.updateUI();
     }
     
-    public void creationObjetRequetteAjout(){
+    public void creationObjetRequetteAjout(String table){
         //ici
+        try{
+            if(table == "Personne"){
+                DAO<Personne> pers = DAOFactory.getPersonneDAO();
+                //idd a regler
+                pers.create(new Personne(1, arrayJTextField.get(0).getText(),arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText()));
+                errorText.setText("Personne ajoute !");
+            }
+        }
+        catch (Exception e1){
+            errorText.setText("Error : " + (String)e1.getMessage());
+        }
     }
     
     public void menuAjout(){
