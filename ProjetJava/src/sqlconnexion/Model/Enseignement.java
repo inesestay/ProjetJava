@@ -15,14 +15,14 @@ public class Enseignement {
     private int id;
     private int classeID;
     private int enseignantID;
-    private int discipID;
+    private int disciplineId;
     
     ///CONSTRUCTORS
-    public Enseignement(int id, int classeID, int enseignantID, int discipID){
+    public Enseignement(int id, int classeID, int enseignantID, int disciplineId ){
         this.id=id;
         this.classeID=classeID;
         this.enseignantID=enseignantID;
-        this.discipID=discipID;       
+        this.disciplineId =disciplineId ;       
      
     }
     
@@ -30,7 +30,7 @@ public class Enseignement {
         id = 0;
         classeID = 0;
         enseignantID = 0;
-        discipID = 0;
+        disciplineId  = 0;
     }
     
     ///GETTERS AND SETTERS
@@ -57,12 +57,12 @@ public class Enseignement {
     public void setEnseignantID(int enseignantID) {
         this.enseignantID = enseignantID;
     }
-    public int getDiscipID() {
-        return discipID;
+    public int getDisciplineID() {
+        return disciplineId ;
     }
 
-    public void setDiscipID(int discipID) {
-        this.discipID = discipID;
+    public void setDisciplineID(int disciplineId ) {
+        this.disciplineId  = disciplineId ;
     }
     
     
