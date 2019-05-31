@@ -27,9 +27,8 @@ public DisciplineDAO(Connection conn) {
     public boolean create(Discipline obj) {
          try {
             PreparedStatement statement = this.connect.prepareStatement(
-                    "INSERT INTO discipline VALUES(?,?)"
-                    );
-            statement.setObject(1,obj.getId(), Types.INTEGER); 
+                    "INSERT INTO discipline VALUES(?,?)");
+            statement.setObject(1,null,Types.INTEGER); 
             statement.setObject(2,obj.getNom(),Types.VARCHAR); 
             
             statement.executeUpdate(); 
@@ -48,8 +47,7 @@ public DisciplineDAO(Connection conn) {
   
    try {
             PreparedStatement statement = this.connect.prepareStatement(
-                    "DELETE FROM discipline WHERE id = " + obj.getId()+""
-                    );
+                    "DELETE FROM discipline WHERE id = " + obj.getId()+"" );
            
             statement.executeUpdate(); 
              System.out.println("discipline supp");

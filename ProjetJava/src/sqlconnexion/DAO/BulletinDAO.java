@@ -4,40 +4,39 @@
  * and open the template in the editor.
  */
 package sqlconnexion.DAO;
-import sqlconnexion.Model.Personne;
+import sqlconnexion.Model.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 
-
 /**
  *
  * @author nelly
  */
-public class PersonneDAO extends DAO<Personne> {
-    
-public PersonneDAO(Connection conn) {
+public class BulletinDAO extends DAO<Bulletin> {
+    public BulletinDAO(Connection conn) {
     
     
     super(conn);
   }
 
   @Override
-    public boolean create(Personne obj) {
+    public boolean create(Bulletin obj) {
          try {
             PreparedStatement statement = this.connect.prepareStatement(
-                    "INSERT INTO personne VALUES(?,?,?,?)"
-                    ); 
+                    "INSERT INTO bulletin VALUES(?,?,?,?)"
+                    );
             statement.setObject(1,null,Types.INTEGER); 
-            statement.setObject(2,obj.getNom(),Types.VARCHAR); 
-            statement.setObject(3,obj.getPrenom(),Types.VARCHAR); 
-            statement.setObject(4,obj.getType(),Types.VARCHAR); 
+            statement.setObject(2,obj.getAppreciation(),Types.VARCHAR);
+            statement.setObject(3,obj.getTrimID(),Types.INTEGER);
+            statement.setObject(4,obj.getInscriptionID(),Types.INTEGER);
+            
             statement.executeUpdate(); 
-             System.out.println("personne créée");
+             System.out.println(" bulletin créée");
         } catch (SQLException ex) {
-            System.out.println("pas create : " + ex.getMessage());
+            System.out.println("pas create bulletin");
             return false;
         }
         //en spécifiant bien les types SQL cibles 
@@ -45,19 +44,17 @@ public PersonneDAO(Connection conn) {
         return true;
     }
 
-  public boolean delete(Personne obj) {
-      
-    
+  public boolean delete(Bulletin obj) {
+     
   
    try {
             PreparedStatement statement = this.connect.prepareStatement(
-                    "DELETE FROM personne WHERE id = " + obj.getId()+""
-                    );
+                    "DELETE FROM bulletin WHERE id = " + obj.getId()+"");
            
             statement.executeUpdate(); 
-             System.out.println("personne supp");
+             System.out.println("bulletin supp");
         } catch (SQLException ex) {
-            System.out.println("pas supp");
+            System.out.println("pas supp bulletin");
             return false;
         }
         //en spécifiant bien les types SQL cibles 
@@ -65,18 +62,16 @@ public PersonneDAO(Connection conn) {
         return true;
   }
    
-  public boolean update(Personne obj) {
+  public boolean update(Bulletin obj) {
       
-     
-     
-     try {
+  try{
             PreparedStatement statement = this.connect.prepareStatement(
-                    "UPDATE personne SET nom= '"+ obj.getNom() +"', prenom= '"+ obj.getPrenom()+"', type= '"+obj.getType()+"' WHERE id = " + obj.getId()+"");
+                    "UPDATE bulletin SET appreciation= '"+ obj.getAppreciation() +"' WHERE id = " + obj.getId()+"");
            
             statement.executeUpdate(); 
-             System.out.println("personne update");
+             System.out.println("bulle update");
         } catch (SQLException ex) {
-            System.out.println("pas udpade");
+            System.out.println("pas udpade bulle");
             return false;
         }
         //en spécifiant bien les types SQL cibles 
@@ -84,18 +79,18 @@ public PersonneDAO(Connection conn) {
         return true;
   }
    
-  public Personne find(int id) {
-    Personne personne = new Personne();      
+  public Bulletin find(int id) {
+    Bulletin d = new Bulletin();      
       
     try {
       ResultSet result = this.connect.createStatement(
         ResultSet.TYPE_SCROLL_INSENSITIVE,
-        ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM personne WHERE id = " + id);
+        ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM bulletin WHERE id = " + id);
       if(result.first())
-        personne = new Personne(id,result.getString("nom"),result.getString("prenom"),result.getString("type"));         
+        d = new Bulletin(id,result.getString("appreciation"),result.getInt("trimestreID"),result.getInt("inscriptionID") );         
     } catch (SQLException e) {
       e.printStackTrace();
     }
-    return personne;
+    return d;
   }
 }
