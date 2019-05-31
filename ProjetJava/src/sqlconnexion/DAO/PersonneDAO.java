@@ -36,6 +36,7 @@ public PersonneDAO(Connection conn) {
             statement.setObject(3,obj.getPrenom(),Types.VARCHAR); 
             statement.setObject(4,obj.getType(),Types.VARCHAR); 
             statement.executeUpdate(); 
+             System.out.println("personne créée");
         } catch (SQLException ex) {
             System.out.println("pas create");
             return false;
@@ -47,36 +48,67 @@ public PersonneDAO(Connection conn) {
 
   public boolean delete(Personne obj) {
       
-     try {
-      ResultSet result = this.connect.createStatement(
-        ResultSet.TYPE_SCROLL_INSENSITIVE,
-        ResultSet.CONCUR_UPDATABLE).executeQuery("DELETE FROM 'personne' WHERE id = " + obj.getId());
+    // try {
+    //  ResultSet result = this.connect.createStatement(
+     //   ResultSet.TYPE_SCROLL_INSENSITIVE,
+     //   ResultSet.CONCUR_UPDATABLE).executeQuery("DELETE FROM 'personne' WHERE id = " + obj.getId());
         
-    } catch (SQLException e) {
-        System.out.println("pas delete");
-        return false;
+   // } catch (SQLException e) {
+    //    System.out.println("pas delete");
+     //   return false;
         
-    }
+   // }
     
-    return true;    
+  //  return true;    
+  
+   try {
+            PreparedStatement statement = this.connect.prepareStatement(
+                    "DELETE FROM personne WHERE id = " + obj.getId()+""
+                    );
+           
+            statement.executeUpdate(); 
+             System.out.println("personne supp");
+        } catch (SQLException ex) {
+            System.out.println("pas supp");
+            return false;
+        }
+        //en spécifiant bien les types SQL cibles 
+        
+        return true;
   }
    
   public boolean update(Personne obj) {
       
-      String nomModif = obj.getNom();
-      String prenomModif = obj.getPrenom();
-      String typeModif = obj.getType();
+     
+   // try {
+    //  ResultSet result = this.connect.createStatement(
+              
+     // ResultSet.TYPE_SCROLL_INSENSITIVE,
+      //  ResultSet.CONCUR_UPDATABLE).executeQuery("UPDATE personne SET nom= '"+ obj.getNom() +"', prenom= '"+ obj.getPrenom()+"', type= '"+obj.getType()+"' WHERE id = " + obj.getId()+"");
+      //System.out.println("personne update");  
       
-    try {
-      ResultSet result = this.connect.createStatement(
-        ResultSet.TYPE_SCROLL_INSENSITIVE,
-        ResultSet.CONCUR_UPDATABLE).executeQuery("UPDATE personne SET nom= 'nomModif', prenom= 'prenomModif', type= 'typeModif' WHERE id = " + obj.getId());
-        return false;
-    } catch (SQLException e) {
-        System.out.println("pas update");
-    }
-      return true;   
+
+   // } catch (SQLException e) {
+     //   System.out.println("pas update");
+      //  return false;
+        
+   // }
+     // return true;   
     
+     
+     try {
+            PreparedStatement statement = this.connect.prepareStatement(
+                    "UPDATE personne SET nom= '"+ obj.getNom() +"', prenom= '"+ obj.getPrenom()+"', type= '"+obj.getType()+"' WHERE id = " + obj.getId()+"");
+           
+            statement.executeUpdate(); 
+             System.out.println("personne update");
+        } catch (SQLException ex) {
+            System.out.println("pas udpade");
+            return false;
+        }
+        //en spécifiant bien les types SQL cibles 
+        
+        return true;
   }
    
   public Personne find(int id) {

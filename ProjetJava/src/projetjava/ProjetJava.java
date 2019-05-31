@@ -31,7 +31,14 @@ public class ProjetJava {
           try{
             Connexion c= new Connexion("ecole","root","");
             DAO<Personne> pers = DAOFactory.getPersonneDAO();
-        pers.create(new Personne(4,"sébastien","ek","fr"));
+     //  pers.create(new Personne(5,"sébastien","ek","fr"));
+        Personne p;
+        p =  pers.find(5);
+       // pers.delete(p);
+       p.setPrenom( "nel");
+       pers.update(p);
+        
+       // System.out.println(p.getNom());
           }
           catch(SQLException e){
               System.out.println("sql");
