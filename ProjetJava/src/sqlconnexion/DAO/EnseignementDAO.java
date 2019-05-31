@@ -29,7 +29,7 @@ public EnseignementDAO(Connection conn) {
                     "INSERT INTO enseignement VALUES(?,?,?,?)");
             statement.setObject(1,null,Types.INTEGER); 
             statement.setObject(2,obj.getClasseID(),Types.INTEGER); 
-            statement.setObject(3,obj.getDiscipID(),Types.INTEGER); 
+            statement.setObject(3,obj.getDisciplineID(),Types.INTEGER); 
             statement.setObject(4,obj.getEnseignantID(),Types.INTEGER); 
             
             statement.executeUpdate(); 
@@ -65,7 +65,7 @@ public EnseignementDAO(Connection conn) {
       
   try{
             PreparedStatement statement = this.connect.prepareStatement(
-                    "UPDATE enseignement SET classeID= '"+ obj.getClasseID() +"',disciplineId= '"+ obj.getDiscipID() +"',personneId = '"+ obj.getDiscipID() +"' WHERE id = " + obj.getId()+"");
+                    "UPDATE enseignement SET classeID= '"+ obj.getClasseID() +"',disciplineId= '"+ obj.getDisciplineID() +"',personneId = '"+ obj.getEnseignantID() +"' WHERE id = " + obj.getId()+"");
            
             statement.executeUpdate(); 
              System.out.println("Enseignement update");

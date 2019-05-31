@@ -18,8 +18,7 @@ import sqlconnexion.Model.*;
  */
 public class NiveauDAO extends DAO<Niveau> {
     
-public NiveauDAO(Niveau conn) {
-    
+public NiveauDAO(Connection conn) {
     
     super(conn);
   }

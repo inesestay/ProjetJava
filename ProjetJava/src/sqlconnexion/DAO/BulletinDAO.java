@@ -30,7 +30,7 @@ public class BulletinDAO extends DAO<Bulletin> {
                     );
             statement.setObject(1,null,Types.INTEGER); 
             statement.setObject(2,obj.getAppreciation(),Types.VARCHAR);
-            statement.setObject(3,obj.getTrimID(),Types.INTEGER);
+            statement.setObject(3,obj.getTrimestreID(),Types.INTEGER);
             statement.setObject(4,obj.getInscriptionID(),Types.INTEGER);
             
             statement.executeUpdate(); 
