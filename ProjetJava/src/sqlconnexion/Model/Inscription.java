@@ -27,6 +27,14 @@ public class Inscription {
             this.classID=classID;
             this.personneID=personneID;
         }
+        
+        public Inscription(int classID, int personneID){
+            this.id=-1;
+            this.classID=classID;
+            this.personneID=personneID;
+        }
+        
+        
     
     ///GETTERS AND SETTERS
 

@@ -26,6 +26,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import projetjava.Connexion;
 import sqlconnexion.DAO.DAO;
+import sqlconnexion.Model.Inscription;
 import sqlconnexion.Model.Personne;
 import sqlconnexion.factory.DAOFactory;
 
@@ -288,12 +289,12 @@ public class MyWindow extends JFrame implements ActionListener {
                 //idd a regler
                 pers.create(new Personne(arrayJTextField.get(0).getText(),arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText()));
                 errorText.setText("Personne ajoute !");
-            }/*else if(table == "Inscription"){
+            }else if(table == "Inscription"){
                 DAO<Inscription> obj = DAOFactory.getInscriptionDAO();
                 //idd a regler
-                obj.create(new Inscription(arrayJTextField.get(0).getText(),arrayJTextField.get(1).getText()));
+                obj.create(new Inscription(Integer.parseInt(arrayJTextField.get(0).getText()),Integer.parseInt(arrayJTextField.get(1).getText())));
                 errorText.setText("Inscription ajoute !");
-            }*/
+            }
         }
         catch (Exception e1){
             errorText.setText("Error : " + (String)e1.getMessage());
@@ -328,8 +329,9 @@ public class MyWindow extends JFrame implements ActionListener {
         }else{
             for(JLabel nelly : arrayJLabel){
                 panelPrincipal.remove(nelly);
-                arrayJLabel = new ArrayList<JLabel>();
+                
             }
+            arrayJLabel = new ArrayList<JLabel>();
         }
         
         if(arrayJTextField == null){
@@ -337,8 +339,9 @@ public class MyWindow extends JFrame implements ActionListener {
         }else{
             for(JTextField nelly : arrayJTextField){
                 panelPrincipal.remove(nelly);
-                arrayJTextField = new ArrayList<JTextField>();
+                
             }
+            arrayJTextField = new ArrayList<JTextField>();
         }
         ArrayList<String> arrayElement = new ArrayList<String>();
         
@@ -414,8 +417,9 @@ public class MyWindow extends JFrame implements ActionListener {
         }else{
             for(JLabel nelly : arrayJLabel){
                 panelPrincipal.remove(nelly);
-                arrayJLabel = new ArrayList<JLabel>();
+                
             }
+            arrayJLabel = new ArrayList<JLabel>();
         }
         
         if(arrayJTextField == null){
@@ -423,8 +427,9 @@ public class MyWindow extends JFrame implements ActionListener {
         }else{
             for(JTextField nelly : arrayJTextField){
                 panelPrincipal.remove(nelly);
-                arrayJTextField = new ArrayList<JTextField>();
+                
             }
+            arrayJTextField = new ArrayList<JTextField>();
         }
         ArrayList<String> arrayElement = new ArrayList<String>();
         
@@ -488,12 +493,16 @@ public class MyWindow extends JFrame implements ActionListener {
                 }
             }
                 
-        /*else if(table == "Inscription"){
+            else if(table == "Inscription"){
                 DAO<Inscription> obj = DAOFactory.getInscriptionDAO();
-                //idd a regler
-                obj.delete(new Inscription(arrayJTextField.get(0).getText(),arrayJTextField.get(1).getText()));
-                errorText.setText("Inscription supprimer !");
-            }*/
+                    //idd a regler
+                if(obj.delete(new Inscription(Integer.parseInt(arrayJTextField.get(0).getText()),Integer.parseInt(arrayJTextField.get(1).getText()), Integer.parseInt(arrayJTextField.get(2).getText())))){
+                    errorText.setText("Inscription supprimer !");
+                }else{
+                    errorText.setText("Inscription non supprimer !");
+                }
+                    
+            }
         }
         catch (Exception e1){
             errorText.setText("Error : " + (String)e1.getMessage());
@@ -507,10 +516,7 @@ public class MyWindow extends JFrame implements ActionListener {
         tablesBox = new JComboBox(listTableName);
         tablesBox.addActionListener(this);
         
-        add(tablesBox, BorderLayout.PAGE_START);
-        
-        
-        
+        add(tablesBox, BorderLayout.PAGE_START); 
     }
     
     public void modifMenu(){
@@ -540,8 +546,9 @@ public class MyWindow extends JFrame implements ActionListener {
         }else{
             for(JLabel nelly : arrayJLabel){
                 panelPrincipal.remove(nelly);
-                arrayJLabel = new ArrayList<JLabel>();
+                
             }
+            arrayJLabel = new ArrayList<JLabel>();
         }
         
         if(arrayJTextField == null){
@@ -549,8 +556,9 @@ public class MyWindow extends JFrame implements ActionListener {
         }else{
             for(JTextField nelly : arrayJTextField){
                 panelPrincipal.remove(nelly);
-                arrayJTextField = new ArrayList<JTextField>();
+                
             }
+            arrayJTextField = new ArrayList<JTextField>();
         }
         ArrayList<String> arrayElement = new ArrayList<String>();
         
@@ -612,12 +620,17 @@ public class MyWindow extends JFrame implements ActionListener {
                 }else{
                     errorText.setText("Personne non modifier !");
                 }
-            }/*else if(table == "Inscription"){
+            }
+            else if(table == "Inscription"){
                 DAO<Inscription> obj = DAOFactory.getInscriptionDAO();
                 //idd a regler
-                obj.update(new Inscription(arrayJTextField.get(0).getText(),arrayJTextField.get(1).getText()));
-                errorText.setText("Inscription modifier !");
-            }*/
+                if(obj.update(new Inscription(Integer.parseInt(arrayJTextField.get(0).getText()),Integer.parseInt(arrayJTextField.get(1).getText()), Integer.parseInt(arrayJTextField.get(2).getText())))){
+                    errorText.setText("Inscription modifier !");
+                }else{
+                    errorText.setText("Inscription non modifier !");
+                }
+                
+            }
         }
         catch (Exception e1){
             errorText.setText("Error : " + (String)e1.getMessage());

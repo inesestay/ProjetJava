@@ -17,9 +17,9 @@ import java.sql.SQLException;
 import java.sql.Types;
 import sqlconnexion.Model.Inscription;
 
-public class inscriptionDAO extends DAO<Inscription> {
+public class InscriptionDAO extends DAO<Inscription> {
     
-public inscriptionDAO(Connection conn) {
+public InscriptionDAO(Connection conn) {
     
     
     super(conn);
@@ -75,8 +75,7 @@ public inscriptionDAO(Connection conn) {
      
      try {
             PreparedStatement statement = this.connect.prepareStatement(
-                    "UPDATE inscription SET classID= '"+ obj.getClassID() +"', personneID= '"+ obj.getPersonneID()+" WHERE id = " + obj.getId()+"");
-           
+                    "UPDATE inscription SET classID= '"+ obj.getClassID() +"', personneID= '"+ obj.getPersonneID()+"' WHERE id = " + obj.getId()+"");
             statement.executeUpdate(); 
              System.out.println("inscription update");
         } catch (SQLException ex) {
