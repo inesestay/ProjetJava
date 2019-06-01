@@ -7,7 +7,7 @@ package sqlconnexion.Model;
 
 /**
  *
- * @author nelly
+ * @author inese
  */
 public class Personne {
     
