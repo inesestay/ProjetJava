@@ -17,9 +17,9 @@ import java.sql.SQLException;
 import java.sql.Types;
 import sqlconnexion.Model.Inscription;
 
-public class inscriptionDAO extends DAO<Inscription> {
+public class InscriptionDAO extends DAO<Inscription> {
     
-public inscriptionDAO(Connection conn) {
+public InscriptionDAO(Connection conn) {
     
     
     super(conn);
