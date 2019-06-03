@@ -19,9 +19,9 @@ import java.util.ArrayList;
 import sqlconnexion.Model.Inscription;
 import sqlconnexion.Model.Personne;
 
-public class inscriptionDAO extends DAO<Inscription> {
+public class InscriptionDAO extends DAO<Inscription> {
     
-public inscriptionDAO(Connection conn) {
+public InscriptionDAO(Connection conn) {
     
     
     super(conn);
