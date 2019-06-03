@@ -73,11 +73,29 @@ public InscriptionDAO(Connection conn) {
 @Override
   public boolean update(Inscription obj) {
       
-     
+     String requete = "UPDATE personne SET ";
+      boolean virgule = false;
+      
+      if(!("".equals(obj.getClassID()))){
+          requete += " nom= "+"'" +obj.getClassID()+"'" ;
+          virgule=true;
+          
+           if(virgule==true ){
+              if (!("".equals(obj.getPersonneID()))) {
+                  requete =requete + "," ;
+              }
+            }       
+      }
+
+      if(!("".equals(obj.getPersonneID()))){
+          requete += " type = "+"'"+obj.getPersonneID()+ "' " + " ";
+       
+      }     
+      
+      requete += "WHERE id = " + obj.getId()+"" ;
      
      try {
-            PreparedStatement statement = this.connect.prepareStatement(
-                    "UPDATE inscription SET classID= '"+ obj.getClassID() +"', personneID= '"+ obj.getPersonneID()+"' WHERE id = " + obj.getId()+"");
+            PreparedStatement statement = this.connect.prepareStatement(requete);
             statement.executeUpdate(); 
              System.out.println("inscription update");
         } catch (SQLException ex) {
