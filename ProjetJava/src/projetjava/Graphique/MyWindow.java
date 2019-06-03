@@ -104,6 +104,9 @@ public class MyWindow extends JFrame implements ActionListener {
             System.exit(0);
         }
         else if(e.getSource()==button2) {
+            if(tablesBox != null){
+                panelPrincipal.remove(tablesBox);
+            }
             updatePannelPrincipal(0);
         }
         else if(e.getSource()==menu) {
@@ -170,6 +173,9 @@ public class MyWindow extends JFrame implements ActionListener {
     // 4 : menu disp
     // 5 : modif
     public void updatePannelPrincipal(int option){
+        if(tablesBox != null){
+            panelPrincipal.remove(tablesBox);
+        }
         switch(option){
             //Menu connexion
             case 0:
