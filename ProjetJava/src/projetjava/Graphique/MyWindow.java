@@ -26,17 +26,17 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import projetjava.Connexion;
 import sqlconnexion.DAO.DAO;
-import sqlconnexion.Model.Inscription;
 import sqlconnexion.Model.Personne;
 import sqlconnexion.factory.DAOFactory;
 
 public class MyWindow extends JFrame implements ActionListener {
 	
-    JButton button1, button2,buttonConnexionBDD, addMenu, delMenu, dispMenu, modifMenu, menu, addElement, delElement, modifElement;
-    JLabel label1, label2, label3, label4, errorText;
+    JButton button1, button2,buttonConnexionBDD, addMenu, delMenu, dispMenu, menu, addElement;
+    JLabel label1, label2, label3, errorText;
     JPanel panelForButtons, panelPrincipal;
     JTextField idBDD, pswBDD, nomBDD;
-    JComboBox tablesBox, tablesBoxAdd, tablesBoxDel, tablesBoxModif;
+    JComboBox tablesBox, tablesBoxAdd;
+    MyCanvas canvas;
     
     Connexion myBDD;
 		
@@ -59,11 +59,8 @@ public class MyWindow extends JFrame implements ActionListener {
         addMenu = new JButton("Ajout element");        
         delMenu = new JButton("Suppresion element");
         dispMenu = new JButton("Affichage table");
-        modifMenu = new JButton("Modification element");
         menu = new JButton("Menu principal");
         addElement = new JButton("Ajout Element");
-        delElement = new JButton("Supprimer Element");
-        modifElement = new JButton("Modifier Element");
 
 			
         button1.addActionListener(this);
@@ -74,13 +71,8 @@ public class MyWindow extends JFrame implements ActionListener {
         addMenu.addActionListener(this);        
         delMenu.addActionListener(this);
         dispMenu.addActionListener(this);
-        modifMenu.addActionListener(this);
         menu.addActionListener(this);
         addElement.addActionListener(this);
-        delElement.addActionListener(this);
-        modifElement.addActionListener(this);
-
-
 
 
         panelForButtons=new JPanel();
@@ -142,33 +134,19 @@ public class MyWindow extends JFrame implements ActionListener {
             updatePannelPrincipal(3);  
         }else if(e.getSource()==dispMenu) {
             updatePannelPrincipal(4);  
-        }else if(e.getSource()==modifMenu) {
-            updatePannelPrincipal(5);  
-        }
-
-        else if(e.getSource()==tablesBox) {
+        }else if(e.getSource()==tablesBox) {
             System.out.println((String)tablesBox.getSelectedItem());
         }else if(e.getSource()==tablesBoxAdd) {
             updateMenuAjout((String)tablesBoxAdd.getSelectedItem());
         }else if(e.getSource()==addElement){
             creationObjetRequetteAjout((String)tablesBoxAdd.getSelectedItem());
-        }else if(e.getSource()==tablesBoxDel){
-            updateMenuDel((String)tablesBoxDel.getSelectedItem());
-        }else if(e.getSource()==delElement){
-            creationObjetRequetteDel((String)tablesBoxDel.getSelectedItem());
-        }else if(e.getSource()==tablesBoxModif){
-            updateMenuModif((String)tablesBoxModif.getSelectedItem());
-        }else if(e.getSource()==modifElement){
-            creationObjetRequetteModif((String)tablesBoxModif.getSelectedItem());
         }
     }
-    
     // 0 : menu connexion
     // 1 : menu principal
     // 2 : menu add
     // 3 : menu del
     // 4 : menu disp
-    // 5 : modif
     public void updatePannelPrincipal(int option){
         switch(option){
             //Menu connexion
@@ -252,11 +230,7 @@ public class MyWindow extends JFrame implements ActionListener {
                 
                 d.gridy = 2;
                 panelPrincipal.add(dispMenu, d);
-                
-                d.gridy = 3;
-                panelPrincipal.add(modifMenu, d);
 
-                errorText.setText("");
                 panelPrincipal.setBackground(Color.GRAY);
                 break;
             case 2:
@@ -264,17 +238,11 @@ public class MyWindow extends JFrame implements ActionListener {
                 menuAjout();
                 break;
             case 3:
-                panelPrincipal.removeAll();
-                delMenu();
+                
                 break;
             case 4:
                 panelPrincipal.removeAll();
                 displayMenu();
-                break;
-            case 5:
-                System.out.println("Proute");
-                panelPrincipal.removeAll();
-                modifMenu();
                 break;
         }
         
@@ -289,11 +257,6 @@ public class MyWindow extends JFrame implements ActionListener {
                 //idd a regler
                 pers.create(new Personne(arrayJTextField.get(0).getText(),arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText()));
                 errorText.setText("Personne ajoute !");
-            }else if(table == "Inscription"){
-                DAO<Inscription> obj = DAOFactory.getInscriptionDAO();
-                //idd a regler
-                obj.create(new Inscription(Integer.parseInt(arrayJTextField.get(0).getText()),Integer.parseInt(arrayJTextField.get(1).getText())));
-                errorText.setText("Inscription ajoute !");
             }
         }
         catch (Exception e1){
@@ -321,17 +284,14 @@ public class MyWindow extends JFrame implements ActionListener {
     public void updateMenuAjout(String ines){
         
         panelPrincipal.remove(addElement);
-        panelPrincipal.remove(errorText);
-
         
         if(arrayJLabel == null){
             arrayJLabel = new ArrayList<JLabel>();
         }else{
             for(JLabel nelly : arrayJLabel){
                 panelPrincipal.remove(nelly);
-                
+                arrayJLabel = new ArrayList<JLabel>();
             }
-            arrayJLabel = new ArrayList<JLabel>();
         }
         
         if(arrayJTextField == null){
@@ -339,9 +299,8 @@ public class MyWindow extends JFrame implements ActionListener {
         }else{
             for(JTextField nelly : arrayJTextField){
                 panelPrincipal.remove(nelly);
-                
+                arrayJTextField = new ArrayList<JTextField>();
             }
-            arrayJTextField = new ArrayList<JTextField>();
         }
         ArrayList<String> arrayElement = new ArrayList<String>();
         
@@ -383,130 +342,8 @@ public class MyWindow extends JFrame implements ActionListener {
         d.gridx = 0;
         d.gridwidth = 2;
         panelPrincipal.add(addElement, d);
-        d.gridy++;
-        panelPrincipal.add(errorText,d);
         
         panelPrincipal.updateUI();
-    }
-    
-    public void delMenu(){
-        String[] listTableName = { "Personne", "Inscription"};
-        
-        tablesBoxDel = new JComboBox(listTableName);
-        tablesBoxDel.addActionListener(this);
-        
-        panelPrincipal.setLayout(new GridBagLayout());
-        GridBagConstraints d = new GridBagConstraints();
-        
-        d.gridy = 0;
-        d.gridx = 0;
-        d.gridwidth = 2;
-        panelPrincipal.add(tablesBoxDel, d);
-        
-        updateMenuDel((String)tablesBoxDel.getSelectedItem());
-    
-    }
-    
-    public void updateMenuDel(String table){
-        panelPrincipal.remove(delElement);
-        panelPrincipal.remove(errorText);
-
-        
-        if(arrayJLabel == null){
-            arrayJLabel = new ArrayList<JLabel>();
-        }else{
-            for(JLabel nelly : arrayJLabel){
-                panelPrincipal.remove(nelly);
-                
-            }
-            arrayJLabel = new ArrayList<JLabel>();
-        }
-        
-        if(arrayJTextField == null){
-            arrayJTextField = new ArrayList<JTextField>();
-        }else{
-            for(JTextField nelly : arrayJTextField){
-                panelPrincipal.remove(nelly);
-                
-            }
-            arrayJTextField = new ArrayList<JTextField>();
-        }
-        ArrayList<String> arrayElement = new ArrayList<String>();
-        
-        if(table == "Personne"){
-            arrayElement.add("id");            
-            arrayElement.add("nom");            
-            arrayElement.add("prenom");
-            arrayElement.add("type");
-        }else if("Inscription" == table){
-            arrayElement.add("id");  
-            arrayElement.add("Classe");            
-            arrayElement.add("Personne");
-        }
-        
-        for(String nelly : arrayElement){
-            arrayJLabel.add(new JLabel(nelly));
-            arrayJTextField.add(new JTextField());
-        }
-        
-        GridBagConstraints d = new GridBagConstraints();
-        
-        d.gridy = 0;
-        d.gridx = 0;
-        
-        d.gridwidth = 2;
-        panelPrincipal.add(tablesBoxDel, d);
-        
-        
-        d.gridwidth = 1;
-        
-        for(int i = 0; i < arrayElement.size(); i++){
-            
-            arrayJTextField.get(i).setColumns(15);
-            d.gridy ++;
-            d.gridx = 0;
-            panelPrincipal.add(arrayJLabel.get(i), d);
-            d.gridx = 1;
-            panelPrincipal.add(arrayJTextField.get(i), d);
-        }
-        
-        d.gridy += 2;
-        d.gridx = 0;
-        d.gridwidth = 2;
-        panelPrincipal.add(delElement, d);
-        
-        d.gridy++;
-        panelPrincipal.add(errorText, d);
-        panelPrincipal.updateUI();
-    }
-    
-    public void creationObjetRequetteDel(String table){
-        //ici
-        try{
-            if(table == "Personne"){
-                DAO<Personne> pers = DAOFactory.getPersonneDAO();
-                //idd a regler
-                if(pers.delete(new Personne(Integer.parseInt(arrayJTextField.get(0).getText()),arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText(),arrayJTextField.get(3).getText()))){
-                    errorText.setText("Personne supprimer !");
-                }else{
-                    errorText.setText("Personne pas supprimer !");
-                }
-            }
-                
-            else if(table == "Inscription"){
-                DAO<Inscription> obj = DAOFactory.getInscriptionDAO();
-                    //idd a regler
-                if(obj.delete(new Inscription(Integer.parseInt(arrayJTextField.get(0).getText()),Integer.parseInt(arrayJTextField.get(1).getText()), Integer.parseInt(arrayJTextField.get(2).getText())))){
-                    errorText.setText("Inscription supprimer !");
-                }else{
-                    errorText.setText("Inscription non supprimer !");
-                }
-                    
-            }
-        }
-        catch (Exception e1){
-            errorText.setText("Error : " + (String)e1.getMessage());
-        }
     }
     
     public void displayMenu(){
@@ -516,125 +353,10 @@ public class MyWindow extends JFrame implements ActionListener {
         tablesBox = new JComboBox(listTableName);
         tablesBox.addActionListener(this);
         
-        add(tablesBox, BorderLayout.PAGE_START); 
-    }
-    
-    public void modifMenu(){
-        String[] listTableName = { "Personne", "Inscription"};
-        
-        tablesBoxModif = new JComboBox(listTableName);
-        tablesBoxModif.addActionListener(this);
-        
-        panelPrincipal.setLayout(new GridBagLayout());
-        GridBagConstraints d = new GridBagConstraints();
-        
-        d.gridy = 0;
-        d.gridx = 0;
-        d.gridwidth = 2;
-        panelPrincipal.add(tablesBoxModif, d);
-        
-        updateMenuModif((String)tablesBoxModif.getSelectedItem());
-    }
-    
-    public void updateMenuModif(String table){
-        panelPrincipal.remove(modifElement);
-        panelPrincipal.remove(errorText);
-
-        
-        if(arrayJLabel == null){
-            arrayJLabel = new ArrayList<JLabel>();
-        }else{
-            for(JLabel nelly : arrayJLabel){
-                panelPrincipal.remove(nelly);
-                
-            }
-            arrayJLabel = new ArrayList<JLabel>();
-        }
-        
-        if(arrayJTextField == null){
-            arrayJTextField = new ArrayList<JTextField>();
-        }else{
-            for(JTextField nelly : arrayJTextField){
-                panelPrincipal.remove(nelly);
-                
-            }
-            arrayJTextField = new ArrayList<JTextField>();
-        }
-        ArrayList<String> arrayElement = new ArrayList<String>();
-        
-        if(table == "Personne"){
-            arrayElement.add("id");            
-            arrayElement.add("nom");            
-            arrayElement.add("prenom");
-            arrayElement.add("type");
-        }else if("Inscription" == table){
-            arrayElement.add("id");  
-            arrayElement.add("Classe");            
-            arrayElement.add("Personne");
-        }
-        
-        for(String nelly : arrayElement){
-            arrayJLabel.add(new JLabel(nelly));
-            arrayJTextField.add(new JTextField());
-        }
-        
-        GridBagConstraints d = new GridBagConstraints();
-        
-        d.gridy = 0;
-        d.gridx = 0;
-        
-        d.gridwidth = 2;
-        panelPrincipal.add(tablesBoxModif, d);
+        add(tablesBox, BorderLayout.PAGE_START);
         
         
-        d.gridwidth = 1;
         
-        for(int i = 0; i < arrayElement.size(); i++){
-            
-            arrayJTextField.get(i).setColumns(15);
-            d.gridy ++;
-            d.gridx = 0;
-            panelPrincipal.add(arrayJLabel.get(i), d);
-            d.gridx = 1;
-            panelPrincipal.add(arrayJTextField.get(i), d);
-        }
-        
-        d.gridy += 2;
-        d.gridx = 0;
-        d.gridwidth = 2;
-        panelPrincipal.add(modifElement, d);
-        
-        d.gridy++;
-        panelPrincipal.add(errorText, d);
-        panelPrincipal.updateUI();
-    }
-    
-    public void creationObjetRequetteModif(String table){
-        //ici
-        try{
-            if(table == "Personne"){
-                DAO<Personne> pers = DAOFactory.getPersonneDAO();
-                //idd a regler
-                if(pers.update(new Personne(Integer.parseInt(arrayJTextField.get(0).getText()),arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText(),arrayJTextField.get(3).getText()))){
-                    errorText.setText("Personne modifier !");
-                }else{
-                    errorText.setText("Personne non modifier !");
-                }
-            }
-            else if(table == "Inscription"){
-                DAO<Inscription> obj = DAOFactory.getInscriptionDAO();
-                //idd a regler
-                if(obj.update(new Inscription(Integer.parseInt(arrayJTextField.get(0).getText()),Integer.parseInt(arrayJTextField.get(1).getText()), Integer.parseInt(arrayJTextField.get(2).getText())))){
-                    errorText.setText("Inscription modifier !");
-                }else{
-                    errorText.setText("Inscription non modifier !");
-                }
-                
-            }
-        }
-        catch (Exception e1){
-            errorText.setText("Error : " + (String)e1.getMessage());
-        }
     }
 }
 
