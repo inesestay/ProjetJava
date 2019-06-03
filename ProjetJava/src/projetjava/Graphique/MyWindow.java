@@ -174,6 +174,9 @@ public class MyWindow extends JFrame implements ActionListener {
         switch(option){
             //Menu connexion
             case 0:
+                try{
+                    remove(tablesBox);
+                }catch(Exception e){}
                 panelForButtons.removeAll(); 
                 panelForButtons.add(button1);
                 panelForButtons.updateUI();
