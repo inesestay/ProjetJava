@@ -14,6 +14,7 @@ package sqlconnexion.factory;
 import java.sql.*;
 import java.util.logging.*;
 import sqlconnexion.DAO.*;
+import sqlconnexion.Model.Inscription;
 
 /**
  * this is a static class able to be call everywhere in the code and construct the good DAO.
@@ -72,6 +73,7 @@ public class DAOFactory {
     return new DisciplineDAO(conn);
   }
 
-     
-    
+    public static DAO getInscriptionDAO() {
+        return new InscriptionDAO(conn);
+    }    
 }
