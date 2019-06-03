@@ -285,6 +285,8 @@ public class MyWindow extends JFrame implements ActionListener {
     public void creationObjetRequetteAjout(String table){
         //ici
         try{
+            //En fonction de la table, appelle la bonne requette
+                    /////////////a modifier
             if(table == "Personne"){
                 DAO<Personne> pers = DAOFactory.getPersonneDAO();
                 //idd a regler
@@ -303,6 +305,8 @@ public class MyWindow extends JFrame implements ActionListener {
     }
     
     public void menuAjout(){
+        //Liste de toute les tables à mettre dans la box depliant
+        /////////////a modifier
         String[] listTableName = { "Personne", "Inscription"};
         
         tablesBoxAdd = new JComboBox(listTableName);
@@ -346,6 +350,9 @@ public class MyWindow extends JFrame implements ActionListener {
         }
         ArrayList<String> arrayElement = new ArrayList<String>();
         
+        
+        //ArrayList des noms de ligne dans chaque table
+        /////////////a modifier
         if(ines == "Personne"){
             arrayElement.add("nom");            
             arrayElement.add("prenom");
@@ -391,6 +398,7 @@ public class MyWindow extends JFrame implements ActionListener {
     }
     
     public void delMenu(){
+                /////////////a modifier
         String[] listTableName = { "Personne", "Inscription"};
         
         tablesBoxDel = new JComboBox(listTableName);
@@ -434,6 +442,7 @@ public class MyWindow extends JFrame implements ActionListener {
         }
         ArrayList<String> arrayElement = new ArrayList<String>();
         
+        /////////////a modifier
         if(table == "Personne"){
             arrayElement.add("id");            
             arrayElement.add("nom");            
@@ -484,6 +493,7 @@ public class MyWindow extends JFrame implements ActionListener {
     public void creationObjetRequetteDel(String table){
         //ici
         try{
+                    /////////////a modifier
             if(table == "Personne"){
                 DAO<Personne> pers = DAOFactory.getPersonneDAO();
                 //idd a regler
@@ -511,7 +521,7 @@ public class MyWindow extends JFrame implements ActionListener {
     }
     
     public void displayMenu(){
-
+        /////////////a modifier
         String[] listTableName = { "Personne", "Inscription" };
 
         tablesBox = new JComboBox(listTableName);
@@ -522,10 +532,12 @@ public class MyWindow extends JFrame implements ActionListener {
         updateDisplayMenu((String)tablesBox.getSelectedItem());
     }
 
-    public void updateDisplayMenu(String nomCategorie){
+    public void updateDisplayMenu(String nomCategorie)  {
         panelPrincipal.removeAll();
         
         ArrayList<Object> myArray = new ArrayList<Object>();
+        
+                /////////////a modifier
         if(nomCategorie == "Personne"){
             DAO<Personne> pers = DAOFactory.getPersonneDAO();
             myArray = pers.retour();
@@ -549,6 +561,7 @@ public class MyWindow extends JFrame implements ActionListener {
 
             ArrayList<JLabel> helene = new ArrayList<JLabel>();
 
+                    /////////////a modifier
             if(nomCategorie == "Personne"){
                 Personne nelly = (Personne)myArray.get(ines);
                 helene.add(new JLabel(Integer.toString(nelly.getId())));
@@ -574,6 +587,7 @@ public class MyWindow extends JFrame implements ActionListener {
     }
     
     public void modifMenu(){
+                /////////////a modifier
         String[] listTableName = { "Personne", "Inscription"};
         
         tablesBoxModif = new JComboBox(listTableName);
@@ -616,6 +630,7 @@ public class MyWindow extends JFrame implements ActionListener {
         }
         ArrayList<String> arrayElement = new ArrayList<String>();
         
+                /////////////a modifier
         if(table == "Personne"){
             arrayElement.add("id");            
             arrayElement.add("nom");            
@@ -666,6 +681,7 @@ public class MyWindow extends JFrame implements ActionListener {
     public void creationObjetRequetteModif(String table){
         //ici
         try{
+                    /////////////a modifier
             if(table == "Personne"){
                 DAO<Personne> pers = DAOFactory.getPersonneDAO();
                 //idd a regler
