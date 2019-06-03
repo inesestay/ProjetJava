@@ -28,12 +28,14 @@ public PersonneDAO(Connection conn) {
   @Override
     public boolean create(Personne obj){
             
-    if(("".equals(obj.getNom())) || (obj.getPrenom()=="") || (obj.getType()=="")){
-        System.out.println("il manque un champ");
-        return false;
-    }
+    
 
     try{
+        
+        if(("".equals(obj.getNom())) || ("".equals(obj.getPrenom())) || ("".equals(obj.getType()))){
+        
+                throw new SQLException("il manque un ou plusieurs champs");
+         }
         PreparedStatement statement = this.connect.prepareStatement("INSERT INTO personne(nom,prenom,type) VALUES(?,?,?)");
         statement.setObject(1,obj.getNom(),Types.VARCHAR);
         statement.setObject(2,obj.getPrenom(),Types.VARCHAR); 

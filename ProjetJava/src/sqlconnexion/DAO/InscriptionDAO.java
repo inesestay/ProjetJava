@@ -30,13 +30,14 @@ public InscriptionDAO(Connection conn) {
   @Override
     public boolean create(Inscription obj){
 
-    System.out.println("salut");
-    if((obj.getClassID()==0) || (obj.getPersonneID()==0)){
-        System.out.println("il manque un champ");
-        return false;
-    }
-
+   
     try{
+        
+        if(("".equals(obj.getClassID())) || ("".equals(obj.getPersonneID()))){
+        
+                throw new SQLException("il manque un ou plusieurs champs");
+         }
+        
         PreparedStatement statement = this.connect.prepareStatement("INSERT INTO inscription(classID,personneID) VALUES(?,?)");
 
         statement.setObject(1,obj.getClassID(),Types.INTEGER); 
