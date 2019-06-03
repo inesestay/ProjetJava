@@ -19,9 +19,9 @@ import java.util.ArrayList;
 import sqlconnexion.Model.Inscription;
 import sqlconnexion.Model.Personne;
 
-public class InscriptionDAO extends DAO<Inscription> {
+public class inscriptionDAO extends DAO<Inscription> {
     
-public InscriptionDAO(Connection conn) {
+public inscriptionDAO(Connection conn) {
     
     
     super(conn);
@@ -77,7 +77,8 @@ public InscriptionDAO(Connection conn) {
      
      try {
             PreparedStatement statement = this.connect.prepareStatement(
-                    "UPDATE inscription SET classID= '"+ obj.getClassID() +"', personneID= '"+ obj.getPersonneID()+"' WHERE id = " + obj.getId()+"");
+                    "UPDATE inscription SET classID= '"+ obj.getClassID() +"', personneID= '"+ obj.getPersonneID()+" WHERE id = " + obj.getId()+"");
+           
             statement.executeUpdate(); 
              System.out.println("inscription update");
         } catch (SQLException ex) {
