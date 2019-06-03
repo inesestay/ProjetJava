@@ -70,16 +70,31 @@ public PersonneDAO(Connection conn) {
 @Override
   public boolean update(Personne obj) {
       
-     
-     
+      String requete = "UPDATE personne SET ";
+      
+      if(!("".equals(obj.getNom()))){
+          requete += " nom= "+"'" +obj.getNom();
+      }
+      
+      if(!("".equals(obj.getPrenom()))){
+          requete += "'"+", prenom = "+ obj.getPrenom()+ "' ";
+      }
+      
+      if(!("".equals(obj.getType()))){
+          requete += "'"+" type = "+"'"+obj.getType()+ "' " + " ";
+      }     
+                 
+      requete += "WHERE id = " + obj.getId()+"" ;
+      
+      System.out.println(requete);
+                 
      try {
-            PreparedStatement statement = this.connect.prepareStatement(
-                    "UPDATE personne SET nom= '"+ obj.getNom() +"', prenom= '"+ obj.getPrenom()+"', type= '"+obj.getType()+"' WHERE id = " + obj.getId()+"");
-           
+            PreparedStatement statement = this.connect.prepareStatement(requete);
+          
             statement.executeUpdate(); 
              System.out.println("personne update");
         } catch (SQLException ex) {
-            System.out.println("pas udpade");
+            System.out.println("pas udpade : "+ex.getMessage());
             return false;
         }
         //en spécifiant bien les types SQL cibles 
