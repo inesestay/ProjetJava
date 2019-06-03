@@ -15,7 +15,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.ArrayList;
 import sqlconnexion.Model.Inscription;
+import sqlconnexion.Model.Personne;
 
 public class InscriptionDAO extends DAO<Inscription> {
     
@@ -101,6 +103,36 @@ public InscriptionDAO(Connection conn) {
       e.printStackTrace();
     }
     return inscription;
+  }
+  
+   public ArrayList<Personne> retour()
+  {
+       ArrayList<Personne> table = new ArrayList();
+       
+       try {
+        ResultSet result = this.connect.createStatement(
+        ResultSet.TYPE_SCROLL_INSENSITIVE,
+        ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM personne");
+        //+nomTable+
+        if(result.first())
+        {
+           while(result.next()) {
+
+               int id = result.getInt(1);
+               String nom = result.getString(2);
+               String prenom = result.getString(3);
+               String type = result.getString(4);
+
+               Personne obj = new Personne(id,nom,prenom,type);
+               table.add(obj);
+
+          }
+        }
+
+        } catch (SQLException e) {
+         System.out.println("pas arraylist");
+        }
+       return table;
   }
 }
 
