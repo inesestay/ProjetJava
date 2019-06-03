@@ -85,9 +85,6 @@ public class DAOFactory {
   * Retourne un objet Année Scolaire interagissant avec la BDD
   * @return DAO
   */
-  public static DAO getAnneeScolaireDAO(){
-    return new AnneeScolaireDAO(conn);
-  }
 
     /**
   * Retourne un objet Bulletin interagissant avec la BDD
@@ -151,6 +148,6 @@ public class DAOFactory {
   * @return DAO
   */
   public static DAO getInscriptionDAO(){
-    return new inscriptionDAO(conn);
+    return new InscriptionDAO(conn);
   }
 }
