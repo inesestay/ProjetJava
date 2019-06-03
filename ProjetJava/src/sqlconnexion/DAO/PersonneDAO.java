@@ -71,19 +71,36 @@ public PersonneDAO(Connection conn) {
   public boolean update(Personne obj) {
       
       String requete = "UPDATE personne SET ";
+      boolean virgule = false;
       
       if(!("".equals(obj.getNom()))){
-          requete += " nom= "+"'" +obj.getNom();
+          requete += " nom= "+"'" +obj.getNom()+"'" ;
+          virgule=true;
+          
+           if(virgule==true ){
+              if (!("".equals(obj.getPrenom())) || !("".equals(obj.getType()))) {
+                  requete =requete + "," ;
+              }
+            }       
       }
-      
+            
       if(!("".equals(obj.getPrenom()))){
-          requete += "'"+", prenom = "+ obj.getPrenom()+ "' ";
+          requete += " prenom = "+ "' "+ obj.getPrenom()+ "' ";
+          virgule=true;
+          
+           if(virgule==true){
+               if(!("".equals(obj.getType()))){
+          requete =requete + "," ;
+               }
+            } 
       }
       
       if(!("".equals(obj.getType()))){
-          requete += "'"+" type = "+"'"+obj.getType()+ "' " + " ";
+          requete += " type = "+"'"+obj.getType()+ "' " + " ";
+       
       }     
-                 
+      
+      
       requete += "WHERE id = " + obj.getId()+"" ;
       
       System.out.println(requete);
