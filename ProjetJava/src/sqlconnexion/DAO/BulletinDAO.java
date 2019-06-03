@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.ArrayList;
 
 /**
  *
@@ -92,5 +93,33 @@ public class BulletinDAO extends DAO<Bulletin> {
       e.printStackTrace();
     }
     return d;
+  }
+  
+   public ArrayList<Object> retour()
+  {
+       ArrayList<Object> table = new ArrayList();
+       
+       try {
+        ResultSet result = this.connect.createStatement(
+        ResultSet.TYPE_SCROLL_INSENSITIVE,
+        ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM bulletin");
+        //+nomTable+
+           while(result.next()) {
+
+               int id = result.getInt(1);
+               String nom = result.getString(2);
+               int tri = result.getInt(3);
+               int insc = result.getInt(4);
+           
+               Bulletin obj = new Bulletin(id,nom,tri,insc);
+               table.add(obj);
+
+          }
+        
+
+        } catch (SQLException e) {
+         System.out.println("pas arraylist");
+        }
+       return table;
   }
 }

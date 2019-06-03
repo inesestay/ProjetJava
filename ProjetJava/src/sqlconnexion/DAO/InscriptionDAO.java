@@ -15,11 +15,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.ArrayList;
 import sqlconnexion.Model.Inscription;
+import sqlconnexion.Model.Personne;
 
-public class InscriptionDAO extends DAO<Inscription> {
+public class inscriptionDAO extends DAO<Inscription> {
     
-public InscriptionDAO(Connection conn) {
+public inscriptionDAO(Connection conn) {
     
     
     super(conn);
@@ -75,7 +77,8 @@ public InscriptionDAO(Connection conn) {
      
      try {
             PreparedStatement statement = this.connect.prepareStatement(
-                    "UPDATE inscription SET classID= '"+ obj.getClassID() +"', personneID= '"+ obj.getPersonneID()+"' WHERE id = " + obj.getId()+"");
+                    "UPDATE inscription SET classID= '"+ obj.getClassID() +"', personneID= '"+ obj.getPersonneID()+" WHERE id = " + obj.getId()+"");
+           
             statement.executeUpdate(); 
              System.out.println("inscription update");
         } catch (SQLException ex) {
@@ -101,6 +104,33 @@ public InscriptionDAO(Connection conn) {
       e.printStackTrace();
     }
     return inscription;
+  }
+  
+   public ArrayList<Object> retour()
+  {
+       ArrayList<Object> table = new ArrayList();
+       
+       try {
+        ResultSet result = this.connect.createStatement(
+        ResultSet.TYPE_SCROLL_INSENSITIVE,
+        ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM inscription");
+        //+nomTable+
+           while(result.next()) {
+
+               int id = result.getInt(1);
+               int a = result.getInt(1);
+               int z = result.getInt(1);
+               
+               Inscription obj = new Inscription(id,a,z);
+               table.add(obj);
+
+          }
+        
+
+        } catch (SQLException e) {
+         System.out.println("pas arraylist");
+        }
+       return table;
   }
 }
 

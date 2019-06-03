@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.ArrayList;
 /**
  *
  * @author nelly
@@ -93,5 +94,28 @@ public class AnneeScolaireDAO extends DAO<AnneeScolaire>{
       e.printStackTrace();
     }
     return a;
+  }
+  
+   public ArrayList<Object> retour()
+  {
+       ArrayList<Object> table = new ArrayList();
+       
+       try {
+        ResultSet result = this.connect.createStatement(
+        ResultSet.TYPE_SCROLL_INSENSITIVE,
+        ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM anneescolaire");
+        //+nomTable+
+  
+           while(result.next()) {
+
+               int id = result.getInt(1);
+               AnneeScolaire obj = new AnneeScolaire(id);
+               table.add(obj);
+
+          }
+       } catch (SQLException e) {
+         System.out.println("pas arraylist");
+        }
+       return table;
   }
 }

@@ -6,6 +6,7 @@
 package projetjava;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import sqlconnexion.Model.*;
 import sqlconnexion.DAO.DAO;
 import sqlconnexion.DAO.PersonneDAO;
@@ -28,16 +29,25 @@ public class ProjetJava {
          * Connection with factory and DAO 
          * can be everywhere in the code cause DAOFactory is a static method
          ********************************************************/
-        /*
+        
           try{
             Connexion c= new Connexion("ecole","root","");
             DAO<Personne> pers = DAOFactory.getPersonneDAO();
+            DAO<AnneeScolaire> annee = DAOFactory.getAnneeScolaireDAO();
      //  pers.create(new Personne(5,"sébastien","ek","fr"));
-        Personne p;
-        p =  pers.find(5);
+        //Personne p;
+        ArrayList<Object> table ;
+      table =  annee.retour();
+      
+      for (int i= 0; i<table.size(); i++)
+      {
+          AnneeScolaire a= (AnneeScolaire) table.get(i);
+          System.out.println("indice : "+a.getAnneeScolaireID());
+      }
+       // p =  pers.find(5);
        // pers.delete(p);
-       p.setPrenom( "nel");
-       pers.update(p);
+     //  p.setPrenom( "nel");
+      // pers.update(p);
         
        // System.out.println(p.getNom());
           }
@@ -47,12 +57,11 @@ public class ProjetJava {
            catch(ClassNotFoundException e){
                System.out.println("not found");
            }
-            catch (Exception e){
-              System.out.println("oof");
+           
           }
-        */
+        
         // TODO code application logic here
-        MainGraphique.launch();
+      //  MainGraphique.launch();
     }
     
-}
+

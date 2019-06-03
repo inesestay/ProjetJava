@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.ArrayList;
 /**
  *
  * @author nelly
@@ -92,5 +93,33 @@ public EnseignementDAO(Connection conn) {
       e.printStackTrace();
     }
     return d;
+  }
+  
+   public ArrayList<Object> retour()
+  {
+       ArrayList<Object> table = new ArrayList();
+       
+       try {
+        ResultSet result = this.connect.createStatement(
+        ResultSet.TYPE_SCROLL_INSENSITIVE,
+        ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM enseignement");
+        //+nomTable+
+           while(result.next()) {
+
+               int id = result.getInt(1);
+               int a = result.getInt(2);
+               int z = result.getInt(3);
+               int e = result.getInt(4);
+
+               Enseignement obj = new Enseignement(id,a,z,e);
+               table.add(obj);
+
+          }
+        
+
+        } catch (SQLException e) {
+         System.out.println("pas arraylist");
+        }
+       return table;
   }
 }

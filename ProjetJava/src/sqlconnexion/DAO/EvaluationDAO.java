@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.ArrayList;
 import sqlconnexion.Model.*;
 
 /**
@@ -94,6 +95,34 @@ public EvaluationDAO(Connection conn) {
       e.printStackTrace();
     }
     return d;
+  }
+  
+   public ArrayList<Object> retour()
+  {
+       ArrayList<Object> table = new ArrayList();
+       
+       try {
+        ResultSet result = this.connect.createStatement(
+        ResultSet.TYPE_SCROLL_INSENSITIVE,
+        ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM evaluation");
+        //+nomTable+
+           while(result.next()) {
+
+               int id = result.getInt(1);
+               String nom = result.getString(2);
+               int a = result.getInt(3);
+               int z = result.getInt(4);
+
+               Evaluation obj = new Evaluation(id,nom,a,z);
+               table.add(obj);
+
+          }
+        
+
+        } catch (SQLException e) {
+         System.out.println("pas arraylist");
+        }
+       return table;
   }
 }
 
