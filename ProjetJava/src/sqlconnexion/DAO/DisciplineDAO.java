@@ -93,29 +93,25 @@ public DisciplineDAO(Connection conn) {
     return d;
   }
   
-   public ArrayList<Personne> retour()
+   public ArrayList<Object> retour()
   {
-       ArrayList<Personne> table = new ArrayList();
+       ArrayList<Object> table = new ArrayList();
        
        try {
         ResultSet result = this.connect.createStatement(
         ResultSet.TYPE_SCROLL_INSENSITIVE,
-        ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM personne");
+        ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM discipline");
         //+nomTable+
-        if(result.first())
-        {
            while(result.next()) {
 
                int id = result.getInt(1);
                String nom = result.getString(2);
-               String prenom = result.getString(3);
-               String type = result.getString(4);
 
-               Personne obj = new Personne(id,nom,prenom,type);
+               Discipline obj = new Discipline(id,nom);
                table.add(obj);
 
           }
-        }
+        
 
         } catch (SQLException e) {
          System.out.println("pas arraylist");

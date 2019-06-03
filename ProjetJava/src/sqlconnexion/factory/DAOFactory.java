@@ -65,6 +65,15 @@ public class DAOFactory {
     return new PersonneDAO(conn);
   }
   
+   /**
+  * Retourne un objet annee interagissant avec la BDD
+  * @return DAO
+  */
+  public static DAO getAnneeScolaireDAO(){
+    return new AnneeScolaireDAO(conn);
+  }
+  
+  
   /**
   * Retourne un objet Discipline interagissant avec la BDD
   * @return DAO

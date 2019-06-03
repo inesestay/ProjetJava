@@ -103,17 +103,15 @@ public PersonneDAO(Connection conn) {
     return personne;
   }
   
-   public ArrayList<Personne> retour()
+   public ArrayList<Object> retour()
   {
-       ArrayList<Personne> table = new ArrayList();
+       ArrayList<Object> table = new ArrayList();
        
        try {
         ResultSet result = this.connect.createStatement(
         ResultSet.TYPE_SCROLL_INSENSITIVE,
         ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM personne");
         //+nomTable+
-        if(result.first())
-        {
            while(result.next()) {
 
                int id = result.getInt(1);
@@ -125,8 +123,7 @@ public PersonneDAO(Connection conn) {
                table.add(obj);
 
           }
-        }
-
+        
         } catch (SQLException e) {
          System.out.println("pas arraylist");
         }

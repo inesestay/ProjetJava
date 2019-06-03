@@ -95,29 +95,27 @@ public class BulletinDAO extends DAO<Bulletin> {
     return d;
   }
   
-   public ArrayList<Personne> retour()
+   public ArrayList<Object> retour()
   {
-       ArrayList<Personne> table = new ArrayList();
+       ArrayList<Object> table = new ArrayList();
        
        try {
         ResultSet result = this.connect.createStatement(
         ResultSet.TYPE_SCROLL_INSENSITIVE,
-        ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM personne");
+        ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM bulletin");
         //+nomTable+
-        if(result.first())
-        {
            while(result.next()) {
 
                int id = result.getInt(1);
                String nom = result.getString(2);
-               String prenom = result.getString(3);
-               String type = result.getString(4);
-
-               Personne obj = new Personne(id,nom,prenom,type);
+               int tri = result.getInt(3);
+               int insc = result.getInt(4);
+           
+               Bulletin obj = new Bulletin(id,nom,tri,insc);
                table.add(obj);
 
           }
-        }
+        
 
         } catch (SQLException e) {
          System.out.println("pas arraylist");

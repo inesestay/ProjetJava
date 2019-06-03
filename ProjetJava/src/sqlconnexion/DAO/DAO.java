@@ -70,5 +70,5 @@ public abstract class DAO<T> {
    * @return the table
    */
   //public abstract ArrayList<Object> table(String name);
-    public abstract ArrayList<Personne> retour();
+    public abstract ArrayList<Object> retour();
 }
