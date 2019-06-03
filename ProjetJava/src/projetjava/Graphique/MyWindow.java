@@ -151,6 +151,7 @@ public class MyWindow extends JFrame implements ActionListener {
 
         else if(e.getSource()==tablesBox) {
             System.out.println((String)tablesBox.getSelectedItem());
+            updateDisplayMenu((String)tablesBox.getSelectedItem());
         }else if(e.getSource()==tablesBoxAdd) {
             updateMenuAjout((String)tablesBoxAdd.getSelectedItem());
         }else if(e.getSource()==addElement){
@@ -523,25 +524,51 @@ public class MyWindow extends JFrame implements ActionListener {
         tablesBox.addActionListener(this);
         
         add(tablesBox, BorderLayout.PAGE_START); 
+        
+        updateDisplayMenu((String)tablesBox.getSelectedItem());
     }
     
-    public void modifMenu(){
-        String[] listTableName = { "Personne", "Inscription"};
+    public void updateDisplayMenu(String nomCategorie){
+        ArrayList<Object> myArray = new ArrayList<Object>();
+        if(nomCategorie == "Personne"){   
+        }
+        else if(nomCategorie == "Inscription"){
+        }
         
-        tablesBoxModif = new JComboBox(listTableName);
-        tablesBoxModif.addActionListener(this);
-        
-        panelPrincipal.setLayout(new GridBagLayout());
         GridBagConstraints d = new GridBagConstraints();
         
-        d.gridy = 0;
+        d.gridy = -1;
         d.gridx = 0;
-        d.gridwidth = 2;
-        panelPrincipal.add(tablesBoxModif, d);
         
-        updateMenuModif((String)tablesBoxModif.getSelectedItem());
+        d.gridwidth = 1;
+        
+        for(int ines = 0; ines < myArray.size(); ines ++){
+            d.gridy++;
+            d.gridx = 0;
+            
+            ArrayList<JLabel> helene = new ArrayList<JLabel>();
+            
+            if(nomCategorie == "Personne"){
+                Personne nelly = (Personne)myArray.get(ines);
+                helene.add(new JLabel(Integer.toString(nelly.getId())));
+                helene.add(new JLabel(nelly.getNom()));
+                helene.add(new JLabel(nelly.getPrenom()));
+                helene.add(new JLabel(nelly.getType()));
+            }else if(nomCategorie == "Inscription"){
+                Inscription nelly = (Inscription)myArray.get(ines);
+                helene.add(new JLabel(Integer.toString(nelly.getId())));
+                helene.add(new JLabel(Integer.toString(nelly.getClassID())));
+                helene.add(new JLabel(Integer.toString(nelly.getPersonneID())));
+            }
+            
+            
+            for(int adrien = 0; adrien < helene.size(); adrien ++){
+                panelPrincipal.add(helene.get(adrien), d);
+                d.gridx++;
+            }
+        }
+        
     }
-    
     public void updateMenuModif(String table){
         panelPrincipal.remove(modifElement);
         panelPrincipal.remove(errorText);
