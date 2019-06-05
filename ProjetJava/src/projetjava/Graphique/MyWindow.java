@@ -26,8 +26,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import projetjava.Connexion;
 import sqlconnexion.DAO.DAO;
-import sqlconnexion.Model.Inscription;
-import sqlconnexion.Model.Personne;
+import sqlconnexion.Model.*;
 import sqlconnexion.factory.DAOFactory;
 
 public class MyWindow extends JFrame implements ActionListener {
@@ -300,7 +299,49 @@ public class MyWindow extends JFrame implements ActionListener {
                 //idd a regler
                 obj.create(new Inscription(Integer.parseInt(arrayJTextField.get(0).getText()),Integer.parseInt(arrayJTextField.get(1).getText())));
                 errorText.setText("Inscription ajoute !");
+            }else if(table == "AnneeScolaire"){
+                DAO<AnneeScolaire> obj = DAOFactory.getAnneeScolaireDAO();
+                //idd a regler
+                obj.create(new AnneeScolaire(Integer.parseInt(arrayJTextField.get(0).getText())));
+                errorText.setText("Annee scolaire ajoute !");
+            }else if(table == "Bulletin"){
+                DAO<Bulletin> obj = DAOFactory.getBulletinDAO();
+                //idd a regler
+                obj.create(new Bulletin(arrayJTextField.get(0).getText(), Integer.parseInt(arrayJTextField.get(1).getText()),Integer.parseInt(arrayJTextField.get(2).getText())));
+                errorText.setText(" Bulletin ajoute !");
             }
+            else if(table == "Classe"){
+                DAO<Classe> obj = DAOFactory.getClasseDAO();
+                //idd a regler
+                obj.create(new Classe(arrayJTextField.get(0).getText(), Integer.parseInt(arrayJTextField.get(1).getText()),Integer.parseInt(arrayJTextField.get(2).getText())));
+                errorText.setText(" Classe ajoute !");
+            }else if(table == "DetailBulletin"){
+                DAO<DetailBulletin> obj = DAOFactory.getDetailBulletinDAO();
+                //idd a regler
+                obj.create(new DetailBulletin(arrayJTextField.get(0).getText(), Integer.parseInt(arrayJTextField.get(1).getText()),Integer.parseInt(arrayJTextField.get(2).getText())));
+                errorText.setText(" DetailBulletin ajoute !");
+            }else if(table == "Discipline"){
+                DAO<Discipline> obj = DAOFactory.getDisciplineDAO();
+                //idd a regler
+                obj.create(new Discipline(arrayJTextField.get(0).getText()));
+                errorText.setText(" Discipline ajoute !");
+            }else if(table == "Enseignement"){
+                DAO<Enseignement> obj = DAOFactory.getEnseignementDAO();
+                //idd a regler
+                obj.create(new Enseignement(Integer.parseInt(arrayJTextField.get(0).getText()), Integer.parseInt(arrayJTextField.get(1).getText()),Integer.parseInt(arrayJTextField.get(2).getText())));
+                errorText.setText(" Enseignement ajoute !");
+            }else if(table == "Evaluation"){
+                DAO<Evaluation> obj = DAOFactory.getEvaluationDAO();
+                //idd a regler
+                obj.create(new Evaluation(arrayJTextField.get(0).getText(), Integer.parseInt(arrayJTextField.get(1).getText()),Integer.parseInt(arrayJTextField.get(2).getText())));
+                errorText.setText(" Evaluation ajoute !");
+            }else if(table == "Trimestre"){
+                DAO<Trimestre> obj = DAOFactory.getTrimestreDAO();
+                //idd a regler
+                obj.create(new Trimestre(Integer.parseInt(arrayJTextField.get(0).getText()),Integer.parseInt(arrayJTextField.get(1).getText()),Integer.parseInt(arrayJTextField.get(2).getText()),Integer.parseInt(arrayJTextField.get(3).getText()),Integer.parseInt(arrayJTextField.get(4).getText())));
+                errorText.setText(" Trimestre ajoute !");
+            }            
+
         }
         catch (Exception e1){
             errorText.setText("Error : " + (String)e1.getMessage());
@@ -310,7 +351,7 @@ public class MyWindow extends JFrame implements ActionListener {
     public void menuAjout(){
         //Liste de toute les tables à mettre dans la box depliant
         /////////////a modifier
-        String[] listTableName = { "Personne", "Inscription"};
+        String[] listTableName = { "Personne", "Inscription", "AnneeScolaire","Bulletin","Classe","DetailBulletin","Discipline","Enseignement","Evaluation","Niveau","Trimestre"};
         
         tablesBoxAdd = new JComboBox(listTableName);
         tablesBoxAdd.addActionListener(this);
@@ -320,7 +361,7 @@ public class MyWindow extends JFrame implements ActionListener {
         
         d.gridy = 0;
         d.gridx = 0;
-        d.gridwidth = 2;
+        d.gridwidth =11;
         panelPrincipal.add(tablesBoxAdd, d);
         
         updateMenuAjout((String)tablesBoxAdd.getSelectedItem());
@@ -363,6 +404,37 @@ public class MyWindow extends JFrame implements ActionListener {
         }else if("Inscription" == ines){
             arrayElement.add("Classe");            
             arrayElement.add("Personne");
+        }else if("AnneeScolaire" == ines){
+            arrayElement.add("Année");    
+        } else if("Bulletin" == ines){
+            arrayElement.add("Appréciation");            
+            arrayElement.add("Trimestre ID");
+            arrayElement.add("Trimestre ID");
+        }else if("Classe" == ines){
+            arrayElement.add("Nom");            
+            arrayElement.add("Niveau ID");
+            arrayElement.add("Annee scolaire ID");
+        }else if("DetailBulletin" == ines){
+            arrayElement.add("Appreciation");            
+            arrayElement.add("Bulletin ID");
+            arrayElement.add("Enseignemnt ID");
+        }else if("Discipline" == ines){
+            arrayElement.add("Nom"); 
+        }else if("Enseignement" == ines){
+            arrayElement.add("Classe ID");            
+            arrayElement.add("Enseignant ID");
+            arrayElement.add("Discipline ID");
+        }else if("Evaluation" == ines){
+            arrayElement.add("Appréciation");            
+            arrayElement.add("Note");
+            arrayElement.add("DétailBulletin ID");
+        }else if("Niveau" == ines){
+            arrayElement.add("Nom");           
+        }else if("Trimestre" == ines){
+            arrayElement.add("Numéro");            
+            arrayElement.add("Début");
+            arrayElement.add("Fin");
+            arrayElement.add("Année Scolaire ID");
         }
         
         for(String nelly : arrayElement){

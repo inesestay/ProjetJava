@@ -35,6 +35,14 @@ public class Trimestre {
         this.anneescolaireID=anneescolaireID;      
     }
     
+    public Trimestre( int num, int debut, int fin, int anneescolaireID){
+
+        this.num=num;
+        this.debut=debut;
+        this.fin=fin;
+        this.anneescolaireID=anneescolaireID;      
+    }
+    
     ///GETTERS AND SETTERS
 
     public int getId() {
