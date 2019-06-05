@@ -81,7 +81,7 @@ public EvaluationDAO(Connection conn) {
         return true;
   }
    
-  public Evaluation find(int id) {
+  public Evaluation find(String id) {
     Evaluation d = new Evaluation();      
       
     try {
@@ -90,7 +90,7 @@ public EvaluationDAO(Connection conn) {
         ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM evaluation WHERE id = " + id);
       if(result.first())
          
-        d = new Evaluation(id,result.getString("appreciation"), result.getInt("note"), result.getInt("detailBulletinID"));         
+        d = new Evaluation(result.getString("id"),result.getString("appreciation"), result.getString("note"), result.getString("detailBulletinID"));         
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -108,10 +108,10 @@ public EvaluationDAO(Connection conn) {
         //+nomTable+
            while(result.next()) {
 
-               int id = result.getInt(1);
+               String id = result.getString(1);
                String nom = result.getString(2);
-               int a = result.getInt(3);
-               int z = result.getInt(4);
+               String a = result.getString(3);
+               String z = result.getString(4);
 
                Evaluation obj = new Evaluation(id,nom,a,z);
                table.add(obj);

@@ -61,7 +61,7 @@ public abstract class DAO<T> {
    * @param id
    * @return the model with the correct key ID
    */
-  public abstract T find(int id);
+  public abstract T find(String id);
     
     
   /**

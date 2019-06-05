@@ -11,11 +11,11 @@ package sqlconnexion.Model;
  */
 public class Discipline {
     ///CHARACTERISTICS
-    private int id;
+    private String id;
     private String nom;
     
     ///CONSTRUCTORS
-    public Discipline(int id, String nom){
+    public Discipline(String id, String nom){
     this.id = id;
     this.nom=nom;
     }
@@ -25,17 +25,17 @@ public class Discipline {
     }
     
     public Discipline(){
-        id=0;
+        id="";
         nom="";
     }
     
     ///GETTERS AND SETTERS
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

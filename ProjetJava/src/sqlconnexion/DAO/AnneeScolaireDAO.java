@@ -81,7 +81,7 @@ public class AnneeScolaireDAO extends DAO<AnneeScolaire>{
         return true;
   }
    
-  public AnneeScolaire find(int id) {
+  public AnneeScolaire find(String id) {
     AnneeScolaire a = new AnneeScolaire();      
       
     try {
@@ -108,7 +108,7 @@ public class AnneeScolaireDAO extends DAO<AnneeScolaire>{
   
            while(result.next()) {
 
-               int id = result.getInt(1);
+               String id = result.getString(1);
                AnneeScolaire obj = new AnneeScolaire(id);
                table.add(obj);
 

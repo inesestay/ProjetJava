@@ -28,13 +28,17 @@ public TrimestreDAO(Connection conn) {
   @Override
     public boolean create( Trimestre obj) {
          try {
+             if(("".equals(obj.getNum())) || ("".equals(obj.getDebut())) || ("".equals(obj.getFin())) || ("".equals(obj.getAnneescolaireID()))){
+        
+                throw new SQLException("il manque un ou plusieurs champs");
+         }
             PreparedStatement statement = this.connect.prepareStatement(
-                    "INSERT INTO  trimestre VALUES(?,?,?,?,?)");
-            statement.setObject(1,null,Types.INTEGER); 
-            statement.setObject(2,obj.getNum(),Types.INTEGER); 
-            statement.setObject(3,obj.getDebut(),Types.INTEGER); 
-            statement.setObject(4,obj.getFin(),Types.INTEGER); 
-            statement.setObject(5,obj.getAnneescolaireID(),Types.INTEGER);   
+                    "INSERT INTO  trimestre(numero,debut,fin,anneescolaireID) VALUES(?,?,?,?)");
+           
+            statement.setObject(1,Integer.parseInt(obj.getNum()),Types.INTEGER); 
+            statement.setObject(2,Integer.parseInt(obj.getDebut()),Types.INTEGER); 
+            statement.setObject(3,Integer.parseInt(obj.getFin()),Types.INTEGER); 
+            statement.setObject(4,Integer.parseInt(obj.getAnneescolaireID()),Types.INTEGER);   
             statement.executeUpdate(); 
              System.out.println(" Trimestre créée");
         } catch (SQLException ex) {
@@ -47,11 +51,63 @@ public TrimestreDAO(Connection conn) {
     }
 
   public boolean delete( Trimestre obj) {
-     
+     String requete = "DELETE FROM trimestre WHERE";
+      boolean virgule = false;
+      
+      if(!("".equals(obj.getNum()))){
+          requete += " `numero`= "+"'" +obj.getNum()+"'" ;
+          virgule=true;
+          
+           if(virgule==true ){
+              if (!("".equals(obj.getDebut())) || !("".equals(obj.getFin())) || !("".equals(obj.getAnneescolaireID())) ||  !("".equals(obj.getId())) ) {
+                  requete =requete + " AND" ;
+              }
+            }       
+      }
+            
+      if(!("".equals(obj.getDebut()))){
+          requete += " `debut` = "+ "'"+ obj.getDebut()+ "'";
+          virgule=true;
+          
+           if(virgule==true){
+               if(!("".equals(obj.getFin())) || !("".equals(obj.getAnneescolaireID())) ||  !("".equals(obj.getId()))){
+          requete =requete + " AND" ;
+               }
+            } 
+      }
+      
+      if(!("".equals(obj.getFin()))){
+          requete += " `fin` = "+"'"+obj.getFin()+ "'";
+          virgule=true;
+          
+           if(virgule==true){
+               if(!("".equals(obj.getAnneescolaireID())) ||  !("".equals(obj.getId()))){
+          requete =requete + " AND" ;
+               }
+            }
+       
+      }    
+      
+      if(!("".equals(obj.getAnneescolaireID()))){
+          requete += " `anneescolaireID` = "+"'"+obj.getAnneescolaireID()+ "'";
+          virgule=true;
+          
+           if(virgule==true){
+               if(!("".equals(obj.getId()))){
+          requete =requete + " AND" ;
+               }
+            }
+       
+      }  
+      
+      if(!("".equals(obj.getId()))){
+          requete += " `id` = "+"'"+obj.getId()+ "' ";
+      }
+      
+      System.out.println(requete);
   
    try {
-            PreparedStatement statement = this.connect.prepareStatement(
-                    "DELETE FROM  trimestre WHERE id = " + obj.getId()+"" );
+            PreparedStatement statement = this.connect.prepareStatement(requete);
            
             statement.executeUpdate(); 
              System.out.println(" Trimestre supp");
@@ -66,9 +122,52 @@ public TrimestreDAO(Connection conn) {
    
   public boolean update( Trimestre obj) {
       
+      String requete = "UPDATE trimestre SET ";
+      boolean virgule = false;
+      
+      if(!("".equals(obj.getNum()))){
+          requete += " numero= "+"'" +obj.getNum()+"'" ;
+          virgule=true;
+          
+           if(virgule==true ){
+              if (!("".equals(obj.getDebut())) || !("".equals(obj.getFin())) || !("".equals(obj.getAnneescolaireID()))) {
+                  requete =requete + "," ;
+              }
+            }       
+      }
+            
+      if(!("".equals(obj.getDebut()))){
+          requete += " debut = "+ "' "+ obj.getDebut()+ "' ";
+          virgule=true;
+          
+           if(virgule==true){
+               if(!("".equals(obj.getFin())) || !("".equals(obj.getAnneescolaireID()))){
+          requete =requete + "," ;
+               }
+            } 
+      }
+      
+      if(!("".equals(obj.getFin()))){
+          requete += " fin = "+"'"+obj.getFin()+ "' " + " ";
+          
+          if(virgule==true){
+               if(!("".equals(obj.getAnneescolaireID()))){
+          requete =requete + "," ;
+               }
+            } 
+       
+      }     
+      
+      if(!("".equals(obj.getAnneescolaireID()))){
+          requete += " anneescolaireID = "+"'"+obj.getAnneescolaireID()+ "' " + " ";
+       
+      }   
+      requete += "WHERE id = " + obj.getId()+"" ;
+      
+      System.out.println(requete);
+      
   try{
-            PreparedStatement statement = this.connect.prepareStatement(
-                    "UPDATE  trimestre SET numero= '"+ obj.getNum() +"', debut= '"+ obj.getDebut() +"',fin= '"+ obj.getFin() +"', AnneeScolaireId= '"+ obj.getAnneescolaireID() +"' WHERE id = " + obj.getId()+"");
+            PreparedStatement statement = this.connect.prepareStatement(requete);
            
             statement.executeUpdate(); 
              System.out.println(" Trimestre update");
@@ -81,7 +180,7 @@ public TrimestreDAO(Connection conn) {
         return true;
   }
    
-  public  Trimestre find(int id) {
+  public  Trimestre find(String id) {
      Trimestre d = new  Trimestre();      
       
     try {
@@ -89,7 +188,7 @@ public TrimestreDAO(Connection conn) {
         ResultSet.TYPE_SCROLL_INSENSITIVE,
         ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM  trimestre WHERE id = " + id);
       if(result.first())
-        d = new  Trimestre(id,result.getInt("num"), result.getInt("debut"), result.getInt("fin"), result.getInt("anneescolaireID"));         
+        d = new  Trimestre(result.getString("id"),result.getString("num"), result.getString("debut"), result.getString("fin"), result.getString("anneescolaireID"));         
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -107,11 +206,11 @@ public TrimestreDAO(Connection conn) {
         //+nomTable+
            while(result.next()) {
 
-               int id = result.getInt(1);
-               int a = result.getInt(2);
-               int z = result.getInt(3);
-               int e = result.getInt(4);
-               int r = result.getInt(5);
+               String id = result.getString(1);
+               String a = result.getString(2);
+               String z = result.getString(3);
+               String e = result.getString(4);
+               String r = result.getString(5);
 
                Trimestre obj = new Trimestre(id,a,z,e,r);
                table.add(obj);

@@ -298,28 +298,28 @@ public class MyWindow extends JFrame implements ActionListener {
             }else if(table == "Inscription"){
                 DAO<Inscription> obj = DAOFactory.getInscriptionDAO();
                 //idd a regler
-                obj.create(new Inscription(Integer.parseInt(arrayJTextField.get(0).getText()),Integer.parseInt(arrayJTextField.get(1).getText())));
+                obj.create(new Inscription(arrayJTextField.get(0).getText(),arrayJTextField.get(1).getText()));
                 errorText.setText("Inscription ajoute !");
             }else if(table == "AnneeScolaire"){
                 DAO<AnneeScolaire> obj = DAOFactory.getAnneeScolaireDAO();
                 //idd a regler
-                obj.create(new AnneeScolaire(Integer.parseInt(arrayJTextField.get(0).getText())));
+                obj.create(new AnneeScolaire(arrayJTextField.get(0).getText()));
                 errorText.setText("Annee scolaire ajoute !");
             }else if(table == "Bulletin"){
                 DAO<Bulletin> obj = DAOFactory.getBulletinDAO();
                 //idd a regler
-                obj.create(new Bulletin(arrayJTextField.get(0).getText(), Integer.parseInt(arrayJTextField.get(1).getText()),Integer.parseInt(arrayJTextField.get(2).getText())));
+                obj.create(new Bulletin(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText()));
                 errorText.setText(" Bulletin ajoute !");
             }
             else if(table == "Classe"){
                 DAO<Classe> obj = DAOFactory.getClasseDAO();
                 //idd a regler
-                obj.create(new Classe(arrayJTextField.get(0).getText(), Integer.parseInt(arrayJTextField.get(1).getText()),Integer.parseInt(arrayJTextField.get(2).getText())));
+                obj.create(new Classe(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText()));
                 errorText.setText(" Classe ajoute !");
             }else if(table == "DetailBulletin"){
                 DAO<DetailBulletin> obj = DAOFactory.getDetailBulletinDAO();
                 //idd a regler
-                obj.create(new DetailBulletin(arrayJTextField.get(0).getText(), Integer.parseInt(arrayJTextField.get(1).getText()),Integer.parseInt(arrayJTextField.get(2).getText())));
+                obj.create(new DetailBulletin(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText()));
                 errorText.setText(" DetailBulletin ajoute !");
             }else if(table == "Discipline"){
                 DAO<Discipline> obj = DAOFactory.getDisciplineDAO();
@@ -329,17 +329,17 @@ public class MyWindow extends JFrame implements ActionListener {
             }else if(table == "Enseignement"){
                 DAO<Enseignement> obj = DAOFactory.getEnseignementDAO();
                 //idd a regler
-                obj.create(new Enseignement(Integer.parseInt(arrayJTextField.get(0).getText()), Integer.parseInt(arrayJTextField.get(1).getText()),Integer.parseInt(arrayJTextField.get(2).getText())));
+                obj.create(new Enseignement(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText()));
                 errorText.setText(" Enseignement ajoute !");
             }else if(table == "Evaluation"){
                 DAO<Evaluation> obj = DAOFactory.getEvaluationDAO();
                 //idd a regler
-                obj.create(new Evaluation(arrayJTextField.get(0).getText(), Integer.parseInt(arrayJTextField.get(1).getText()),Integer.parseInt(arrayJTextField.get(2).getText())));
+                obj.create(new Evaluation(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText()));
                 errorText.setText(" Evaluation ajoute !");
             }else if(table == "Trimestre"){
                 DAO<Trimestre> obj = DAOFactory.getTrimestreDAO();
                 //idd a regler
-                obj.create(new Trimestre(Integer.parseInt(arrayJTextField.get(0).getText()),Integer.parseInt(arrayJTextField.get(1).getText()),Integer.parseInt(arrayJTextField.get(2).getText()),Integer.parseInt(arrayJTextField.get(3).getText()),Integer.parseInt(arrayJTextField.get(4).getText())));
+                obj.create(new Trimestre(arrayJTextField.get(0).getText(),arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText(),arrayJTextField.get(3).getText()));
                 errorText.setText(" Trimestre ajoute !");
             }
 
@@ -625,7 +625,7 @@ public class MyWindow extends JFrame implements ActionListener {
             else if(table == "Inscription"){
                 DAO<Inscription> obj = DAOFactory.getInscriptionDAO();
                     //idd a regler
-                if(obj.delete(new Inscription(Integer.parseInt(arrayJTextField.get(0).getText()),Integer.parseInt(arrayJTextField.get(1).getText()), Integer.parseInt(arrayJTextField.get(2).getText())))){
+                if(obj.delete(new Inscription(arrayJTextField.get(0).getText(),arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText()))){
                     errorText.setText("Inscription supprimée !");
                 }else{
                     errorText.setText("Inscription non supprimée !");
@@ -635,7 +635,7 @@ public class MyWindow extends JFrame implements ActionListener {
             else if(table == "AnneeScolaire"){
                 DAO<AnneeScolaire> obj = DAOFactory.getAnneeScolaireDAO();
                 //idd a regler
-                if(obj.delete(new AnneeScolaire(Integer.parseInt(arrayJTextField.get(0).getText()))))
+                if(obj.delete(new AnneeScolaire(arrayJTextField.get(0).getText())))
                 errorText.setText("AnneeScolaire supprimée !");
                 else{
                     errorText.setText("AnneeScolaire non supprimée !");
@@ -644,7 +644,7 @@ public class MyWindow extends JFrame implements ActionListener {
             }else if(table == "Bulletin"){
                 DAO<Bulletin> obj = DAOFactory.getBulletinDAO();
                 //idd a regler
-               if( obj.delete(new Bulletin(arrayJTextField.get(0).getText(), Integer.parseInt(arrayJTextField.get(1).getText()),Integer.parseInt(arrayJTextField.get(2).getText()))))
+               if( obj.delete(new Bulletin(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText())))
                errorText.setText("Bulletin supprimé !");
                 else{
                     errorText.setText("Bulletin non supprimé !");
@@ -653,7 +653,7 @@ public class MyWindow extends JFrame implements ActionListener {
             else if(table == "Classe"){
                 DAO<Classe> obj = DAOFactory.getClasseDAO();
                 //idd a regler
-                if(obj.delete(new Classe(arrayJTextField.get(0).getText(), Integer.parseInt(arrayJTextField.get(1).getText()),Integer.parseInt(arrayJTextField.get(2).getText()))))
+                if(obj.delete(new Classe(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText())))
                 errorText.setText("Classe supprimée!");
                 else{
                     errorText.setText("Classe non supprimée !");
@@ -661,7 +661,7 @@ public class MyWindow extends JFrame implements ActionListener {
             }else if(table == "DetailBulletin"){
                 DAO<DetailBulletin> obj = DAOFactory.getDetailBulletinDAO();
                 //idd a regler
-               if( obj.delete(new DetailBulletin(arrayJTextField.get(0).getText(), Integer.parseInt(arrayJTextField.get(1).getText()),Integer.parseInt(arrayJTextField.get(2).getText()))))
+               if( obj.delete(new DetailBulletin(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText())))
                 errorText.setText("DetailBulletin supprimé !");
                 else{
                     errorText.setText("DetailBulletin non supprimé !");
@@ -677,7 +677,7 @@ public class MyWindow extends JFrame implements ActionListener {
             }else if(table == "Enseignement"){
                 DAO<Enseignement> obj = DAOFactory.getEnseignementDAO();
                 //idd a regler
-                if(obj.delete(new Enseignement(Integer.parseInt(arrayJTextField.get(0).getText()), Integer.parseInt(arrayJTextField.get(1).getText()),Integer.parseInt(arrayJTextField.get(2).getText()))))
+                if(obj.delete(new Enseignement(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText())))
                 errorText.setText("Enseignement supprimé !");
                 else{
                     errorText.setText("Enseignement non supprimé !");
@@ -685,7 +685,7 @@ public class MyWindow extends JFrame implements ActionListener {
             }else if(table == "Evaluation"){
                 DAO<Evaluation> obj = DAOFactory.getEvaluationDAO();
                 //idd a regler
-                if(obj.delete(new Evaluation(arrayJTextField.get(0).getText(), Integer.parseInt(arrayJTextField.get(1).getText()),Integer.parseInt(arrayJTextField.get(2).getText()))))
+                if(obj.delete(new Evaluation(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText())))
                 errorText.setText("Evaluation supprimée !");
                 else{
                     errorText.setText("Evaluation non supprimée !");
@@ -693,7 +693,7 @@ public class MyWindow extends JFrame implements ActionListener {
             }else if(table == "Trimestre"){
                 DAO<Trimestre> obj = DAOFactory.getTrimestreDAO();
                 //idd a regler
-                if(obj.delete(new Trimestre(Integer.parseInt(arrayJTextField.get(0).getText()),Integer.parseInt(arrayJTextField.get(1).getText()),Integer.parseInt(arrayJTextField.get(2).getText()),Integer.parseInt(arrayJTextField.get(3).getText()),Integer.parseInt(arrayJTextField.get(4).getText()))))
+                if(obj.delete(new Trimestre(arrayJTextField.get(0).getText(),arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText(),arrayJTextField.get(3).getText(),arrayJTextField.get(4).getText())))
                 errorText.setText("Trimestre supprimé !");
                 else{
                     errorText.setText("Trimestre non supprimé !");
@@ -801,9 +801,9 @@ public class MyWindow extends JFrame implements ActionListener {
                 helene.add(new JLabel(nelly.getType()));
             }else if(nomCategorie == "Inscription"){
                 Inscription nelly = (Inscription)myArray.get(ines);
-                helene.add(new JLabel(Integer.toString(nelly.getId())));
-                helene.add(new JLabel(Integer.toString(nelly.getClassID())));
-                helene.add(new JLabel(Integer.toString(nelly.getPersonneID())));
+                helene.add(new JLabel(nelly.getId()));
+                helene.add(new JLabel(nelly.getClassID()));
+                helene.add(new JLabel(nelly.getPersonneID()));
             }
 
 
@@ -928,7 +928,7 @@ public class MyWindow extends JFrame implements ActionListener {
             else if(table == "Inscription"){
                 DAO<Inscription> obj = DAOFactory.getInscriptionDAO();
                 //idd a regler
-                if(obj.update(new Inscription(Integer.parseInt(arrayJTextField.get(0).getText()),Integer.parseInt(arrayJTextField.get(1).getText()), Integer.parseInt(arrayJTextField.get(2).getText())))){
+                if(obj.update(new Inscription(arrayJTextField.get(0).getText(),arrayJTextField.get(1).getText(), arrayJTextField.get(2).getText()))){
                     errorText.setText("Inscription modifier !");
                 }else{
                     errorText.setText("Inscription non modifier !");

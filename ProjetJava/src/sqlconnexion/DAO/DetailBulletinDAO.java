@@ -80,7 +80,7 @@ public DetailBulletinDAO(Connection conn) {
         return true;
   }
    
-  public DetailBulletin find(int id) {
+  public DetailBulletin find(String id) {
     DetailBulletin d = new DetailBulletin();      
       
     try {
@@ -88,7 +88,7 @@ public DetailBulletinDAO(Connection conn) {
         ResultSet.TYPE_SCROLL_INSENSITIVE,
         ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM discipline WHERE id = " + id);
       if(result.first())
-        d = new DetailBulletin(id,result.getString("nom"), result.getInt("bulletinID"), result.getInt("enseignementID"));         
+        d = new DetailBulletin(result.getString("id"),result.getString("nom"), result.getString("bulletinID"), result.getString("enseignementID"));         
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -106,10 +106,10 @@ public DetailBulletinDAO(Connection conn) {
         //+nomTable+
            while(result.next()) {
 
-               int id = result.getInt(1);
+               String id = result.getString(1);
                String nom = result.getString(2);
-               int tri = result.getInt(3);
-               int insc = result.getInt(4);
+               String tri = result.getString(3);
+               String insc = result.getString(4);
 
                DetailBulletin obj = new DetailBulletin(id,nom,tri,insc);
                table.add(obj);

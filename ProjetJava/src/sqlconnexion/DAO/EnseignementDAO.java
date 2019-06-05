@@ -79,7 +79,7 @@ public EnseignementDAO(Connection conn) {
         return true;
   }
    
-  public Enseignement find(int id) {
+  public Enseignement find(String id) {
     Enseignement d = new Enseignement();      
       
     try {
@@ -88,7 +88,7 @@ public EnseignementDAO(Connection conn) {
         ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM enseignement WHERE id = " + id);
       if(result.first())
           
-        d = new Enseignement(id,result.getInt("classeID"), result.getInt("enseignantID"), result.getInt("discipID"));         
+        d = new Enseignement(result.getString("id"),result.getString("classeID"), result.getString("enseignantID"), result.getString("discipID"));         
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -106,10 +106,10 @@ public EnseignementDAO(Connection conn) {
         //+nomTable+
            while(result.next()) {
 
-               int id = result.getInt(1);
-               int a = result.getInt(2);
-               int z = result.getInt(3);
-               int e = result.getInt(4);
+               String id = result.getString(1);
+               String a = result.getString(2);
+               String z = result.getString(3);
+               String e = result.getString(4);
 
                Enseignement obj = new Enseignement(id,a,z,e);
                table.add(obj);

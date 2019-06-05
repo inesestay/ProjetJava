@@ -27,10 +27,13 @@ public NiveauDAO(Connection conn) {
   @Override
     public boolean create(Niveau obj) {
          try {
+             if(("".equals(obj.getNom()))){
+        
+                throw new SQLException("il manque un ou plusieurs champs");
+         }
             PreparedStatement statement = this.connect.prepareStatement(
-                    "INSERT INTO niveau VALUES(?,?)");
-            statement.setObject(1,null,Types.INTEGER); 
-            statement.setObject(2,obj.getNom(),Types.VARCHAR); 
+                    "INSERT INTO niveau VALUES(?)");
+            statement.setObject(1,obj.getNom(),Types.VARCHAR); 
             
             statement.executeUpdate(); 
              System.out.println("Niveau créée");
@@ -78,7 +81,7 @@ public NiveauDAO(Connection conn) {
         return true;
   }
    
-  public Niveau find(int id) {
+  public Niveau find(String id) {
     Niveau d = new Niveau();      
       
     try {
@@ -86,7 +89,7 @@ public NiveauDAO(Connection conn) {
         ResultSet.TYPE_SCROLL_INSENSITIVE,
         ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM niveau WHERE id = " + id);
       if(result.first())
-        d = new Niveau(id,result.getString("nom"));         
+        d = new Niveau(result.getString("id"),result.getString("nom"));         
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -104,7 +107,7 @@ public NiveauDAO(Connection conn) {
         //+nomTable+
            while(result.next()) {
 
-               int id = result.getInt(1);
+               String id = result.getString(1);
                String nom = result.getString(2);
               
                Niveau obj = new Niveau(id,nom);

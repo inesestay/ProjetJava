@@ -11,16 +11,16 @@ package sqlconnexion.Model;
  */
 public class Niveau {
     ///CHARACTERISTICS
-    private int id;
+    private String id;
     private String nom;
     
     ///CONSTRUCTORS
     public Niveau(){
-        id=0;
+        id="";
         nom="";
     }
     
-    public Niveau(int id, String nom){
+    public Niveau(String id, String nom){
         this.id=id;
         this.nom=nom;
     }
@@ -31,11 +31,11 @@ public class Niveau {
     
     ///GETTERS AND SETTERS
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

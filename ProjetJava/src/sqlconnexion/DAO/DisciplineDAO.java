@@ -78,7 +78,7 @@ public DisciplineDAO(Connection conn) {
         return true;
   }
    
-  public Discipline find(int id) {
+  public Discipline find(String id) {
     Discipline d = new Discipline();      
       
     try {
@@ -86,7 +86,7 @@ public DisciplineDAO(Connection conn) {
         ResultSet.TYPE_SCROLL_INSENSITIVE,
         ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM discipline WHERE id = " + id);
       if(result.first())
-        d = new Discipline(id,result.getString("nom"));         
+        d = new Discipline(result.getString("id"),result.getString("nom"));         
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -104,7 +104,7 @@ public DisciplineDAO(Connection conn) {
         //+nomTable+
            while(result.next()) {
 
-               int id = result.getInt(1);
+               String id = result.getString(1);
                String nom = result.getString(2);
 
                Discipline obj = new Discipline(id,nom);

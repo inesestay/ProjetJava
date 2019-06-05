@@ -80,7 +80,7 @@ public ClasseDAO(Connection conn) {
         return true;
   }
    
-  public Classe find(int id) {
+  public Classe find(String id) {
     Classe d = new Classe();      
       
     try {
@@ -89,7 +89,7 @@ public ClasseDAO(Connection conn) {
         ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM classe WHERE id = " + id);
       if(result.first())
           
-        d = new Classe(id,result.getString("nom"), result.getInt("NiveauID") , result.getInt("AnneeScolaireId"));         
+        d = new Classe(result.getString("id"),result.getString("nom"), result.getString("NiveauID") , result.getString("AnneeScolaireId"));         
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -107,10 +107,10 @@ public ClasseDAO(Connection conn) {
         //+nomTable+
            while(result.next()) {
 
-               int id = result.getInt(1);
+               String id = result.getString(1);
                String nom = result.getString(2);
-               int tri = result.getInt(3);
-               int insc = result.getInt(4);
+               String tri = result.getString(3);
+               String insc = result.getString(4);
 
                Classe obj = new Classe(id,nom,tri,insc);
                table.add(obj);

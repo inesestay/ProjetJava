@@ -11,19 +11,19 @@ package sqlconnexion.Model;
  */
 public class Classe {
     ///CHARACTERISTICS
-    private int id;
+    private String id;
     private String nom;
-    private int niveauID;
-    private int anneescolaireID;
+    private String niveauID;
+    private String anneescolaireID;
 
     ///CONSTRUCTORS
-    public Classe(int id, String nom, int niveauID, int anneescolaireID){
+    public Classe(String id, String nom, String niveauID, String anneescolaireID){
         this.id=id;
         this.nom=nom;
         this.niveauID=niveauID;
         this.anneescolaireID=anneescolaireID;
     }
-    public Classe( String nom, int niveauID, int anneescolaireID){
+    public Classe( String nom, String niveauID, String anneescolaireID){
   
         this.nom=nom;
         this.niveauID=niveauID;
@@ -31,18 +31,18 @@ public class Classe {
     }
     
     public Classe(){
-        id=0;
+        id="";
         nom="";
-        niveauID=0;
-        anneescolaireID=0;
+        niveauID="";
+        anneescolaireID="";
     }
     
     ///GETTERS AND SETTERS
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -54,19 +54,19 @@ public class Classe {
         this.nom = nom;
     }
 
-    public int getNiveauID() {
+    public String getNiveauID() {
         return niveauID;
     }
 
-    public void setNiveauID(int niveauID) {
+    public void setNiveauID(String niveauID) {
         this.niveauID = niveauID;
     }
 
-    public int getAnneescolaireID() {
+    public String getAnneescolaireID() {
         return anneescolaireID;
     }
 
-    public void setAnneescolaireID(int anneescolaireID) {
+    public void setAnneescolaireID(String anneescolaireID) {
         this.anneescolaireID = anneescolaireID;
     }
     

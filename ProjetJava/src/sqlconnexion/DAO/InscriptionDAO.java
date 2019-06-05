@@ -111,7 +111,7 @@ public InscriptionDAO(Connection conn) {
   }
    
 @Override
-  public Inscription find(int id) {
+  public Inscription find(String id) {
     Inscription inscription = new Inscription();      
       
     try {
@@ -119,7 +119,7 @@ public InscriptionDAO(Connection conn) {
         ResultSet.TYPE_SCROLL_INSENSITIVE,
         ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM personne WHERE id = " + id);
       if(result.first())
-        inscription = new Inscription(id,result.getInt("classID"),result.getInt("personneID"));         
+        inscription = new Inscription(result.getString("id"),result.getString("classID"),result.getString("personneID"));         
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -137,9 +137,9 @@ public InscriptionDAO(Connection conn) {
         //+nomTable+
            while(result.next()) {
 
-               int id = result.getInt(1);
-               int a = result.getInt(1);
-               int z = result.getInt(1);
+               String id = result.getString(1);
+               String a = result.getString(1);
+               String z = result.getString(1);
                
                Inscription obj = new Inscription(id,a,z);
                table.add(obj);

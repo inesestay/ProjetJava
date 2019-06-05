@@ -80,7 +80,7 @@ public class BulletinDAO extends DAO<Bulletin> {
         return true;
   }
    
-  public Bulletin find(int id) {
+  public Bulletin find(String id) {
     Bulletin d = new Bulletin();      
       
     try {
@@ -88,7 +88,7 @@ public class BulletinDAO extends DAO<Bulletin> {
         ResultSet.TYPE_SCROLL_INSENSITIVE,
         ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM bulletin WHERE id = " + id);
       if(result.first())
-        d = new Bulletin(id,result.getString("appreciation"),result.getInt("trimestreID"),result.getInt("inscriptionID") );         
+        d = new Bulletin(id,result.getString("appreciation"),result.getString("trimestreID"),result.getString("inscriptionID") );         
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -106,10 +106,10 @@ public class BulletinDAO extends DAO<Bulletin> {
         //+nomTable+
            while(result.next()) {
 
-               int id = result.getInt(1);
+               String id = result.getString(1);
                String nom = result.getString(2);
-               int tri = result.getInt(3);
-               int insc = result.getInt(4);
+               String tri = result.getString(3);
+               String insc = result.getString(4);
            
                Bulletin obj = new Bulletin(id,nom,tri,insc);
                table.add(obj);

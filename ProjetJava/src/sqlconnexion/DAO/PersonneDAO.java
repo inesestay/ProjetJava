@@ -27,9 +27,6 @@ public PersonneDAO(Connection conn) {
 
   @Override
     public boolean create(Personne obj){
-            
-    
-
     try{
         
         if(("".equals(obj.getNom())) || ("".equals(obj.getPrenom())) || ("".equals(obj.getType()))){
@@ -93,9 +90,7 @@ public PersonneDAO(Connection conn) {
       if(!("".equals(obj.getId()))){
           requete += " `id` = "+"'"+obj.getId()+ "' ";
       }
-      
-      System.out.println(requete);
-      
+            
 
    try {
             PreparedStatement statement = this.connect.prepareStatement(requete);
@@ -164,7 +159,7 @@ public PersonneDAO(Connection conn) {
   }
    
 @Override
-  public Personne find(int id) {
+  public Personne find(String id) {
     Personne personne = new Personne();      
       
     try {
