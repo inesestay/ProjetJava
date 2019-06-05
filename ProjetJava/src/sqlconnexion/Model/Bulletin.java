@@ -5,6 +5,10 @@
  */
 package sqlconnexion.Model;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 /**
  *
  * @author inese
@@ -69,5 +73,6 @@ public class Bulletin {
     public void setInscriptionID(String inscriptionID) {
         this.inscriptionID = inscriptionID;
     }
+    
     
 }
