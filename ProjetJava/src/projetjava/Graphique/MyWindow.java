@@ -612,9 +612,9 @@ public class MyWindow extends JFrame implements ActionListener {
                 DAO<Personne> pers = DAOFactory.getPersonneDAO();
                 //idd a regler
                 if(pers.delete(new Personne(Integer.parseInt(arrayJTextField.get(0).getText()),arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText(),arrayJTextField.get(3).getText()))){
-                    errorText.setText("Personne supprimer !");
+                    errorText.setText("Personne supprimée !");
                 }else{
-                    errorText.setText("Personne pas supprimer !");
+                    errorText.setText("Personne pas supprimée !");
                 }
             }
                 
@@ -622,12 +622,79 @@ public class MyWindow extends JFrame implements ActionListener {
                 DAO<Inscription> obj = DAOFactory.getInscriptionDAO();
                     //idd a regler
                 if(obj.delete(new Inscription(Integer.parseInt(arrayJTextField.get(0).getText()),Integer.parseInt(arrayJTextField.get(1).getText()), Integer.parseInt(arrayJTextField.get(2).getText())))){
-                    errorText.setText("Inscription supprimer !");
+                    errorText.setText("Inscription supprimée !");
                 }else{
-                    errorText.setText("Inscription non supprimer !");
+                    errorText.setText("Inscription non supprimée !");
                 }
                     
             }
+            else if(table == "AnneeScolaire"){
+                DAO<AnneeScolaire> obj = DAOFactory.getAnneeScolaireDAO();
+                //idd a regler
+                if(obj.delete(new AnneeScolaire(Integer.parseInt(arrayJTextField.get(0).getText()))))
+                errorText.setText("AnneeScolaire supprimée !");
+                else{
+                    errorText.setText("AnneeScolaire non supprimée !");
+                }
+        
+            }else if(table == "Bulletin"){
+                DAO<Bulletin> obj = DAOFactory.getBulletinDAO();
+                //idd a regler
+               if( obj.delete(new Bulletin(arrayJTextField.get(0).getText(), Integer.parseInt(arrayJTextField.get(1).getText()),Integer.parseInt(arrayJTextField.get(2).getText()))))
+               errorText.setText("Bulletin supprimé !");
+                else{
+                    errorText.setText("Bulletin non supprimé !");
+                }
+            }
+            else if(table == "Classe"){
+                DAO<Classe> obj = DAOFactory.getClasseDAO();
+                //idd a regler
+                if(obj.delete(new Classe(arrayJTextField.get(0).getText(), Integer.parseInt(arrayJTextField.get(1).getText()),Integer.parseInt(arrayJTextField.get(2).getText()))))
+                errorText.setText("Classe supprimée!");
+                else{
+                    errorText.setText("Classe non supprimée !");
+                }
+            }else if(table == "DetailBulletin"){
+                DAO<DetailBulletin> obj = DAOFactory.getDetailBulletinDAO();
+                //idd a regler
+               if( obj.delete(new DetailBulletin(arrayJTextField.get(0).getText(), Integer.parseInt(arrayJTextField.get(1).getText()),Integer.parseInt(arrayJTextField.get(2).getText()))))
+                errorText.setText("DetailBulletin supprimé !");
+                else{
+                    errorText.setText("DetailBulletin non supprimé !");
+                }
+            }else if(table == "Discipline"){
+                DAO<Discipline> obj = DAOFactory.getDisciplineDAO();
+                //idd a regler
+                if(obj.delete(new Discipline(arrayJTextField.get(0).getText())))
+               errorText.setText("Discipline supprimée !");
+                else{
+                    errorText.setText("Discipline non supprimée !");
+                }
+            }else if(table == "Enseignement"){
+                DAO<Enseignement> obj = DAOFactory.getEnseignementDAO();
+                //idd a regler
+                if(obj.delete(new Enseignement(Integer.parseInt(arrayJTextField.get(0).getText()), Integer.parseInt(arrayJTextField.get(1).getText()),Integer.parseInt(arrayJTextField.get(2).getText()))))
+                errorText.setText("Enseignement supprimé !");
+                else{
+                    errorText.setText("Enseignement non supprimé !");
+                }
+            }else if(table == "Evaluation"){
+                DAO<Evaluation> obj = DAOFactory.getEvaluationDAO();
+                //idd a regler
+                if(obj.delete(new Evaluation(arrayJTextField.get(0).getText(), Integer.parseInt(arrayJTextField.get(1).getText()),Integer.parseInt(arrayJTextField.get(2).getText()))))
+                errorText.setText("Evaluation supprimée !");
+                else{
+                    errorText.setText("Evaluation non supprimée !");
+                }
+            }else if(table == "Trimestre"){
+                DAO<Trimestre> obj = DAOFactory.getTrimestreDAO();
+                //idd a regler
+                if(obj.delete(new Trimestre(Integer.parseInt(arrayJTextField.get(0).getText()),Integer.parseInt(arrayJTextField.get(1).getText()),Integer.parseInt(arrayJTextField.get(2).getText()),Integer.parseInt(arrayJTextField.get(3).getText()),Integer.parseInt(arrayJTextField.get(4).getText()))))
+                errorText.setText("Trimestre supprimé !");
+                else{
+                    errorText.setText("Trimestre non supprimé !");
+                }
+            }   
         }
         catch (Exception e1){
             errorText.setText("Error : " + (String)e1.getMessage());
@@ -636,7 +703,7 @@ public class MyWindow extends JFrame implements ActionListener {
     
     public void displayMenu(){
         /////////////a modifier
-        String[] listTableName = { "Personne", "Inscription" };
+        String[] listTableName = { "Personne", "Inscription", "AnneeScolaire","Bulletin","Classe","DetailBulletin","Discipline","Enseignement","Evaluation","Niveau","Trimestre" };
 
         tablesBox = new JComboBox(listTableName);
         tablesBox.addActionListener(this);
@@ -658,6 +725,33 @@ public class MyWindow extends JFrame implements ActionListener {
         }
         else if(nomCategorie == "Inscription"){
             DAO<Inscription> pers = DAOFactory.getInscriptionDAO();
+            myArray = pers.retour();
+        }else if(nomCategorie == "AnneeScolaire"){
+            DAO<AnneeScolaire> pers = DAOFactory.getAnneeScolaireDAO();
+            myArray = pers.retour();
+        }else if(nomCategorie == "Bulletin"){
+            DAO<Bulletin> pers = DAOFactory.getBulletinDAO();
+            myArray = pers.retour();
+        }else if(nomCategorie == "Classe"){
+            DAO<Classe> pers = DAOFactory.getClasseDAO();
+            myArray = pers.retour();
+        }else if(nomCategorie == "DetailBulletin"){
+            DAO<DetailBulletin> pers = DAOFactory.getDetailBulletinDAO();
+            myArray = pers.retour();
+        }else if(nomCategorie == "Discipline"){
+            DAO<Discipline> pers = DAOFactory.getDisciplineDAO();
+            myArray = pers.retour();
+        }else if(nomCategorie == "Enseignement"){
+            DAO<Enseignement> pers = DAOFactory.getEnseignementDAO();
+            myArray = pers.retour();
+        }else if(nomCategorie == "Evaluation"){
+            DAO<Evaluation> pers = DAOFactory.getEvaluationDAO();
+            myArray = pers.retour();
+        }else if(nomCategorie == "Niveau"){
+            DAO<Niveau> pers = DAOFactory.getNiveauDAO();
+            myArray = pers.retour();
+        }else if(nomCategorie == "Trimestre"){
+            DAO<Trimestre> pers = DAOFactory.getTrimestreDAO();
             myArray = pers.retour();
         }
 
