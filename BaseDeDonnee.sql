@@ -83,3 +83,9 @@ note int(11) NOT NULL,
 detailBulletinID int(11) NOT NULL,
 FOREIGN KEY (detailBulletinID) REFERENCES DetailBulletin(id)
 );
+
+
+INSERT INTO `AnneeScolaire`(`AnneeScolaireID`) VALUES
+
+INSERT INTO `AnneeScolaire`(`AnneeScolaireID`) VALUES
+
