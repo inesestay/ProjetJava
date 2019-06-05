@@ -7,6 +7,8 @@ package projetjava;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Scanner;
+import javax.swing.JTextField;
 import sqlconnexion.Model.*;
 import sqlconnexion.DAO.DAO;
 import sqlconnexion.DAO.PersonneDAO;
@@ -22,9 +24,14 @@ public class ProjetJava {
     /**
      * @param args the command line arguments
      */
+   static JTextField nomBDD;
+    
     public static void main(String[] args) {
-
-      MainGraphique.launch();
+        
+        //Scanner sc = new Scanner(System.in);
+       // System.out.println("saisir le nom de la base svp :");
+       // bdd = sc.next();
+        MainGraphique.launch();
     }
 }
     

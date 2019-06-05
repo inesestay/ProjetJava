@@ -35,7 +35,8 @@ public class MyWindow extends JFrame implements ActionListener {
     JButton button1, button2,buttonConnexionBDD, addMenu, delMenu, dispMenu, modifMenu, menu, addElement, delElement, modifElement;
     JLabel label1, label2, label3, label4, errorText;
     JPanel panelForButtons, panelPrincipal;
-    JTextField idBDD, pswBDD, nomBDD;
+    JTextField idBDD, pswBDD;
+    public static JTextField nomBDD;
     JComboBox tablesBox, tablesBoxAdd, tablesBoxDel, tablesBoxModif;
 
     Connexion myBDD;
@@ -113,6 +114,7 @@ public class MyWindow extends JFrame implements ActionListener {
             try{
                 myBDD = null;
                 myBDD = new Connexion(nomBDD.getText(),idBDD.getText(),pswBDD.getText());
+                
             }
             catch(SQLException e1){
                 errorText.setText("Error sql : " + (String)e1.getMessage());
