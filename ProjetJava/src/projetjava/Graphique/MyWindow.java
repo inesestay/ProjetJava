@@ -35,7 +35,8 @@ public class MyWindow extends JFrame implements ActionListener {
     JButton button1, button2,buttonConnexionBDD, addMenu, delMenu, dispMenu, modifMenu, menu, addElement, delElement, modifElement;
     JLabel label1, label2, label3, label4, errorText;
     JPanel panelForButtons, panelPrincipal;
-    JTextField idBDD, pswBDD, nomBDD;
+    JTextField idBDD, pswBDD;
+    public static JTextField nomBDD;
     JComboBox tablesBox, tablesBoxAdd, tablesBoxDel, tablesBoxModif;
 
     Connexion myBDD;
@@ -113,6 +114,7 @@ public class MyWindow extends JFrame implements ActionListener {
             try{
                 myBDD = null;
                 myBDD = new Connexion(nomBDD.getText(),idBDD.getText(),pswBDD.getText());
+
             }
             catch(SQLException e1){
                 errorText.setText("Error sql : " + (String)e1.getMessage());
@@ -753,8 +755,8 @@ public class MyWindow extends JFrame implements ActionListener {
             DAO<Inscription> pers = DAOFactory.getInscriptionDAO();
             myArray = pers.retour();
             lea.add(new JLabel("ID"));
-            lea.add(new JLabel("CLASSEID"));
-            lea.add(new JLabel("PERSONNEID"));
+            lea.add(new JLabel("CLASSE_ID"));
+            lea.add(new JLabel("PERSONNE_ID"));
         }else if(nomCategorie == "AnneeScolaire"){
             DAO<AnneeScolaire> pers = DAOFactory.getAnneeScolaireDAO();
             myArray = pers.retour();
@@ -802,6 +804,7 @@ public class MyWindow extends JFrame implements ActionListener {
         }else if(nomCategorie == "Niveau"){
             DAO<Niveau> pers = DAOFactory.getNiveauDAO();
             myArray = pers.retour();
+            lea.add(new JLabel("ID"));
             lea.add(new JLabel("NOM"));
         }else if(nomCategorie == "Trimestre"){
             DAO<Trimestre> pers = DAOFactory.getTrimestreDAO();

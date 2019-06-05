@@ -13,8 +13,8 @@ package sqlconnexion.factory;
 
 import java.sql.*;
 import java.util.logging.*;
+import static projetjava.Graphique.MyWindow.nomBDD;
 import sqlconnexion.DAO.*;
-
 /**
  * this is a static class able to be call everywhere in the code and construct the good DAO.
  * surcharge connection on SQL so that is done only one time
@@ -44,7 +44,8 @@ public class DAOFactory {
             // ecole is the name of database
             // second parameter the id for connecting to the mysql db ( on phpmyadmin)
             // thirs parameter is the password
-            tmp = DriverManager.getConnection("jdbc:mysql://localhost/ecole","root","");
+            String bdd = nomBDD.getText();
+            tmp = DriverManager.getConnection("jdbc:mysql://localhost/"+bdd+"","root","");
          } catch (ClassNotFoundException ex) {
                 Logger.getLogger(DAOFactory.class.getName()).log(Level.SEVERE, null, ex);
          }
