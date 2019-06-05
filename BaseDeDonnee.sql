@@ -135,7 +135,7 @@ INSERT INTO `Classe`(`id`,`nom`,`niveauId`,`anneescolaireID`) VALUES
 (7,'premiere4',7,2007),
 (8,'terminale4',8,2012),
 (9,'TD9',9,2015),
-(10,'TD1'10,1963)
+(10,'TD1',10,1963)
 ;
 
 INSERT INTO `Discipline`(`id`,`nom`) VALUES
@@ -166,14 +166,14 @@ INSERT INTO `Personne`(`id`,`nom`,`prenom`,`type`) VALUES
 (12,'Escobar','Escobar','Prof'),
 (13,'jsaisplus','jsaisplus','Prof'),
 (14,'Coudray','Fabienne','Prof'),
-(15,'Guicharnaud','Leo','Etudiant')
-(16,'TOTO','LELE','Etudiant')
-(17,'Tanti','Frate','Etudiant')
-(18,'Jess','Marseillais','Etudiant')
+(15,'Guicharnaud','Leo','Etudiant'),
+(16,'TOTO','LELE','Etudiant'),
+(17,'Tanti','Frate','Etudiant'),
+(18,'Jess','Marseillais','Etudiant'),
 (19,'Maaaaarsseillais','Paga','Etudiant')
 ;
 
-INSERT INTO `Enseignement`(`id`,`classID`,`disciplineId`,`personneId`) VALUES
+INSERT INTO `Enseignement`(`id`,`classeID`,`disciplineId`,`personneId`) VALUES
 (1,1,1,8),
 (2,2,2,6),
 (3,3,3,11),
