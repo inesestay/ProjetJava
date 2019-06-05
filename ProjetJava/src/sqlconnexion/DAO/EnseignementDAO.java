@@ -26,12 +26,17 @@ public EnseignementDAO(Connection conn) {
   @Override
     public boolean create(Enseignement obj) {
          try {
+             
+             if(("".equals(obj.getClasseID())) || ("".equals(obj.getDisciplineID())) || ("".equals(obj.getEnseignantID()))){
+        
+                throw new SQLException("il manque un ou plusieurs champs");
+         }
+             
             PreparedStatement statement = this.connect.prepareStatement(
-                    "INSERT INTO enseignement VALUES(?,?,?,?)");
-            statement.setObject(1,null,Types.INTEGER); 
-            statement.setObject(2,obj.getClasseID(),Types.INTEGER); 
-            statement.setObject(3,obj.getDisciplineID(),Types.INTEGER); 
-            statement.setObject(4,obj.getEnseignantID(),Types.INTEGER); 
+                    "INSERT INTO enseignement(classeID,disciplineID,enseignantID) VALUES(?,?,?)");
+            statement.setObject(1,Integer.parseInt(obj.getClasseID()),Types.INTEGER); 
+            statement.setObject(2,Integer.parseInt(obj.getDisciplineID()),Types.INTEGER); 
+            statement.setObject(3,Integer.parseInt(obj.getEnseignantID()),Types.INTEGER); 
             
             statement.executeUpdate(); 
              System.out.println("Enseignement créée");
@@ -46,10 +51,49 @@ public EnseignementDAO(Connection conn) {
 
   public boolean delete(Enseignement obj) {
      
-  
+       String requete = "DELETE FROM enseignement WHERE";
+      boolean virgule = false;
+      
+      if(!("".equals(obj.getClasseID()))){
+          requete += " `classeID`= "+"'" +obj.getClasseID()+"'" ;
+          virgule=true;
+          
+           if(virgule==true ){
+              if (!("".equals(obj.getDisciplineID())) || !("".equals(obj.getEnseignantID())) || !("".equals(obj.getId())) ) {
+                  requete =requete + " AND" ;
+              }
+            }       
+      }
+            
+      if(!("".equals(obj.getDisciplineID()))){
+          requete += " `disciplineID` = "+ "'"+ obj.getDisciplineID()+ "'";
+          virgule=true;
+          
+           if(virgule==true){
+               if(!("".equals(obj.getEnseignantID())) || !("".equals(obj.getId()))){
+          requete =requete + " AND" ;
+               }
+            } 
+      }
+      
+      if(!("".equals(obj.getEnseignantID()))){
+          requete += " `enseignantID` = "+"'"+obj.getEnseignantID()+ "'";
+          virgule=true;
+          
+           if(virgule==true){
+               if(!("".equals(obj.getId()))){
+          requete =requete + " AND" ;
+               }
+            }
+       
+      }     
+      
+      if(!("".equals(obj.getId()))){
+          requete += " `id` = "+"'"+obj.getId()+ "' ";
+      }
+      
    try {
-            PreparedStatement statement = this.connect.prepareStatement(
-                    "DELETE FROM enseignement WHERE id = " + obj.getId()+"" );
+            PreparedStatement statement = this.connect.prepareStatement(requete);
            
             statement.executeUpdate(); 
              System.out.println("Enseignement supp");
@@ -64,9 +108,42 @@ public EnseignementDAO(Connection conn) {
    
   public boolean update(Enseignement obj) {
       
+      String requete = "UPDATE enseignement SET ";
+      boolean virgule = false;
+      
+      if(!("".equals(obj.getClasseID()))){
+          requete += " classeID= "+"'" +obj.getClasseID()+"'" ;
+          virgule=true;
+          
+           if(virgule==true ){
+              if (!("".equals(obj.getDisciplineID())) || !("".equals(obj.getEnseignantID()))) {
+                  requete =requete + "," ;
+              }
+            }       
+      }
+            
+      if(!("".equals(obj.getDisciplineID()))){
+          requete += " disciplineID = "+ "' "+ obj.getDisciplineID()+ "' ";
+          virgule=true;
+          
+           if(virgule==true){
+               if(!("".equals(obj.getEnseignantID()))){
+          requete =requete + "," ;
+               }
+            } 
+      }
+      
+      if(!("".equals(obj.getEnseignantID()))){
+          requete += " enseignantID = "+"'"+obj.getEnseignantID()+ "' " + " ";
+       
+      }     
+      
+      requete += "WHERE id = " + obj.getId()+"" ;
+      
+      System.out.println(requete);
+      
   try{
-            PreparedStatement statement = this.connect.prepareStatement(
-                    "UPDATE enseignement SET classeID= '"+ obj.getClasseID() +"',disciplineId= '"+ obj.getDisciplineID() +"',personneId = '"+ obj.getEnseignantID() +"' WHERE id = " + obj.getId()+"");
+            PreparedStatement statement = this.connect.prepareStatement(requete);
            
             statement.executeUpdate(); 
              System.out.println("Enseignement update");

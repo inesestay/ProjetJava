@@ -26,13 +26,19 @@ public DetailBulletinDAO(Connection conn) {
 
   @Override
     public boolean create(DetailBulletin obj) {
+        
          try {
+             
+             if(("".equals(obj.getAppreciation())) || ("".equals(obj.getBulletinID())) || ("".equals(obj.getEnseignementID()))){
+        
+                throw new SQLException("il manque un ou plusieurs champs");
+         }
+             
             PreparedStatement statement = this.connect.prepareStatement(
-                    "INSERT INTO detailbulletin VALUES(?,?,?,?)");
-            statement.setObject(1,null,Types.INTEGER); 
-            statement.setObject(2,obj.getAppreciation(),Types.VARCHAR);
-            statement.setObject(3,obj.getBulletinID(),Types.INTEGER);
-            statement.setObject(4,obj.getEnseignementID(),Types.INTEGER);
+                    "INSERT INTO detailbulletin() VALUES(?,?,?)");
+            statement.setObject(1,obj.getAppreciation(),Types.VARCHAR);
+            statement.setObject(2,Integer.parseInt(obj.getBulletinID()),Types.INTEGER);
+            statement.setObject(3,Integer.parseInt(obj.getEnseignementID()),Types.INTEGER);
             
             statement.executeUpdate(); 
              System.out.println("bulletin créée");
@@ -47,10 +53,49 @@ public DetailBulletinDAO(Connection conn) {
 
   public boolean delete(DetailBulletin obj) {
      
+        String requete = "DELETE FROM detailBulletidn WHERE";
+      boolean virgule = false;
+      
+      if(!("".equals(obj.getAppreciation()))){
+          requete += " `appreciation`= "+"'" +obj.getAppreciation()+"'" ;
+          virgule=true;
+          
+           if(virgule==true ){
+              if (!("".equals(obj.getBulletinID())) || !("".equals(obj.getEnseignementID())) || !("".equals(obj.getId())) ) {
+                  requete =requete + " AND" ;
+              }
+            }       
+      }
+            
+      if(!("".equals(obj.getBulletinID()))){
+          requete += " `bulletinID` = "+ "'"+ obj.getBulletinID()+ "'";
+          virgule=true;
+          
+           if(virgule==true){
+               if(!("".equals(obj.getEnseignementID())) || !("".equals(obj.getId()))){
+          requete =requete + " AND" ;
+               }
+            } 
+      }
+      
+      if(!("".equals(obj.getEnseignementID()))){
+          requete += " `enseignementID` = "+"'"+obj.getEnseignementID()+ "'";
+          virgule=true;
+          
+           if(virgule==true){
+               if(!("".equals(obj.getId()))){
+          requete =requete + " AND" ;
+               }
+            }
+       
+      }     
+      
+      if(!("".equals(obj.getId()))){
+          requete += " `id` = "+"'"+obj.getId()+ "' ";
+      }
   
    try {
-            PreparedStatement statement = this.connect.prepareStatement(
-                    "DELETE FROM bulletin WHERE id = " + obj.getId()+"" );
+            PreparedStatement statement = this.connect.prepareStatement(requete);
            
             statement.executeUpdate(); 
              System.out.println("bulletin supp");
@@ -65,9 +110,43 @@ public DetailBulletinDAO(Connection conn) {
    
   public boolean update(DetailBulletin obj) {
       
+       String requete = "UPDATE detailBulletin SET ";
+      boolean virgule = false;
+      
+      if(!("".equals(obj.getAppreciation()))){
+          requete += " appreciation= "+"'" +obj.getAppreciation()+"'" ;
+          virgule=true;
+          
+           if(virgule==true ){
+              if (!("".equals(obj.getBulletinID())) || !("".equals(obj.getEnseignementID()))) {
+                  requete =requete + "," ;
+              }
+            }       
+      }
+            
+      if(!("".equals(obj.getBulletinID()))){
+          requete += " bulletinID = "+ "' "+ obj.getBulletinID()+ "' ";
+          virgule=true;
+          
+           if(virgule==true){
+               if(!("".equals(obj.getEnseignementID()))){
+          requete =requete + "," ;
+               }
+            } 
+      }
+      
+      if(!("".equals(obj.getEnseignementID()))){
+          requete += " enseignementID = "+"'"+obj.getEnseignementID()+ "' " + " ";
+       
+      }     
+      
+      
+      requete += "WHERE id = " + obj.getId()+"" ;
+      
+      System.out.println(requete);
+      
   try{
-            PreparedStatement statement = this.connect.prepareStatement(
-                    "UPDATE bulletin SET appreciation= '"+ obj.getAppreciation() +"', bulletinID = '"+ obj.getBulletinID() +"' , enseignementId = '"+ obj.getEnseignementID() +"'WHERE id = " + obj.getId()+"");
+            PreparedStatement statement = this.connect.prepareStatement(requete);
            
             statement.executeUpdate(); 
              System.out.println("detail update");

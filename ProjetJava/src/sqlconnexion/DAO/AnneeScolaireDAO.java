@@ -27,8 +27,14 @@ public class AnneeScolaireDAO extends DAO<AnneeScolaire>{
   @Override
     public boolean create(AnneeScolaire obj) {
          try {
+             
+              if(("".equals(obj.getAnneeScolaireID()))){
+        
+                throw new SQLException("il manque un ou plusieurs champs");
+         }
+             
             PreparedStatement statement = this.connect.prepareStatement(
-                    "INSERT INTO anneescolaire VALUES(?)"
+                    "INSERT INTO anneescolaire(anneescolaireID) VALUES(?)"
                     ); 
             statement.setObject(1,obj.getAnneeScolaireID(),Types.INTEGER); 
            
@@ -44,12 +50,18 @@ public class AnneeScolaireDAO extends DAO<AnneeScolaire>{
 
   public boolean delete(AnneeScolaire obj) {
       
-    
+     String requete = "DELETE FROM anneeScolaire WHERE";
+      boolean virgule = false;
+      
+      if(!("".equals(obj.getAnneeScolaireID()))){
+          requete += " `type` = "+"'"+obj.getAnneeScolaireID()+ "'";
+          virgule=true;
+                 
+      }     
+      
   
    try {
-            PreparedStatement statement = this.connect.prepareStatement(
-                    "DELETE FROM annescolaire WHERE id = " + obj.getAnneeScolaireID()+""
-                    );
+            PreparedStatement statement = this.connect.prepareStatement(requete);
            
             statement.executeUpdate(); 
              System.out.println("annee supp");
@@ -64,11 +76,20 @@ public class AnneeScolaireDAO extends DAO<AnneeScolaire>{
    
   public boolean update(AnneeScolaire obj) {
       
-     
+      String requete = "UPDATE personne SET ";
+      boolean virgule = false;
+      
+      if(!("".equals(obj.getAnneeScolaireID()))){
+          requete += " nom= "+"'" +obj.getAnneeScolaireID()+"'" ;
+              
+      }
+      
+      requete += "WHERE id = " + obj.getAnneeScolaireID()+"" ;
+      
+      System.out.println(requete);
      
      try {
-            PreparedStatement statement = this.connect.prepareStatement(
-                    "UPDATE anneescolaire SET nom= '"+ obj.getAnneeScolaireID() +"'WHERE id = " + obj.getAnneeScolaireID()+"");
+            PreparedStatement statement = this.connect.prepareStatement(requete);
            
             statement.executeUpdate(); 
              System.out.println("annee update");

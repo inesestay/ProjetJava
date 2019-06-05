@@ -28,12 +28,15 @@ public EvaluationDAO(Connection conn) {
   @Override
     public boolean create(Evaluation obj) {
          try {
+             if(("".equals(obj.getAppreciation())) || ("".equals(obj.getNote())) || ("".equals(obj.getDetailBulletinID()))){
+        
+                throw new SQLException("il manque un ou plusieurs champs");
+         }
             PreparedStatement statement = this.connect.prepareStatement(
-                    "INSERT INTO evaluation VALUES(?,?)");
-            statement.setObject(1,null,Types.INTEGER); 
-            statement.setObject(2,obj.getAppreciation(),Types.VARCHAR); 
-            statement.setObject(3,obj.getNote() ,Types.INTEGER); 
-            statement.setObject(4,obj.getDetailBulletinID(),Types.INTEGER); 
+                    "INSERT INTO evaluation(appreciation,note,detailBulletin) VALUES(?,?,?)");
+            statement.setObject(1,obj.getAppreciation(),Types.VARCHAR); 
+            statement.setObject(2,Integer.parseInt(obj.getNote()) ,Types.INTEGER); 
+            statement.setObject(3,Integer.parseInt(obj.getDetailBulletinID()),Types.INTEGER); 
             
             statement.executeUpdate(); 
              System.out.println("Evaluation créée");
@@ -48,10 +51,50 @@ public EvaluationDAO(Connection conn) {
 
   public boolean delete(Evaluation obj) {
      
-  
+       String requete = "DELETE FROM evaluation WHERE";
+      boolean virgule = false;
+      
+      if(!("".equals(obj.getAppreciation()))){
+          requete += " `appreciation`= "+"'" +obj.getAppreciation()+"'" ;
+          virgule=true;
+          
+           if(virgule==true ){
+              if (!("".equals(obj.getNote())) || !("".equals(obj.getDetailBulletinID())) || !("".equals(obj.getId())) ) {
+                  requete =requete + " AND" ;
+              }
+            }       
+      }
+            
+      if(!("".equals(obj.getNote()))){
+          requete += " `note` = "+ "'"+ obj.getNote()+ "'";
+          virgule=true;
+          
+           if(virgule==true){
+               if(!("".equals(obj.getDetailBulletinID())) || !("".equals(obj.getId()))){
+          requete =requete + " AND" ;
+               }
+            } 
+      }
+      
+      if(!("".equals(obj.getDetailBulletinID()))){
+          requete += " `detailBulletin` = "+"'"+obj.getDetailBulletinID()+ "'";
+          virgule=true;
+          
+           if(virgule==true){
+               if(!("".equals(obj.getId()))){
+          requete =requete + " AND" ;
+               }
+            }
+       
+      }     
+      
+      if(!("".equals(obj.getId()))){
+          requete += " `id` = "+"'"+obj.getId()+ "' ";
+      }
+            
+
    try {
-            PreparedStatement statement = this.connect.prepareStatement(
-                    "DELETE FROM evaluation WHERE id = " + obj.getId()+"" );
+            PreparedStatement statement = this.connect.prepareStatement(requete);
            
             statement.executeUpdate(); 
              System.out.println("Evaluation supp");
@@ -66,9 +109,43 @@ public EvaluationDAO(Connection conn) {
    
   public boolean update(Evaluation obj) {
       
+      String requete = "UPDATE evaluation SET ";
+      boolean virgule = false;
+      
+      if(!("".equals(obj.getAppreciation()))){
+          requete += " appreciation= "+"'" +obj.getAppreciation()+"'" ;
+          virgule=true;
+          
+           if(virgule==true ){
+              if (!("".equals(obj.getNote())) || !("".equals(obj.getDetailBulletinID()))) {
+                  requete =requete + "," ;
+              }
+            }       
+      }
+            
+      if(!("".equals(obj.getNote()))){
+          requete += " note = "+ "' "+ obj.getNote()+ "' ";
+          virgule=true;
+          
+           if(virgule==true){
+               if(!("".equals(obj.getDetailBulletinID()))){
+          requete =requete + "," ;
+               }
+            } 
+      }
+      
+      if(!("".equals(obj.getDetailBulletinID()))){
+          requete += " detailBulletin = "+"'"+obj.getDetailBulletinID()+ "' " + " ";
+       
+      }     
+      
+      
+      requete += "WHERE id = " + obj.getId()+"" ;
+      
+      System.out.println(requete);
+      
   try{
-            PreparedStatement statement = this.connect.prepareStatement(
-                    "UPDATE evaluation SET appreciation= '"+ obj.getAppreciation() +"',note= '"+ obj.getNote() +"', detailBulletinID= '"+ obj.getDetailBulletinID() +"' WHERE id = " + obj.getId()+"");
+            PreparedStatement statement = this.connect.prepareStatement(requete);
            
             statement.executeUpdate(); 
              System.out.println("Evaluation update");
