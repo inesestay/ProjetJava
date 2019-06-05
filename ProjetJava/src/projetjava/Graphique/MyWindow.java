@@ -34,7 +34,7 @@ public class MyWindow extends JFrame implements ActionListener {
 
     JButton button1, button2,buttonConnexionBDD, addMenu, delMenu, dispMenu, modifMenu, menu, addElement, delElement, modifElement;
     JLabel label1, label2, label3, label4, errorText;
-    JPanel panelForButtons, panelPrincipal;
+    JPanel panelForButtons, panelPrincipal, panelAffiche;
     JTextField idBDD, pswBDD, nomBDD;
     JComboBox tablesBox, tablesBoxAdd, tablesBoxDel, tablesBoxModif;
 
@@ -276,7 +276,6 @@ public class MyWindow extends JFrame implements ActionListener {
                 displayMenu();
                 break;
             case 5:
-                System.out.println("Proute");
                 panelPrincipal.removeAll();
                 modifMenu();
                 break;
@@ -602,7 +601,11 @@ public class MyWindow extends JFrame implements ActionListener {
 
         d.gridy++;
         panelPrincipal.add(errorText, d);
+        
+        //updateDisplayMenu(table, panelPrincipal);
+        
         panelPrincipal.updateUI();
+
     }
 
     public void creationObjetRequetteDel(String table){
