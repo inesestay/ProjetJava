@@ -613,7 +613,7 @@ public class MyWindow extends JFrame implements ActionListener {
             if(table == "Personne"){
                 DAO<Personne> pers = DAOFactory.getPersonneDAO();
                 //idd a regler
-                if(pers.delete(new Personne(Integer.parseInt(arrayJTextField.get(0).getText()),arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText(),arrayJTextField.get(3).getText()))){
+                if(pers.delete(new Personne(arrayJTextField.get(0).getText(),arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText(),arrayJTextField.get(3).getText()))){
                     errorText.setText("Personne supprimée !");
                 }else{
                     errorText.setText("Personne pas supprimée !");
