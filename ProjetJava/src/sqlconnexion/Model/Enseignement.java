@@ -25,6 +25,13 @@ public class Enseignement {
         this.disciplineId =disciplineId ;       
      
     }
+    public Enseignement( int classeID, int enseignantID, int disciplineId ){
+      
+        this.classeID=classeID;
+        this.enseignantID=enseignantID;
+        this.disciplineId =disciplineId ;       
+     
+    }
     
     public Enseignement(){
         id = 0;

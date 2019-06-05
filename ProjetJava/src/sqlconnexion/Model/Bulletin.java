@@ -30,6 +30,12 @@ public class Bulletin {
         this.trimestreID=trimestreID;
         this.inscriptionID=inscriptionID;
     }
+     public Bulletin(String appreciation,int trimestreID ,int inscriptionID ){
+       
+        this.appreciation=appreciation;
+        this.trimestreID=trimestreID;
+        this.inscriptionID=inscriptionID;
+    }
     
     ///GETTERS AND SETTERS
     public int getId(){
