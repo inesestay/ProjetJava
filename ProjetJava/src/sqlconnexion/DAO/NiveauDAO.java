@@ -32,9 +32,8 @@ public NiveauDAO(Connection conn) {
                 throw new SQLException("il manque un ou plusieurs champs");
          }
             PreparedStatement statement = this.connect.prepareStatement(
-                    "INSERT INTO niveau VALUES(?)");
-            statement.setObject(1,obj.getNom(),Types.VARCHAR); 
-            
+                    "INSERT INTO niveau(nom) VALUES(?)");
+            statement.setObject(1,obj.getNom(),Types.VARCHAR);
             statement.executeUpdate(); 
              System.out.println("Niveau créée");
         } catch (SQLException ex) {
@@ -48,11 +47,30 @@ public NiveauDAO(Connection conn) {
 
   public boolean delete(Niveau obj) {
      
+       String requete = "DELETE FROM niveau WHERE";
+      boolean virgule = false;
+      
+      if(!("".equals(obj.getNom()))){
+          requete += " `nom`= "+"'" +obj.getNom()+"'" ;
+          virgule=true;
+            System.out.println(obj.getNom());
+           if(virgule==true ){
+              if (!("".equals(obj.getId())) ) {
+                  requete =requete + " AND" ;
+              }
+            }       
+      }
+            
+      
+      if(!("".equals(obj.getId()))){
+          requete += " `id` = "+"'"+obj.getId()+ "' ";
+      }
+      
+      System.out.println(requete);
+                  
   
    try {
-            PreparedStatement statement = this.connect.prepareStatement(
-                    "DELETE FROM niveau WHERE id = " + obj.getId()+"" );
-           
+            PreparedStatement statement = this.connect.prepareStatement(requete);
             statement.executeUpdate(); 
              System.out.println("Niveau supp");
         } catch (SQLException ex) {
@@ -66,9 +84,20 @@ public NiveauDAO(Connection conn) {
    
   public boolean update(Niveau obj) {
       
+       String requete = "UPDATE niveau SET ";
+      boolean virgule = false;
+      
+      if(!("".equals(obj.getNom()))){
+          requete += " nom = "+"'"+obj.getNom()+ "' " + " ";
+       
+      }     
+            
+      requete += "WHERE id = " + obj.getId()+"" ;
+      
+      System.out.println(requete);
+      
   try{
-            PreparedStatement statement = this.connect.prepareStatement(
-                    "UPDATE niveau SET nom= '"+ obj.getNom() +"' WHERE id = " + obj.getId()+"");
+            PreparedStatement statement = this.connect.prepareStatement(requete);
            
             statement.executeUpdate(); 
              System.out.println("Niveau update");

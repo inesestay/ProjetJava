@@ -343,6 +343,11 @@ public class MyWindow extends JFrame implements ActionListener {
                 //idd a regler
                 obj.create(new Trimestre(arrayJTextField.get(0).getText(),arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText(),arrayJTextField.get(3).getText()));
                 errorText.setText(" Trimestre ajoute !");
+            }else if(table == "Niveau"){
+                DAO<Niveau> obj = DAOFactory.getNiveauDAO();
+                //idd a regler
+                obj.create(new Niveau(arrayJTextField.get(0).getText()));
+                errorText.setText(" Niveau ajoute !");
             }
 
         }
@@ -704,7 +709,7 @@ public class MyWindow extends JFrame implements ActionListener {
             else if(table == "Niveau"){
                 DAO<Niveau> obj = DAOFactory.getNiveauDAO();
                 //idd a regler
-                if(obj.delete(new Niveau(arrayJTextField.get(0).getText())))
+                if(obj.delete(new Niveau(arrayJTextField.get(0).getText(),arrayJTextField.get(1).getText())))
                 errorText.setText("Niveau supprimé !");
                 else{
                     errorText.setText("Niveau non supprimé !");
@@ -1142,7 +1147,7 @@ public class MyWindow extends JFrame implements ActionListener {
             }else if(table == "Niveau"){
                 DAO<Niveau> obj = DAOFactory.getNiveauDAO();
                 //idd a regler
-                if(obj.update(new Niveau(arrayJTextField.get(0).getText())))
+                if(obj.update(new Niveau(arrayJTextField.get(0).getText(),arrayJTextField.get(1).getText())))
                 errorText.setText("Niveau modifié !");
                 else{
                     errorText.setText("Niveau non modifié !");
