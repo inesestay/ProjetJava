@@ -845,61 +845,61 @@ public class MyWindow extends JFrame implements ActionListener {
                 helene.add(new JLabel(nelly.getType()));
             }else if(nomCategorie == "Inscription"){
                 Inscription nelly = (Inscription)myArray.get(ines);
-                helene.add(new JLabel(Integer.toString(nelly.getId())));
-                helene.add(new JLabel(Integer.toString(nelly.getClassID())));
-                helene.add(new JLabel(Integer.toString(nelly.getPersonneID())));
+                helene.add(new JLabel(nelly.getId()));
+                helene.add(new JLabel(nelly.getClassID()));
+                helene.add(new JLabel(nelly.getPersonneID()));
             }else if(nomCategorie == "AnneeScolaire"){
                 AnneeScolaire nelly = (AnneeScolaire)myArray.get(ines);
-                helene.add(new JLabel(Integer.toString(nelly.getAnneeScolaireID())));
+                helene.add(new JLabel(nelly.getAnneeScolaireID()));
             }else if(nomCategorie == "Bulletin"){
                 Bulletin nelly = (Bulletin)myArray.get(ines);
-                helene.add(new JLabel(Integer.toString(nelly.getId())));
+                helene.add(new JLabel(nelly.getId()));
                 helene.add(new JLabel(nelly.getAppreciation()));
-                 helene.add(new JLabel(Integer.toString(nelly.getTrimestreID())));
-                helene.add(new JLabel(Integer.toString(nelly.getInscriptionID())));
+                 helene.add(new JLabel(nelly.getTrimestreID()));
+                helene.add(new JLabel(nelly.getInscriptionID()));
 
             }else if(nomCategorie == "Classe"){
                 Classe nelly = (Classe)myArray.get(ines);
-                helene.add(new JLabel(Integer.toString(nelly.getId())));
+                helene.add(new JLabel(nelly.getId()));
                 helene.add(new JLabel(nelly.getNom()));
-                helene.add(new JLabel(Integer.toString(nelly.getNiveauID())));
-                helene.add(new JLabel(Integer.toString(nelly.getAnneescolaireID())));
+                helene.add(new JLabel(nelly.getNiveauID()));
+                helene.add(new JLabel(nelly.getAnneescolaireID()));
 
             }else if(nomCategorie == "DetailBulletin"){
                 DetailBulletin nelly = (DetailBulletin)myArray.get(ines);
-                helene.add(new JLabel(Integer.toString(nelly.getId())));
+                helene.add(new JLabel(nelly.getId()));
                  helene.add(new JLabel(nelly.getAppreciation()));
-                helene.add(new JLabel(Integer.toString(nelly.getBulletinID())));
-                helene.add(new JLabel(Integer.toString(nelly.getEnseignementID())));
+                helene.add(new JLabel(nelly.getBulletinID()));
+                helene.add(new JLabel(nelly.getEnseignementID()));
             }else if(nomCategorie == "Discipline"){
                 Discipline nelly = (Discipline)myArray.get(ines);
-                helene.add(new JLabel(Integer.toString(nelly.getId())));
+                helene.add(new JLabel(nelly.getId()));
                 helene.add(new JLabel(nelly.getNom()));
             }else if(nomCategorie == "Enseignement"){
                 Enseignement nelly = (Enseignement)myArray.get(ines);
-                helene.add(new JLabel(Integer.toString(nelly.getId())));
-                helene.add(new JLabel(Integer.toString(nelly.getClasseID())));
-                helene.add(new JLabel(Integer.toString(nelly.getEnseignantID())));
-                helene.add(new JLabel(Integer.toString(nelly.getDisciplineID())));
+                helene.add(new JLabel(nelly.getId()));
+                helene.add(new JLabel(nelly.getClasseID()));
+                helene.add(new JLabel(nelly.getEnseignantID()));
+                helene.add(new JLabel(nelly.getDisciplineID()));
 
             }else if(nomCategorie == "Evaluation"){
                 Evaluation nelly = (Evaluation)myArray.get(ines);
-                helene.add(new JLabel(Integer.toString(nelly.getId())));
+                helene.add(new JLabel(nelly.getId()));
                 helene.add(new JLabel(nelly.getAppreciation()));
-                helene.add(new JLabel(Integer.toString(nelly.getNote())));
-                helene.add(new JLabel(Integer.toString(nelly.getDetailBulletinID())));
+                helene.add(new JLabel(nelly.getNote()));
+                helene.add(new JLabel(nelly.getDetailBulletinID()));
 
             }else if(nomCategorie == "Niveau"){
                 Niveau nelly = (Niveau)myArray.get(ines);
-                helene.add(new JLabel(Integer.toString(nelly.getId())));
+                helene.add(new JLabel(nelly.getId()));
                 helene.add(new JLabel(nelly.getNom()));
             }else if(nomCategorie == "Trimestre"){
                 Trimestre nelly = (Trimestre)myArray.get(ines);
-                helene.add(new JLabel(Integer.toString(nelly.getId())));
-                helene.add(new JLabel(Integer.toString(nelly.getNum())));
-                helene.add(new JLabel(Integer.toString(nelly.getDebut())));
-                helene.add(new JLabel(Integer.toString(nelly.getFin())));
-                helene.add(new JLabel(Integer.toString(nelly.getAnneescolaireID())));
+                helene.add(new JLabel(nelly.getId()));
+                helene.add(new JLabel(nelly.getNum()));
+                helene.add(new JLabel(nelly.getDebut()));
+                helene.add(new JLabel(nelly.getFin()));
+                helene.add(new JLabel(nelly.getAnneescolaireID()));
             }
 
 
@@ -1074,7 +1074,7 @@ public class MyWindow extends JFrame implements ActionListener {
             else if(table == "AnneeScolaire"){
                 DAO<AnneeScolaire> obj = DAOFactory.getAnneeScolaireDAO();
                 //idd a regler
-                if(obj.update(new AnneeScolaire(Integer.parseInt(arrayJTextField.get(0).getText()))))
+                if(obj.update(new AnneeScolaire(arrayJTextField.get(0).getText())))
                 errorText.setText("AnneeScolaire modifiée !");
                 else{
                     errorText.setText("AnneeScolaire non modifiée !");
@@ -1083,7 +1083,7 @@ public class MyWindow extends JFrame implements ActionListener {
             }else if(table == "Bulletin"){
                 DAO<Bulletin> obj = DAOFactory.getBulletinDAO();
                 //idd a regler
-               if( obj.update(new Bulletin(arrayJTextField.get(0).getText(), Integer.parseInt(arrayJTextField.get(1).getText()),Integer.parseInt(arrayJTextField.get(2).getText()))))
+               if( obj.update(new Bulletin(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText())))
                errorText.setText("Bulletin modifié !");
                 else{
                     errorText.setText("Bulletin non modifié !");
@@ -1092,7 +1092,7 @@ public class MyWindow extends JFrame implements ActionListener {
             else if(table == "Classe"){
                 DAO<Classe> obj = DAOFactory.getClasseDAO();
                 //idd a regler
-                if(obj.update(new Classe(arrayJTextField.get(0).getText(), Integer.parseInt(arrayJTextField.get(1).getText()),Integer.parseInt(arrayJTextField.get(2).getText()))))
+                if(obj.update(new Classe(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText())))
                 errorText.setText("Classe modifiée!");
                 else{
                     errorText.setText("Classe non modifiée !");
@@ -1100,7 +1100,7 @@ public class MyWindow extends JFrame implements ActionListener {
             }else if(table == "DetailBulletin"){
                 DAO<DetailBulletin> obj = DAOFactory.getDetailBulletinDAO();
                 //idd a regler
-               if( obj.update(new DetailBulletin(arrayJTextField.get(0).getText(), Integer.parseInt(arrayJTextField.get(1).getText()),Integer.parseInt(arrayJTextField.get(2).getText()))))
+               if( obj.update(new DetailBulletin(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText())))
                 errorText.setText("DetailBulletin modifié !");
                 else{
                     errorText.setText("DetailBulletin non modifié !");
@@ -1116,7 +1116,7 @@ public class MyWindow extends JFrame implements ActionListener {
             }else if(table == "Enseignement"){
                 DAO<Enseignement> obj = DAOFactory.getEnseignementDAO();
                 //idd a regler
-                if(obj.update(new Enseignement(Integer.parseInt(arrayJTextField.get(0).getText()), Integer.parseInt(arrayJTextField.get(1).getText()),Integer.parseInt(arrayJTextField.get(2).getText()))))
+                if(obj.update(new Enseignement(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText())))
                 errorText.setText("Enseignement modifié !");
                 else{
                     errorText.setText("Enseignement non modifié !");
@@ -1124,7 +1124,7 @@ public class MyWindow extends JFrame implements ActionListener {
             }else if(table == "Evaluation"){
                 DAO<Evaluation> obj = DAOFactory.getEvaluationDAO();
                 //idd a regler
-                if(obj.update(new Evaluation(arrayJTextField.get(0).getText(), Integer.parseInt(arrayJTextField.get(1).getText()),Integer.parseInt(arrayJTextField.get(2).getText()))))
+                if(obj.update(new Evaluation(arrayJTextField.get(0).getText(),arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText())))
                 errorText.setText("Evaluation modifiée !");
                 else{
                     errorText.setText("Evaluation non modifiée !");
@@ -1132,7 +1132,7 @@ public class MyWindow extends JFrame implements ActionListener {
             }else if(table == "Trimestre"){
                 DAO<Trimestre> obj = DAOFactory.getTrimestreDAO();
                 //idd a regler
-                if(obj.update(new Trimestre(Integer.parseInt(arrayJTextField.get(0).getText()),Integer.parseInt(arrayJTextField.get(1).getText()),Integer.parseInt(arrayJTextField.get(2).getText()),Integer.parseInt(arrayJTextField.get(3).getText()),Integer.parseInt(arrayJTextField.get(4).getText()))))
+                if(obj.update(new Trimestre(arrayJTextField.get(0).getText(),arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText(),arrayJTextField.get(3).getText(),arrayJTextField.get(4).getText())))
                 errorText.setText("Trimestre modifié !");
                 else{
                     errorText.setText("Trimestre non modifié !");
