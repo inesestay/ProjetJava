@@ -17,6 +17,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.swing.BorderFactory;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -148,7 +149,7 @@ public class MyWindow extends JFrame implements ActionListener {
 
         else if(e.getSource()==tablesBox) {
             System.out.println((String)tablesBox.getSelectedItem());
-            updateDisplayMenu((String)tablesBox.getSelectedItem());
+            updateDisplayMenu((String)tablesBox.getSelectedItem(), panelPrincipal);
         }else if(e.getSource()==tablesBoxAdd) {
             updateMenuAjout((String)tablesBoxAdd.getSelectedItem());
         }else if(e.getSource()==addElement){
@@ -532,32 +533,53 @@ public class MyWindow extends JFrame implements ActionListener {
 
         add(tablesBox, BorderLayout.PAGE_START);
 
-        updateDisplayMenu((String)tablesBox.getSelectedItem());
+        updateDisplayMenu((String)tablesBox.getSelectedItem(), panelPrincipal);
     }
 
-    public void updateDisplayMenu(String nomCategorie)  {
+    public void updateDisplayMenu(String nomCategorie, JPanel thePanel)  {
         panelPrincipal.removeAll();
         
         ArrayList<Object> myArray = new ArrayList<Object>();
+        ArrayList<JLabel> lea = new ArrayList<JLabel>();
         
                 /////////////a modifier
         if(nomCategorie == "Personne"){
             DAO<Personne> pers = DAOFactory.getPersonneDAO();
             myArray = pers.retour();
+            
+            lea.add(new JLabel("ID"));            
+            lea.add(new JLabel("NOM"));
+            lea.add(new JLabel("PRENOM"));
+            lea.add(new JLabel("TYPE"));
         }
         else if(nomCategorie == "Inscription"){
             DAO<Inscription> pers = DAOFactory.getInscriptionDAO();
             myArray = pers.retour();
+            
+            lea.add(new JLabel("ID"));            
+            lea.add(new JLabel("CLASSE ID"));
+            lea.add(new JLabel("PERSONNE ID"));
         }
 
         GridBagConstraints d = new GridBagConstraints();
-
-        d.gridy = -1;
+        
+        d.gridy = 0;
         d.gridx = 0;
         d.weightx = 1;
 
         d.gridwidth = 1;
+        
+        for(int ines = 0; ines < lea.size(); ines ++){
+            // lea.get(ines).setBackground(Color.white);
+            //lea.get(ines).setBorder(BorderFactory.createLineBorder(Color.black));
+            lea.get(ines).setForeground(Color.white);
+            thePanel.add(lea.get(ines), d);
+            d.gridx++;
+        }
 
+        d.fill = GridBagConstraints.HORIZONTAL;
+        d.gridy = 2;
+        
         for(int ines = 0; ines < myArray.size(); ines ++){
             d.gridy++;
             d.gridx = 0;
@@ -580,12 +602,15 @@ public class MyWindow extends JFrame implements ActionListener {
 
 
             for(int adrien = 0; adrien < helene.size(); adrien ++){
-                panelPrincipal.add(helene.get(adrien), d);
+                helene.get(adrien).setOpaque(true);
+                helene.get(adrien).setBackground(Color.white);
+                helene.get(adrien).setBorder(BorderFactory.createLineBorder(Color.black));
+                thePanel.add(helene.get(adrien), d);
                 d.gridx++;
             }
         }
         
-        panelPrincipal.updateUI();
+        thePanel.updateUI();
 
     }
     
