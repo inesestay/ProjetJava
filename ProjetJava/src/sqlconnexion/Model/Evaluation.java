@@ -30,6 +30,13 @@ public class Evaluation {
         this.detailBulletinID=detailBulletinID;
     }
     
+    public Evaluation(String appreciation, int note, int detailBulletinID){
+      
+        this.appreciation=appreciation;
+        this.note=note;
+        this.detailBulletinID=detailBulletinID;
+    }
+    
     ///GETTERS AND SETTERS
 
     public int getId() {

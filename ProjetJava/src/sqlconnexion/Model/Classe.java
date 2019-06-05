@@ -23,6 +23,12 @@ public class Classe {
         this.niveauID=niveauID;
         this.anneescolaireID=anneescolaireID;
     }
+    public Classe( String nom, int niveauID, int anneescolaireID){
+  
+        this.nom=nom;
+        this.niveauID=niveauID;
+        this.anneescolaireID=anneescolaireID;
+    }
     
     public Classe(){
         id=0;

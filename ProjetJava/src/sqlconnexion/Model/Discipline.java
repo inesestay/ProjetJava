@@ -19,6 +19,10 @@ public class Discipline {
     this.id = id;
     this.nom=nom;
     }
+     public Discipline( String nom){
+
+    this.nom=nom;
+    }
     
     public Discipline(){
         id=0;

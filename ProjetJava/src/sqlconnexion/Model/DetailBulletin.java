@@ -32,6 +32,14 @@ public class DetailBulletin {
           
         }
         
+        public DetailBulletin( String appreciation, int bulletinID, int enseignementID){
+        
+            this.appreciation=appreciation;
+            this.bulletinID=bulletinID;
+            this.enseignementID=enseignementID;
+          
+        }
+        
     ///GETTERS AND SETTERS
     public int getId() {
         return id;

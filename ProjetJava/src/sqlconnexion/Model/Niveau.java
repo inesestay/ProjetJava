@@ -24,6 +24,10 @@ public class Niveau {
         this.id=id;
         this.nom=nom;
     }
+    public Niveau( String nom){
+       
+        this.nom=nom;
+    }
     
     ///GETTERS AND SETTERS
 
