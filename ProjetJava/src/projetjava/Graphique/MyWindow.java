@@ -474,7 +474,7 @@ public class MyWindow extends JFrame implements ActionListener {
     
     public void delMenu(){
                 /////////////a modifier
-        String[] listTableName = { "Personne", "Inscription"};
+        String[] listTableName = { "Personne", "Inscription", "AnneeScolaire","Bulletin","Classe","DetailBulletin","Discipline","Enseignement","Evaluation","Niveau","Trimestre"};
         
         tablesBoxDel = new JComboBox(listTableName);
         tablesBoxDel.addActionListener(this);
@@ -484,7 +484,7 @@ public class MyWindow extends JFrame implements ActionListener {
         
         d.gridy = 0;
         d.gridx = 0;
-        d.gridwidth = 2;
+        d.gridwidth = 11;
         panelPrincipal.add(tablesBoxDel, d);
         
         updateMenuDel((String)tablesBoxDel.getSelectedItem());
@@ -527,6 +527,45 @@ public class MyWindow extends JFrame implements ActionListener {
             arrayElement.add("id");  
             arrayElement.add("Classe");            
             arrayElement.add("Personne");
+        }else if("AnneeScolaire" == table){
+            arrayElement.add("Année");    
+        } else if("Bulletin" == table){
+             arrayElement.add("id");  
+            arrayElement.add("Appréciation");            
+            arrayElement.add("Trimestre ID");
+            arrayElement.add("Trimestre ID");
+        }else if("Classe" == table){
+             arrayElement.add("id");  
+            arrayElement.add("Nom");            
+            arrayElement.add("Niveau ID");
+            arrayElement.add("Annee scolaire ID");
+        }else if("DetailBulletin" == table){
+             arrayElement.add("id");  
+            arrayElement.add("Appreciation");            
+            arrayElement.add("Bulletin ID");
+            arrayElement.add("Enseignemnt ID");
+        }else if("Discipline" == table){
+             arrayElement.add("id");  
+            arrayElement.add("Nom"); 
+        }else if("Enseignement" == table){
+             arrayElement.add("id");  
+            arrayElement.add("Classe ID");            
+            arrayElement.add("Enseignant ID");
+            arrayElement.add("Discipline ID");
+        }else if("Evaluation" == table){
+             arrayElement.add("id");  
+            arrayElement.add("Appréciation");            
+            arrayElement.add("Note");
+            arrayElement.add("DétailBulletin ID");
+        }else if("Niveau" == table){
+             arrayElement.add("id");  
+            arrayElement.add("Nom");           
+        }else if("Trimestre" == table){
+             arrayElement.add("id");  
+            arrayElement.add("Numéro");            
+            arrayElement.add("Début");
+            arrayElement.add("Fin");
+            arrayElement.add("Année Scolaire ID");
         }
         
         for(String nelly : arrayElement){
