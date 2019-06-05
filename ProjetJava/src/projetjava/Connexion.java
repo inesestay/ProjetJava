@@ -10,6 +10,7 @@ package projetjava;
  */
 import java.sql.*;
 import java.util.ArrayList;
+import static projetjava.Graphique.MyWindow.nomBDD;
 
 /**
  * 
@@ -61,7 +62,8 @@ public class Connexion {
 
         // création d'un ordre SQL (statement)
         stmt = conn.createStatement();
-         System.out.println("connexion");
+        String bdd = nomBDD.getText();
+         System.out.println("connexion à la base " + bdd);
     }
 
   
