@@ -755,9 +755,8 @@ public class MyWindow extends JFrame implements ActionListener {
             DAO<Inscription> pers = DAOFactory.getInscriptionDAO();
             myArray = pers.retour();
             lea.add(new JLabel("ID"));
-            lea.add(new JLabel("NOM"));
-            lea.add(new JLabel("PRENOM"));
-            lea.add(new JLabel("TYPE"));
+            lea.add(new JLabel("CLASSE_ID"));
+            lea.add(new JLabel("PERSONNE_ID"));
         }else if(nomCategorie == "AnneeScolaire"){
             DAO<AnneeScolaire> pers = DAOFactory.getAnneeScolaireDAO();
             myArray = pers.retour();
@@ -807,6 +806,7 @@ public class MyWindow extends JFrame implements ActionListener {
         }else if(nomCategorie == "Niveau"){
             DAO<Niveau> pers = DAOFactory.getNiveauDAO();
             myArray = pers.retour();
+            lea.add(new JLabel("ID"));
             lea.add(new JLabel("NOM"));
         }else if(nomCategorie == "Trimestre"){
             DAO<Trimestre> pers = DAOFactory.getTrimestreDAO();
