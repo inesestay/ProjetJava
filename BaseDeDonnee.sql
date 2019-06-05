@@ -95,6 +95,7 @@ INSERT INTO `AnneeScolaire`(`AnneeScolaireID`) VALUES
 (2012),
 (2015),
 (1963)
+;
 
 INSERT INTO `Trimestre`(`id`, `numero`, `debut`,`fin`,`anneescolaireID`) VALUES
 (1,1,3,18,1998),
@@ -107,6 +108,8 @@ INSERT INTO `Trimestre`(`id`, `numero`, `debut`,`fin`,`anneescolaireID`) VALUES
 (8,1,4,7,2012),
 (9,2,49,55,2015),
 (10,3,4,7,1963)
+;
+
 
 INSERT INTO `Niveau`(`id`,`nom`) VALUES
 (1,'cp'),
@@ -119,6 +122,8 @@ INSERT INTO `Niveau`(`id`,`nom`) VALUES
 (8,'terminale'),
 (9,'ING2'),
 (10,'ING3')
+;
+
 
 INSERT INTO `Classe`(`id`,`nom`,`niveauId`,`anneescolaireID`) VALUES
 (1,'cpA',1,1998),
@@ -130,7 +135,8 @@ INSERT INTO `Classe`(`id`,`nom`,`niveauId`,`anneescolaireID`) VALUES
 (7,'premiere4',7,2007),
 (8,'terminale4',8,2012),
 (9,'TD9',9,2015),
-(10,'TD1'10,1963)
+(10,'TD1',10,1963)
+;
 
 INSERT INTO `Discipline`(`id`,`nom`) VALUES
 (1,'maths'),
@@ -143,6 +149,7 @@ INSERT INTO `Discipline`(`id`,`nom`) VALUES
 (8,'thermo'),
 (9,'fourier'),
 (10,'traitement du signal')
+;
 
 INSERT INTO `Personne`(`id`,`nom`,`prenom`,`type`) VALUES
 (1,'Mulliez','Quentin','Etudiant'),
@@ -159,13 +166,14 @@ INSERT INTO `Personne`(`id`,`nom`,`prenom`,`type`) VALUES
 (12,'Escobar','Escobar','Prof'),
 (13,'jsaisplus','jsaisplus','Prof'),
 (14,'Coudray','Fabienne','Prof'),
-(15,'Guicharnaud','Leo','Etudiant')
-(16,'TOTO','LELE','Etudiant')
-(17,'Tanti','Frate','Etudiant')
-(18,'Jess','Marseillais','Etudiant')
+(15,'Guicharnaud','Leo','Etudiant'),
+(16,'TOTO','LELE','Etudiant'),
+(17,'Tanti','Frate','Etudiant'),
+(18,'Jess','Marseillais','Etudiant'),
 (19,'Maaaaarsseillais','Paga','Etudiant')
+;
 
-INSERT INTO `Enseignement`(`id`,`classID`,`disciplineId`,`personneId`) VALUES
+INSERT INTO `Enseignement`(`id`,`classeID`,`disciplineId`,`personneId`) VALUES
 (1,1,1,8),
 (2,2,2,6),
 (3,3,3,11),
@@ -176,6 +184,8 @@ INSERT INTO `Enseignement`(`id`,`classID`,`disciplineId`,`personneId`) VALUES
 (8,8,8,13),
 (9,9,9,14),
 (10,10,10,11)
+;
+
 
 INSERT INTO `Inscription`(`id`,`classID`,`personneId`) VALUES
 (1,1,1),
@@ -188,6 +198,7 @@ INSERT INTO `Inscription`(`id`,`classID`,`personneId`) VALUES
 (8,8,17),
 (9,9,18),
 (10,10,19)
+;
 
 INSERT INTO `Bulletin`(`id`,`appreciation`,`trimestreID`, `inscriptionID`) VALUES
 (1,'tres biennnn',1,1),
@@ -200,6 +211,7 @@ INSERT INTO `Bulletin`(`id`,`appreciation`,`trimestreID`, `inscriptionID`) VALUE
 (8,' pas cool',8,8),
 (9,' bof',9,9),
 (10,'attentif',10,10)
+;
 
 INSERT INTO `DetailBulletin`(`id`,`appreciation`,`bulletinID`,`enseignementID`) VALUES
 (1,'tres serieux et attentif',1,1),
@@ -212,6 +224,7 @@ INSERT INTO `DetailBulletin`(`id`,`appreciation`,`bulletinID`,`enseignementID`) 
 (8,' un genie',8,8),
 (9,' precis et methodique',9,9),
 (10,'sympathique mais dois faire plus d efforts',10,10)
+;
 
 INSERT INTO `Evaluation`(`id`,`appreciation`,`note`,`detailBulletinID`) VALUES
 (1,'tres serieux et attentif',20,1),
@@ -224,3 +237,4 @@ INSERT INTO `Evaluation`(`id`,`appreciation`,`note`,`detailBulletinID`) VALUES
 (8,' un genie',23,8),
 (9,' precis et methodique',17,9),
 (10,'sympathique mais dois faire plus d efforts',10,10)
+;
