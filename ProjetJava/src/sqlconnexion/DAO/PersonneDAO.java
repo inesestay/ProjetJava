@@ -52,11 +52,53 @@ public PersonneDAO(Connection conn) {
 
 @Override
   public boolean delete(Personne obj) {
+      
+      String requete = "DELETE FROM personne WHERE";
+      boolean virgule = false;
+      
+      if(!("".equals(obj.getNom()))){
+          requete += " `nom`= "+"'" +obj.getNom()+"'" ;
+          virgule=true;
+          
+           if(virgule==true ){
+              if (!("".equals(obj.getPrenom())) || !("".equals(obj.getType())) || !("".equals(obj.getId())) ) {
+                  requete =requete + " AND" ;
+              }
+            }       
+      }
+            
+      if(!("".equals(obj.getPrenom()))){
+          requete += " `prenom` = "+ "'"+ obj.getPrenom()+ "'";
+          virgule=true;
+          
+           if(virgule==true){
+               if(!("".equals(obj.getType())) || !("".equals(obj.getId()))){
+          requete =requete + " AND" ;
+               }
+            } 
+      }
+      
+      if(!("".equals(obj.getType()))){
+          requete += " `type` = "+"'"+obj.getType()+ "'";
+          virgule=true;
+          
+           if(virgule==true){
+               if(!("".equals(obj.getId()))){
+          requete =requete + " AND" ;
+               }
+            }
+       
+      }     
+      
+      if(!("".equals(obj.getId()))){
+          requete += " `id` = "+"'"+obj.getId()+ "' ";
+      }
+      
+      System.out.println(requete);
+      
 
    try {
-            PreparedStatement statement = this.connect.prepareStatement(
-                    "DELETE FROM personne WHERE id = " + obj.getId()+""
-                    );
+            PreparedStatement statement = this.connect.prepareStatement(requete);
            
             statement.executeUpdate(); 
              System.out.println("personne supp");
@@ -130,7 +172,7 @@ public PersonneDAO(Connection conn) {
         ResultSet.TYPE_SCROLL_INSENSITIVE,
         ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM personne WHERE id = " + id);
       if(result.first())
-        personne = new Personne(id,result.getString("nom"),result.getString("prenom"),result.getString("type"));         
+        personne = new Personne(result.getString("id"),result.getString("nom"),result.getString("prenom"),result.getString("type"));         
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -148,7 +190,7 @@ public PersonneDAO(Connection conn) {
         //+nomTable+
            while(result.next()) {
 
-               int id = result.getInt(1);
+               String id = result.getString(1);
                String nom = result.getString(2);
                String prenom = result.getString(3);
                String type = result.getString(4);

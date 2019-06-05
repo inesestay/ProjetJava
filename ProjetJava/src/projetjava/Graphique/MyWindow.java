@@ -607,12 +607,18 @@ public class MyWindow extends JFrame implements ActionListener {
     public void creationObjetRequetteDel(String table){
         //ici
         try{
-                    /////////////a modifier
+            
+            /////////////a modifier
             if(table == "Personne"){
                 DAO<Personne> pers = DAOFactory.getPersonneDAO();
                 //idd a regler
+<<<<<<< HEAD
                 if(pers.delete(new Personne(Integer.parseInt(arrayJTextField.get(0).getText()),arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText(),arrayJTextField.get(3).getText()))){
                     errorText.setText("Personne supprimée !");
+=======
+                if(pers.delete(new Personne(arrayJTextField.get(0).getText(),arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText(),arrayJTextField.get(3).getText()))){
+                    errorText.setText("Personne supprimer !");
+>>>>>>> developpe
                 }else{
                     errorText.setText("Personne pas supprimée !");
                 }
@@ -697,7 +703,9 @@ public class MyWindow extends JFrame implements ActionListener {
             }   
         }
         catch (Exception e1){
-            errorText.setText("Error : " + (String)e1.getMessage());
+            errorText.setText("Error : " + (String)e1.getMessage() + " " + e1.getStackTrace());
+            System.out.println("Error : " + (String)e1.getMessage() + " " + e1.getStackTrace());
+            e1.getStackTrace();
         }
     }
     
@@ -772,7 +780,7 @@ public class MyWindow extends JFrame implements ActionListener {
                     /////////////a modifier
             if(nomCategorie == "Personne"){
                 Personne nelly = (Personne)myArray.get(ines);
-                helene.add(new JLabel(Integer.toString(nelly.getId())));
+                helene.add(new JLabel(nelly.getId()));
                 helene.add(new JLabel(nelly.getNom()));
                 helene.add(new JLabel(nelly.getPrenom()));
                 helene.add(new JLabel(nelly.getType()));
@@ -893,7 +901,7 @@ public class MyWindow extends JFrame implements ActionListener {
             if(table == "Personne"){
                 DAO<Personne> pers = DAOFactory.getPersonneDAO();
                 //idd a regler
-                if(pers.update(new Personne(Integer.parseInt(arrayJTextField.get(0).getText()),arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText(),arrayJTextField.get(3).getText()))){
+                if(pers.update(new Personne(arrayJTextField.get(0).getText(),arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText(),arrayJTextField.get(3).getText()))){
                     errorText.setText("Personne modifier !");
                 }else{
                     errorText.setText("Personne non modifier !");
