@@ -129,7 +129,7 @@ public class BulletinDAO extends DAO<Bulletin> {
      * @param eleve
      * @return
      */
-    public float moyenne(Personne eleve)
+    /*public float moyenne(Personne eleve)
     {
         float moyenne=0;
         float somme=0;
@@ -155,5 +155,5 @@ public class BulletinDAO extends DAO<Bulletin> {
             somme = somme+notes.get(i);
         }
         return moyenne/notes.size();
-    }
+    }*/
 }
