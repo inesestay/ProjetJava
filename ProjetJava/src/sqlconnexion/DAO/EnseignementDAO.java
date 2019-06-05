@@ -26,22 +26,22 @@ public EnseignementDAO(Connection conn) {
   @Override
     public boolean create(Enseignement obj) {
          try {
-             
              if(("".equals(obj.getClasseID())) || ("".equals(obj.getDisciplineID())) || ("".equals(obj.getEnseignantID()))){
         
                 throw new SQLException("il manque un ou plusieurs champs");
          }
              
             PreparedStatement statement = this.connect.prepareStatement(
-                    "INSERT INTO enseignement(classeID,disciplineID,enseignantID) VALUES(?,?,?)");
+                    "INSERT INTO enseignement(classeID,disciplineId,personneId) VALUES(?,?,?)");
             statement.setObject(1,Integer.parseInt(obj.getClasseID()),Types.INTEGER); 
             statement.setObject(2,Integer.parseInt(obj.getDisciplineID()),Types.INTEGER); 
             statement.setObject(3,Integer.parseInt(obj.getEnseignantID()),Types.INTEGER); 
             
             statement.executeUpdate(); 
-             System.out.println("Enseignement créée");
+             System.out.println("Enseignement créé");
         } catch (SQLException ex) {
             System.out.println("pas create Enseignement");
+            System.out.println(ex.getMessage());
             return false;
         }
         //en spécifiant bien les types SQL cibles 
@@ -66,7 +66,7 @@ public EnseignementDAO(Connection conn) {
       }
             
       if(!("".equals(obj.getDisciplineID()))){
-          requete += " `disciplineID` = "+ "'"+ obj.getDisciplineID()+ "'";
+          requete += " `disciplineId` = "+ "'"+ obj.getDisciplineID()+ "'";
           virgule=true;
           
            if(virgule==true){
@@ -77,7 +77,7 @@ public EnseignementDAO(Connection conn) {
       }
       
       if(!("".equals(obj.getEnseignantID()))){
-          requete += " `enseignantID` = "+"'"+obj.getEnseignantID()+ "'";
+          requete += " `personneId` = "+"'"+obj.getEnseignantID()+ "'";
           virgule=true;
           
            if(virgule==true){
@@ -123,7 +123,7 @@ public EnseignementDAO(Connection conn) {
       }
             
       if(!("".equals(obj.getDisciplineID()))){
-          requete += " disciplineID = "+ "' "+ obj.getDisciplineID()+ "' ";
+          requete += " disciplineId = "+ "' "+ obj.getDisciplineID()+ "' ";
           virgule=true;
           
            if(virgule==true){
@@ -134,11 +134,11 @@ public EnseignementDAO(Connection conn) {
       }
       
       if(!("".equals(obj.getEnseignantID()))){
-          requete += " enseignantID = "+"'"+obj.getEnseignantID()+ "' " + " ";
+          requete += " personneId = "+"'"+obj.getEnseignantID()+ "' " + " ";
        
       }     
       
-      requete += "WHERE id = " + obj.getId()+"" ;
+      requete += " WHERE id = " + obj.getId()+"" ;
       
       System.out.println(requete);
       
@@ -149,6 +149,7 @@ public EnseignementDAO(Connection conn) {
              System.out.println("Enseignement update");
         } catch (SQLException ex) {
             System.out.println("pas udpade Enseignement");
+            System.out.println(ex.getMessage());
             return false;
         }
         //en spécifiant bien les types SQL cibles 

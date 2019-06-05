@@ -69,6 +69,8 @@ public DisciplineDAO(Connection conn) {
           requete += " `id` = "+"'"+obj.getId()+ "' ";
       }
   
+      System.out.println(requete);
+      
    try {
             PreparedStatement statement = this.connect.prepareStatement(requete);
            
@@ -87,8 +89,6 @@ public DisciplineDAO(Connection conn) {
       
        String requete = "UPDATE discipline SET ";
       boolean virgule = false;
-      
-      
       
       if(!("".equals(obj.getNom()))){
           requete += " nom = "+"'"+obj.getNom()+ "' " + " ";

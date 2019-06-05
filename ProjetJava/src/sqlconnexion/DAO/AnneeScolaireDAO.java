@@ -32,15 +32,15 @@ public class AnneeScolaireDAO extends DAO<AnneeScolaire>{
         
                 throw new SQLException("il manque un ou plusieurs champs");
          }
-             
+             System.out.println(obj.getAnneeScolaireID());
             PreparedStatement statement = this.connect.prepareStatement(
-                    "INSERT INTO anneescolaire(anneescolaireID) VALUES(?)"
-                    ); 
-            statement.setObject(1,obj.getAnneeScolaireID(),Types.INTEGER); 
-           
-             System.out.println("annee créée");
+                    "INSERT INTO anneescolaire(AnneeScolaireID) VALUES(?)");
+            statement.setObject(1,Integer.parseInt(obj.getAnneeScolaireID()),Types.INTEGER); 
+             statement.executeUpdate(); 
+            System.out.println("annee créée");
         } catch (SQLException ex) {
             System.out.println("pas create : " + ex.getMessage());
+            System.out.println(ex.getMessage());
             return false;
         }
         //en spécifiant bien les types SQL cibles 
@@ -80,11 +80,11 @@ public class AnneeScolaireDAO extends DAO<AnneeScolaire>{
       boolean virgule = false;
       
       if(!("".equals(obj.getAnneeScolaireID()))){
-          requete += " nom= "+"'" +obj.getAnneeScolaireID()+"'" ;
+          requete += " AnneeScolaireID= "+"'" +obj.getAnneeScolaireID()+"'" ;
               
       }
       
-      requete += "WHERE id = " + obj.getAnneeScolaireID()+"" ;
+      requete += "WHERE AnneeScolaireID = " + obj.getAnneeScolaireID()+"" ;
       
       System.out.println(requete);
      

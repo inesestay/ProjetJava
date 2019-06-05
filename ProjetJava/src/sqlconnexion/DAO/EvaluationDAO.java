@@ -33,7 +33,7 @@ public EvaluationDAO(Connection conn) {
                 throw new SQLException("il manque un ou plusieurs champs");
          }
             PreparedStatement statement = this.connect.prepareStatement(
-                    "INSERT INTO evaluation(appreciation,note,detailBulletin) VALUES(?,?,?)");
+                    "INSERT INTO evaluation(appreciation,note,detailBulletinID ) VALUES(?,?,?)");
             statement.setObject(1,obj.getAppreciation(),Types.VARCHAR); 
             statement.setObject(2,Integer.parseInt(obj.getNote()) ,Types.INTEGER); 
             statement.setObject(3,Integer.parseInt(obj.getDetailBulletinID()),Types.INTEGER); 
@@ -42,6 +42,7 @@ public EvaluationDAO(Connection conn) {
              System.out.println("Evaluation créée");
         } catch (SQLException ex) {
             System.out.println("pas create Evaluation");
+            System.out.println(ex.getMessage());
             return false;
         }
         //en spécifiant bien les types SQL cibles 

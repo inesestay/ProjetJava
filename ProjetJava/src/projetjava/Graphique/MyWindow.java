@@ -649,7 +649,7 @@ public class MyWindow extends JFrame implements ActionListener {
             }else if(table == "Bulletin"){
                 DAO<Bulletin> obj = DAOFactory.getBulletinDAO();
                 //idd a regler
-               if( obj.delete(new Bulletin(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText())))
+               if( obj.delete(new Bulletin(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText(),arrayJTextField.get(3).getText())))
                errorText.setText("Bulletin supprimé !");
                 else{
                     errorText.setText("Bulletin non supprimé !");
@@ -658,7 +658,7 @@ public class MyWindow extends JFrame implements ActionListener {
             else if(table == "Classe"){
                 DAO<Classe> obj = DAOFactory.getClasseDAO();
                 //idd a regler
-                if(obj.delete(new Classe(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText())))
+                if(obj.delete(new Classe(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText(),arrayJTextField.get(3).getText())))
                 errorText.setText("Classe supprimée!");
                 else{
                     errorText.setText("Classe non supprimée !");
@@ -666,7 +666,7 @@ public class MyWindow extends JFrame implements ActionListener {
             }else if(table == "DetailBulletin"){
                 DAO<DetailBulletin> obj = DAOFactory.getDetailBulletinDAO();
                 //idd a regler
-               if( obj.delete(new DetailBulletin(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText())))
+               if( obj.delete(new DetailBulletin(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText(),arrayJTextField.get(3).getText())))
                 errorText.setText("DetailBulletin supprimé !");
                 else{
                     errorText.setText("DetailBulletin non supprimé !");
@@ -674,7 +674,7 @@ public class MyWindow extends JFrame implements ActionListener {
             }else if(table == "Discipline"){
                 DAO<Discipline> obj = DAOFactory.getDisciplineDAO();
                 //idd a regler
-                if(obj.delete(new Discipline(arrayJTextField.get(0).getText())))
+                if(obj.delete(new Discipline(arrayJTextField.get(0).getText(),arrayJTextField.get(1).getText())))
                errorText.setText("Discipline supprimée !");
                 else{
                     errorText.setText("Discipline non supprimée !");
@@ -682,7 +682,7 @@ public class MyWindow extends JFrame implements ActionListener {
             }else if(table == "Enseignement"){
                 DAO<Enseignement> obj = DAOFactory.getEnseignementDAO();
                 //idd a regler
-                if(obj.delete(new Enseignement(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText())))
+                if(obj.delete(new Enseignement(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText(),arrayJTextField.get(3).getText())))
                 errorText.setText("Enseignement supprimé !");
                 else{
                     errorText.setText("Enseignement non supprimé !");
@@ -690,7 +690,7 @@ public class MyWindow extends JFrame implements ActionListener {
             }else if(table == "Evaluation"){
                 DAO<Evaluation> obj = DAOFactory.getEvaluationDAO();
                 //idd a regler
-                if(obj.delete(new Evaluation(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText())))
+                if(obj.delete(new Evaluation(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText(),arrayJTextField.get(3).getText())))
                 errorText.setText("Evaluation supprimée !");
                 else{
                     errorText.setText("Evaluation non supprimée !");
@@ -753,15 +753,12 @@ public class MyWindow extends JFrame implements ActionListener {
             DAO<Inscription> pers = DAOFactory.getInscriptionDAO();
             myArray = pers.retour();
             lea.add(new JLabel("ID"));
-            lea.add(new JLabel("NOM"));
-            lea.add(new JLabel("PRENOM"));
-            lea.add(new JLabel("TYPE"));
+            lea.add(new JLabel("CLASSEID"));
+            lea.add(new JLabel("PERSONNEID"));
         }else if(nomCategorie == "AnneeScolaire"){
             DAO<AnneeScolaire> pers = DAOFactory.getAnneeScolaireDAO();
             myArray = pers.retour();
-            lea.add(new JLabel("ID"));
-            lea.add(new JLabel("CLASSE_ID"));
-            lea.add(new JLabel("PERSONNE_ID"));
+            lea.add(new JLabel("ANNEE"));
         }else if(nomCategorie == "Bulletin"){
             DAO<Bulletin> pers = DAOFactory.getBulletinDAO();
             myArray = pers.retour();
@@ -1088,7 +1085,7 @@ public class MyWindow extends JFrame implements ActionListener {
             }else if(table == "Bulletin"){
                 DAO<Bulletin> obj = DAOFactory.getBulletinDAO();
                 //idd a regler
-               if( obj.update(new Bulletin(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText())))
+               if( obj.update(new Bulletin(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText(),arrayJTextField.get(3).getText())))
                errorText.setText("Bulletin modifié !");
                 else{
                     errorText.setText("Bulletin non modifié !");
@@ -1097,7 +1094,7 @@ public class MyWindow extends JFrame implements ActionListener {
             else if(table == "Classe"){
                 DAO<Classe> obj = DAOFactory.getClasseDAO();
                 //idd a regler
-                if(obj.update(new Classe(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText())))
+                if(obj.update(new Classe(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText(),arrayJTextField.get(3).getText())))
                 errorText.setText("Classe modifiée!");
                 else{
                     errorText.setText("Classe non modifiée !");
@@ -1105,7 +1102,7 @@ public class MyWindow extends JFrame implements ActionListener {
             }else if(table == "DetailBulletin"){
                 DAO<DetailBulletin> obj = DAOFactory.getDetailBulletinDAO();
                 //idd a regler
-               if( obj.update(new DetailBulletin(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText())))
+               if( obj.update(new DetailBulletin(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText(),arrayJTextField.get(3).getText())))
                 errorText.setText("DetailBulletin modifié !");
                 else{
                     errorText.setText("DetailBulletin non modifié !");
@@ -1121,7 +1118,7 @@ public class MyWindow extends JFrame implements ActionListener {
             }else if(table == "Enseignement"){
                 DAO<Enseignement> obj = DAOFactory.getEnseignementDAO();
                 //idd a regler
-                if(obj.update(new Enseignement(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText())))
+                if(obj.update(new Enseignement(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText(),arrayJTextField.get(3).getText())))
                 errorText.setText("Enseignement modifié !");
                 else{
                     errorText.setText("Enseignement non modifié !");
@@ -1129,7 +1126,7 @@ public class MyWindow extends JFrame implements ActionListener {
             }else if(table == "Evaluation"){
                 DAO<Evaluation> obj = DAOFactory.getEvaluationDAO();
                 //idd a regler
-                if(obj.update(new Evaluation(arrayJTextField.get(0).getText(),arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText())))
+                if(obj.update(new Evaluation(arrayJTextField.get(0).getText(),arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText(),arrayJTextField.get(3).getText())))
                 errorText.setText("Evaluation modifiée !");
                 else{
                     errorText.setText("Evaluation non modifiée !");

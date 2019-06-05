@@ -92,6 +92,8 @@ public ClasseDAO(Connection conn) {
       if(!("".equals(obj.getId()))){
           requete += " `id` = "+"'"+obj.getId()+ "' ";
       }
+      
+       System.out.println(requete);
   
    try {
             PreparedStatement statement = this.connect.prepareStatement(requete);
@@ -109,7 +111,7 @@ public ClasseDAO(Connection conn) {
    
   public boolean update(Classe obj) {
       
-       String requete = "UPDATE personne SET ";
+       String requete = "UPDATE classe SET ";
       boolean virgule = false;
       
       if(!("".equals(obj.getNom()))){

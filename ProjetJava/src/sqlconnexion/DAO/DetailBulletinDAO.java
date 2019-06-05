@@ -35,7 +35,7 @@ public DetailBulletinDAO(Connection conn) {
          }
              
             PreparedStatement statement = this.connect.prepareStatement(
-                    "INSERT INTO detailbulletin() VALUES(?,?,?)");
+                    "INSERT INTO detailbulletin(appreciation,bulletinID,enseignementID) VALUES(?,?,?)");
             statement.setObject(1,obj.getAppreciation(),Types.VARCHAR);
             statement.setObject(2,Integer.parseInt(obj.getBulletinID()),Types.INTEGER);
             statement.setObject(3,Integer.parseInt(obj.getEnseignementID()),Types.INTEGER);
@@ -53,7 +53,7 @@ public DetailBulletinDAO(Connection conn) {
 
   public boolean delete(DetailBulletin obj) {
      
-        String requete = "DELETE FROM detailBulletidn WHERE";
+        String requete = "DELETE FROM detailBulletin WHERE";
       boolean virgule = false;
       
       if(!("".equals(obj.getAppreciation()))){
