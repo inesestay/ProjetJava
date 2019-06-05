@@ -26,13 +26,18 @@ public ClasseDAO(Connection conn) {
   @Override
     public boolean create(Classe obj) {
          try {
+             
+             if(("".equals(obj.getNom())) || ("".equals(obj.getNiveauID())) || ("".equals(obj.getAnneescolaireID()))){
+        
+                throw new SQLException("il manque un ou plusieurs champs");
+         }
+             
             PreparedStatement statement = this.connect.prepareStatement(
-                    "INSERT INTO classe VALUES(?,?,?,?)"
+                    "INSERT INTO classe(nom,niveauID,anneescolaireID) VALUES(?,?,?)"
                     );
-            statement.setObject(1,null,Types.INTEGER); 
-            statement.setObject(2,obj.getNom(),Types.VARCHAR); 
-            statement.setObject(3,obj.getNiveauID(),Types.INTEGER);
-            statement.setObject(4,obj.getAnneescolaireID(),Types.INTEGER);
+            statement.setObject(1,obj.getNom(),Types.VARCHAR); 
+            statement.setObject(2,Integer.parseInt(obj.getNiveauID()),Types.INTEGER);
+            statement.setObject(3,Integer.parseInt(obj.getAnneescolaireID()),Types.INTEGER);
             
             statement.executeUpdate(); 
              System.out.println("classe créée");
@@ -47,10 +52,51 @@ public ClasseDAO(Connection conn) {
 
   public boolean delete(Classe obj) {
      
+      String requete = "DELETE FROM classe WHERE";
+      boolean virgule = false;
+      
+      if(!("".equals(obj.getNom()))){
+          requete += " `nom`= "+"'" +obj.getNom()+"'" ;
+          virgule=true;
+          
+           if(virgule==true ){
+              if (!("".equals(obj.getNiveauID())) || !("".equals(obj.getAnneescolaireID())) || !("".equals(obj.getId())) ) {
+                  requete =requete + " AND" ;
+              }
+            }       
+      }
+            
+      if(!("".equals(obj.getNiveauID()))){
+          requete += " `niveauID` = "+ "'"+ obj.getNiveauID()+ "'";
+          virgule=true;
+          
+           if(virgule==true){
+               if(!("".equals(obj.getAnneescolaireID())) || !("".equals(obj.getId()))){
+          requete =requete + " AND" ;
+               }
+            } 
+      }
+      
+      if(!("".equals(obj.getAnneescolaireID()))){
+          requete += " `anneescolaireID` = "+"'"+obj.getAnneescolaireID()+ "'";
+          virgule=true;
+          
+           if(virgule==true){
+               if(!("".equals(obj.getId()))){
+          requete =requete + " AND" ;
+               }
+            }
+       
+      }     
+      
+      if(!("".equals(obj.getId()))){
+          requete += " `id` = "+"'"+obj.getId()+ "' ";
+      }
+      
+       System.out.println(requete);
   
    try {
-            PreparedStatement statement = this.connect.prepareStatement(
-                    "DELETE FROM classe WHERE id = " + obj.getId()+"");
+            PreparedStatement statement = this.connect.prepareStatement(requete);
            
             statement.executeUpdate(); 
              System.out.println("classe supp");
@@ -65,9 +111,44 @@ public ClasseDAO(Connection conn) {
    
   public boolean update(Classe obj) {
       
+       String requete = "UPDATE classe SET ";
+      boolean virgule = false;
+      
+      if(!("".equals(obj.getNom()))){
+          requete += " nom= "+"'" +obj.getNom()+"'" ;
+          virgule=true;
+          
+           if(virgule==true ){
+              if (!("".equals(obj.getNiveauID())) || !("".equals(obj.getAnneescolaireID()))) {
+                  requete =requete + "," ;
+              }
+            }       
+      }
+            
+      if(!("".equals(obj.getNiveauID()))){
+          requete += " niveauID = "+ "' "+ obj.getNiveauID()+ "' ";
+          virgule=true;
+          
+           if(virgule==true){
+               if(!("".equals(obj.getAnneescolaireID()))){
+          requete =requete + "," ;
+               }
+            } 
+      }
+      
+      if(!("".equals(obj.getAnneescolaireID()))){
+          requete += " anneescolaireID = "+"'"+obj.getAnneescolaireID()+ "' " + " ";
+       
+      }     
+      
+      
+      requete += "WHERE id = " + obj.getId()+"" ;
+      
+      System.out.println(requete);
+                 
+      
   try{
-            PreparedStatement statement = this.connect.prepareStatement(
-                    "UPDATE classe SET nom= '"+ obj.getNom() +"',NiveauId= '"+ obj.getNiveauID() +"', AnneeScolaireId= '"+ obj.getAnneescolaireID() +"' WHERE id = " + obj.getId()+"");
+            PreparedStatement statement = this.connect.prepareStatement(requete);
            
             statement.executeUpdate(); 
              System.out.println("classe update");

@@ -55,10 +55,38 @@ public InscriptionDAO(Connection conn) {
 @Override
   public boolean delete(Inscription obj) {
 
+      String requete = "DELETE FROM inscription WHERE";
+      boolean virgule = false;
+      
+      if(!("".equals(obj.getClassID()))){
+          requete += " `classeID`= "+"'" +obj.getClassID()+"'" ;
+          virgule=true;
+          
+           if(virgule==true ){
+              if (!("".equals(obj.getPersonneID())) || !("".equals(obj.getId()))) {
+                  requete =requete + " AND" ;
+              }
+            }       
+      }
+            
+      if(!("".equals(obj.getPersonneID()))){
+          requete += " `personneID` = "+ "'"+ obj.getPersonneID()+ "'";
+          virgule=true;
+          
+           if(virgule==true){
+               if(!("".equals(obj.getId()))){
+          requete =requete + " AND" ;
+               }
+            } 
+      }
+      
+      
+      if(!("".equals(obj.getId()))){
+          requete += " `id` = "+"'"+obj.getId()+ "' ";
+      }
+      
    try {
-            PreparedStatement statement = this.connect.prepareStatement(
-                    "DELETE FROM inscription WHERE id = " + obj.getId()+""
-                    );
+            PreparedStatement statement = this.connect.prepareStatement(requete);
            
             statement.executeUpdate(); 
              System.out.println("inscription supp");
@@ -74,11 +102,11 @@ public InscriptionDAO(Connection conn) {
 @Override
   public boolean update(Inscription obj) {
       
-     String requete = "UPDATE personne SET ";
+     String requete = "UPDATE inscription SET ";
       boolean virgule = false;
       
       if(!("".equals(obj.getClassID()))){
-          requete += " nom= "+"'" +obj.getClassID()+"'" ;
+          requete += " classID= "+"'" +obj.getClassID()+"'" ;
           virgule=true;
           
            if(virgule==true ){
@@ -89,7 +117,7 @@ public InscriptionDAO(Connection conn) {
       }
 
       if(!("".equals(obj.getPersonneID()))){
-          requete += " type = "+"'"+obj.getPersonneID()+ "' " + " ";
+          requete += " personneID = "+"'"+obj.getPersonneID()+ "' " + " ";
        
       }     
       

@@ -27,10 +27,15 @@ public DisciplineDAO(Connection conn) {
   @Override
     public boolean create(Discipline obj) {
          try {
+             
+             if(("".equals(obj.getNom()))){
+        
+                throw new SQLException("il manque un ou plusieurs champs");
+         }
+             
             PreparedStatement statement = this.connect.prepareStatement(
-                    "INSERT INTO discipline VALUES(?,?)");
-            statement.setObject(1,null,Types.INTEGER); 
-            statement.setObject(2,obj.getNom(),Types.VARCHAR); 
+                    "INSERT INTO discipline(nom) VALUES(?)");
+            statement.setObject(1,obj.getNom(),Types.VARCHAR); 
             
             statement.executeUpdate(); 
              System.out.println("discipline créée");
@@ -45,10 +50,29 @@ public DisciplineDAO(Connection conn) {
 
   public boolean delete(Discipline obj) {
      
+       String requete = "DELETE FROM discipline WHERE";
+      boolean virgule = false;
+      
+      if(!("".equals(obj.getNom()))){
+          requete += " `nom`= "+"'" +obj.getNom()+"'" ;
+          virgule=true;
+          
+           if(virgule==true ){
+              if (!("".equals(obj.getId())) ) {
+                  requete =requete + " AND" ;
+              }
+            }       
+      }
+            
+     
+      if(!("".equals(obj.getId()))){
+          requete += " `id` = "+"'"+obj.getId()+ "' ";
+      }
   
+      System.out.println(requete);
+      
    try {
-            PreparedStatement statement = this.connect.prepareStatement(
-                    "DELETE FROM discipline WHERE id = " + obj.getId()+"" );
+            PreparedStatement statement = this.connect.prepareStatement(requete);
            
             statement.executeUpdate(); 
              System.out.println("discipline supp");
@@ -63,9 +87,22 @@ public DisciplineDAO(Connection conn) {
    
   public boolean update(Discipline obj) {
       
+       String requete = "UPDATE discipline SET ";
+      boolean virgule = false;
+      
+      if(!("".equals(obj.getNom()))){
+          requete += " nom = "+"'"+obj.getNom()+ "' " + " ";
+       
+      }     
+      
+      
+      requete += "WHERE id = " + obj.getId()+"" ;
+      
+      System.out.println(requete);
+                 
+            
   try{
-            PreparedStatement statement = this.connect.prepareStatement(
-                    "UPDATE discipline SET nom= '"+ obj.getNom() +"' WHERE id = " + obj.getId()+"");
+            PreparedStatement statement = this.connect.prepareStatement(requete);
            
             statement.executeUpdate(); 
              System.out.println("discipline update");

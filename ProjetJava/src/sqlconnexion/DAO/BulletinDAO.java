@@ -27,13 +27,18 @@ public class BulletinDAO extends DAO<Bulletin> {
   @Override
     public boolean create(Bulletin obj) {
          try {
+             
+             if(("".equals(obj.getAppreciation())) || ("".equals(obj.getTrimestreID())) || ("".equals(obj.getInscriptionID()))){
+        
+                throw new SQLException("il manque un ou plusieurs champs");
+         }
+             
             PreparedStatement statement = this.connect.prepareStatement(
-                    "INSERT INTO bulletin VALUES(?,?,?,?)"
+                    "INSERT INTO bulletin(appreciation,trimestreID,inscriptionID) VALUES(?,?,?)"
                     );
-            statement.setObject(1,null,Types.INTEGER); 
-            statement.setObject(2,obj.getAppreciation(),Types.VARCHAR);
-            statement.setObject(3,obj.getTrimestreID(),Types.INTEGER);
-            statement.setObject(4,obj.getInscriptionID(),Types.INTEGER);
+            statement.setObject(1,obj.getAppreciation(),Types.VARCHAR);
+            statement.setObject(2,Integer.parseInt(obj.getTrimestreID()),Types.INTEGER);
+            statement.setObject(3,Integer.parseInt(obj.getInscriptionID()),Types.INTEGER);
             
             statement.executeUpdate(); 
              System.out.println(" bulletin créée");
@@ -48,10 +53,49 @@ public class BulletinDAO extends DAO<Bulletin> {
 
   public boolean delete(Bulletin obj) {
      
+       String requete = "DELETE FROM bulletin WHERE";
+      boolean virgule = false;
+      
+      if(!("".equals(obj.getAppreciation()))){
+          requete += " `appreciation`= "+"'" +obj.getAppreciation()+"'" ;
+          virgule=true;
+          
+           if(virgule==true ){
+              if (!("".equals(obj.getTrimestreID())) || !("".equals(obj.getInscriptionID())) || !("".equals(obj.getId())) ) {
+                  requete =requete + " AND" ;
+              }
+            }       
+      }
+            
+      if(!("".equals(obj.getTrimestreID()))){
+          requete += " `trimestreID` = "+ "'"+ obj.getTrimestreID()+ "'";
+          virgule=true;
+          
+           if(virgule==true){
+               if(!("".equals(obj.getInscriptionID())) || !("".equals(obj.getId()))){
+          requete =requete + " AND" ;
+               }
+            } 
+      }
+      
+      if(!("".equals(obj.getInscriptionID()))){
+          requete += " `inscriptionID` = "+"'"+obj.getInscriptionID()+ "'";
+          virgule=true;
+          
+           if(virgule==true){
+               if(!("".equals(obj.getId()))){
+          requete =requete + " AND" ;
+               }
+            }
+       
+      }     
+      
+      if(!("".equals(obj.getId()))){
+          requete += " `id` = "+"'"+obj.getId()+ "' ";
+      }
   
    try {
-            PreparedStatement statement = this.connect.prepareStatement(
-                    "DELETE FROM bulletin WHERE id = " + obj.getId()+"");
+            PreparedStatement statement = this.connect.prepareStatement(requete);
            
             statement.executeUpdate(); 
              System.out.println("bulletin supp");
@@ -66,9 +110,43 @@ public class BulletinDAO extends DAO<Bulletin> {
    
   public boolean update(Bulletin obj) {
       
-  try{
-            PreparedStatement statement = this.connect.prepareStatement(
-                    "UPDATE bulletin SET appreciation= '"+ obj.getAppreciation() +"' WHERE id = " + obj.getId()+"");
+      String requete = "UPDATE bulletin SET ";
+      boolean virgule = false;
+      
+      if(!("".equals(obj.getAppreciation()))){
+          requete += " appreciation= "+"'" +obj.getAppreciation()+"'" ;
+          virgule=true;
+          
+           if(virgule==true ){
+              if (!("".equals(obj.getTrimestreID())) || !("".equals(obj.getInscriptionID()))) {
+                  requete =requete + "," ;
+              }
+            }       
+      }
+            
+      if(!("".equals(obj.getTrimestreID()))){
+          requete += " trimestreID = "+ "' "+ obj.getTrimestreID()+ "' ";
+          virgule=true;
+          
+           if(virgule==true){
+               if(!("".equals(obj.getInscriptionID()))){
+          requete =requete + "," ;
+               }
+            } 
+      }
+      
+      if(!("".equals(obj.getInscriptionID()))){
+          requete += " inscriptionID = "+"'"+obj.getInscriptionID()+ "' " + " ";
+       
+      }     
+            
+      requete += "WHERE id = " + obj.getId()+"" ;
+      
+      System.out.println(requete);
+                 
+      
+        try{
+            PreparedStatement statement = this.connect.prepareStatement(requete);
            
             statement.executeUpdate(); 
              System.out.println("bulle update");
