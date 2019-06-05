@@ -1113,7 +1113,7 @@ public class MyWindow extends JFrame implements ActionListener {
             }else if(table == "Discipline"){
                 DAO<Discipline> obj = DAOFactory.getDisciplineDAO();
                 //idd a regler
-                if(obj.update(new Discipline(arrayJTextField.get(0).getText())))
+                if(obj.update(new Discipline(arrayJTextField.get(0).getText(),arrayJTextField.get(1).getText())))
                errorText.setText("Discipline modifiée !");
                 else{
                     errorText.setText("Discipline non modifiée !");

@@ -85,7 +85,7 @@ public DisciplineDAO(Connection conn) {
    
   public boolean update(Discipline obj) {
       
-       String requete = "UPDATE personne SET ";
+       String requete = "UPDATE discipline SET ";
       boolean virgule = false;
       
       
