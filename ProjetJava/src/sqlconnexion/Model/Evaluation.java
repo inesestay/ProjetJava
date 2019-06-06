@@ -10,21 +10,28 @@ package sqlconnexion.Model;
  * @author inese
  */
 public class Evaluation {
-    private int id;
+    private String id;
     private String appreciation;
-    private int note;
-    private int detailBulletinID;
+    private String note;
+    private String detailBulletinID;
     
     ///CONSTRUCTORS
     public Evaluation(){
-        id=0;
+        id="";
         appreciation="";
-        note= 0;
-        detailBulletinID=0;
+        note= "";
+        detailBulletinID="";
     }
     
-    public Evaluation(int id, String appreciation, int note, int detailBulletinID){
+    public Evaluation(String id, String appreciation, String note, String detailBulletinID){
         this.id=id;
+        this.appreciation=appreciation;
+        this.note=note;
+        this.detailBulletinID=detailBulletinID;
+    }
+    
+    public Evaluation(String appreciation, String note, String detailBulletinID){
+      
         this.appreciation=appreciation;
         this.note=note;
         this.detailBulletinID=detailBulletinID;
@@ -32,11 +39,11 @@ public class Evaluation {
     
     ///GETTERS AND SETTERS
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -48,19 +55,19 @@ public class Evaluation {
         this.appreciation = appreciation;
     }
 
-    public int getNote() {
+    public String getNote() {
         return note;
     }
 
-    public void setNote(int note) {
+    public void setNote(String note) {
         this.note = note;
     }
 
-    public int getDetailBulletinID() {
+    public String getDetailBulletinID() {
         return detailBulletinID;
     }
 
-    public void setDetailBulletinID(int detailBulletinID) {
+    public void setDetailBulletinID(String detailBulletinID) {
         this.detailBulletinID = detailBulletinID;
     }
     

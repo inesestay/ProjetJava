@@ -12,23 +12,31 @@ package sqlconnexion.Model;
 public class Trimestre {
     
     ///CHARACTERISTICS
-    private int id;
-    private int num;
-    private int debut;
-    private int fin;
-    private int anneescolaireID;
+    private String id;
+    private String num;
+    private String debut;
+    private String fin;
+    private String anneescolaireID;
     
     ///CONSTRUCTORS
     public Trimestre(){
-        id = 0;
-        num=0;
-        debut=0;
-        fin=0;
-        anneescolaireID=0;
+        id = "";
+        num="";
+        debut="";
+        fin="";
+        anneescolaireID="";
     }
     
-    public Trimestre(int id, int num, int debut, int fin, int anneescolaireID){
+    public Trimestre(String id, String num, String debut, String fin, String anneescolaireID){
         this.id=id;
+        this.num=num;
+        this.debut=debut;
+        this.fin=fin;
+        this.anneescolaireID=anneescolaireID;      
+    }
+    
+    public Trimestre( String num, String debut, String fin, String anneescolaireID){
+
         this.num=num;
         this.debut=debut;
         this.fin=fin;
@@ -37,43 +45,43 @@ public class Trimestre {
     
     ///GETTERS AND SETTERS
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public int getNum() {
+    public String getNum() {
         return num;
     }
 
-    public void setNum(int num) {
+    public void setNum(String num) {
         this.num = num;
     }
 
-    public int getDebut() {
+    public String getDebut() {
         return debut;
     }
 
-    public void setDebut(int debut) {
+    public void setDebut(String debut) {
         this.debut = debut;
     }
 
-    public int getFin() {
+    public String getFin() {
         return fin;
     }
 
-    public void setFin(int fin) {
+    public void setFin(String fin) {
         this.fin = fin;
     }
 
-    public int getAnneescolaireID() {
+    public String getAnneescolaireID() {
         return anneescolaireID;
     }
 
-    public void setAnneescolaireID(int anneescolaireID) {
+    public void setAnneescolaireID(String anneescolaireID) {
         this.anneescolaireID = anneescolaireID;
     }
 }

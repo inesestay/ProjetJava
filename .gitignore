@@ -1,3 +1,10 @@
-ProjetJava/nbproject/private/*
-ProjetJava/build/*
-ProjetJava/dist/*
+/ProjetJava/nbproject/private/
+/ProjetJava/build/
+/ProjetJava/dist/
+ProjetJava/build/classes/projetjava/Connexion.class
+ProjetJava/build/built-jar.properties
+ProjetJava/build/classes/projetjava/Connexion.class
+ProjetJava/build/classes/projetjava/Connexion.class
+*.class
+*.class
+ProjetJava/dist/ProjetJava.jar

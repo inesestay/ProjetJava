@@ -4,41 +4,46 @@
  * and open the template in the editor.
  */
 package sqlconnexion.DAO;
-import sqlconnexion.Model.Personne;
+
+/**
+ *
+ * @author inese
+ */
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.ArrayList;
+import sqlconnexion.Model.Inscription;
+import sqlconnexion.Model.Personne;
 
-
-/**
- *
- * @author nelly
- */
-public class PersonneDAO extends DAO<Personne> {
+public class InscriptionDAO extends DAO<Inscription> {
     
-public PersonneDAO(Connection conn) {
+public InscriptionDAO(Connection conn) {
     
     
     super(conn);
   }
 
   @Override
-    public boolean create(Personne obj){
+    public boolean create(Inscription obj){
+
+   
     try{
         
-        if(("".equals(obj.getNom())) || ("".equals(obj.getPrenom())) || ("".equals(obj.getType()))){
+        if(("".equals(obj.getClassID())) || ("".equals(obj.getPersonneID()))){
         
                 throw new SQLException("il manque un ou plusieurs champs");
          }
-        PreparedStatement statement = this.connect.prepareStatement("INSERT INTO personne(nom,prenom,type) VALUES(?,?,?)");
-        statement.setObject(1,obj.getNom(),Types.VARCHAR);
-        statement.setObject(2,obj.getPrenom(),Types.VARCHAR); 
-        statement.setObject(3,obj.getType(),Types.VARCHAR); 
+        
+        PreparedStatement statement = this.connect.prepareStatement("INSERT INTO inscription(classID,personneID) VALUES(?,?)");
+
+        statement.setObject(1,obj.getClassID(),Types.INTEGER); 
+        statement.setObject(2,obj.getPersonneID(),Types.INTEGER); 
         statement.executeUpdate();
-        System.out.println("personne créée");      
+        System.out.println("inscription créée");      
     }catch (SQLException ex) {
         System.out.println("pas create : " + ex.getMessage());
         return false;
@@ -48,55 +53,43 @@ public PersonneDAO(Connection conn) {
 }
 
 @Override
-  public boolean delete(Personne obj) {
-      
-      String requete = "DELETE FROM personne WHERE";
+  public boolean delete(Inscription obj) {
+
+      String requete = "DELETE FROM inscription WHERE";
       boolean virgule = false;
       
-      if(!("".equals(obj.getNom()))){
-          requete += " `nom`= "+"'" +obj.getNom()+"'" ;
+      if(!("".equals(obj.getClassID()))){
+          requete += " `classeID`= "+"'" +obj.getClassID()+"'" ;
           virgule=true;
           
            if(virgule==true ){
-              if (!("".equals(obj.getPrenom())) || !("".equals(obj.getType())) || !("".equals(obj.getId())) ) {
+              if (!("".equals(obj.getPersonneID())) || !("".equals(obj.getId()))) {
                   requete =requete + " AND" ;
               }
             }       
       }
             
-      if(!("".equals(obj.getPrenom()))){
-          requete += " `prenom` = "+ "'"+ obj.getPrenom()+ "'";
-          virgule=true;
-          
-           if(virgule==true){
-               if(!("".equals(obj.getType())) || !("".equals(obj.getId()))){
-          requete =requete + " AND" ;
-               }
-            } 
-      }
-      
-      if(!("".equals(obj.getType()))){
-          requete += " `type` = "+"'"+obj.getType()+ "'";
+      if(!("".equals(obj.getPersonneID()))){
+          requete += " `personneID` = "+ "'"+ obj.getPersonneID()+ "'";
           virgule=true;
           
            if(virgule==true){
                if(!("".equals(obj.getId()))){
           requete =requete + " AND" ;
                }
-            }
-       
-      }     
+            } 
+      }
+      
       
       if(!("".equals(obj.getId()))){
           requete += " `id` = "+"'"+obj.getId()+ "' ";
       }
-            
-
+      
    try {
             PreparedStatement statement = this.connect.prepareStatement(requete);
            
             statement.executeUpdate(); 
-             System.out.println("personne supp");
+             System.out.println("inscription supp");
         } catch (SQLException ex) {
             System.out.println("pas supp");
             return false;
@@ -107,50 +100,37 @@ public PersonneDAO(Connection conn) {
   }
    
 @Override
-  public boolean update(Personne obj) {
+  public boolean update(Inscription obj) {
       
-      String requete = "UPDATE personne SET ";
+     String requete = "UPDATE inscription SET ";
       boolean virgule = false;
       
-      if(!("".equals(obj.getNom()))){
-          requete += " nom= "+"'" +obj.getNom()+"'" ;
+      if(!("".equals(obj.getClassID()))){
+          requete += " classID= "+"'" +obj.getClassID()+"'" ;
           virgule=true;
           
            if(virgule==true ){
-              if (!("".equals(obj.getPrenom())) || !("".equals(obj.getType()))) {
+              if (!("".equals(obj.getPersonneID()))) {
                   requete =requete + "," ;
               }
             }       
       }
-            
-      if(!("".equals(obj.getPrenom()))){
-          requete += " prenom = "+ "' "+ obj.getPrenom()+ "' ";
-          virgule=true;
-          
-           if(virgule==true){
-               if(!("".equals(obj.getType()))){
-          requete =requete + "," ;
-               }
-            } 
-      }
-      
-      if(!("".equals(obj.getType()))){
-          requete += " type = "+"'"+obj.getType()+ "' " + " ";
+
+      if(!("".equals(obj.getPersonneID()))){
+          requete += " personneID = "+"'"+obj.getPersonneID()+ "' " + " ";
        
       }     
       
-      
       requete += "WHERE id = " + obj.getId()+"" ;
-      
-      System.out.println(requete);
-                 
+     
      try {
+
             PreparedStatement statement = this.connect.prepareStatement(requete);
-          
+
             statement.executeUpdate(); 
-             System.out.println("personne update");
+             System.out.println("inscription update");
         } catch (SQLException ex) {
-            System.out.println("pas udpade : "+ex.getMessage());
+            System.out.println("pas udpade");
             return false;
         }
         //en spécifiant bien les types SQL cibles 
@@ -159,19 +139,19 @@ public PersonneDAO(Connection conn) {
   }
    
 @Override
-  public Personne find(String id) {
-    Personne personne = new Personne();      
+  public Inscription find(String id) {
+    Inscription inscription = new Inscription();      
       
     try {
       ResultSet result = this.connect.createStatement(
         ResultSet.TYPE_SCROLL_INSENSITIVE,
         ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM personne WHERE id = " + id);
       if(result.first())
-        personne = new Personne(result.getString("id"),result.getString("nom"),result.getString("prenom"),result.getString("type"));         
+        inscription = new Inscription(result.getString("id"),result.getString("classID"),result.getString("personneID"));         
     } catch (SQLException e) {
       e.printStackTrace();
     }
-    return personne;
+    return inscription;
   }
   
    public ArrayList<Object> retour()
@@ -181,25 +161,24 @@ public PersonneDAO(Connection conn) {
        try {
         ResultSet result = this.connect.createStatement(
         ResultSet.TYPE_SCROLL_INSENSITIVE,
-        ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM personne");
+        ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM inscription");
         //+nomTable+
            while(result.next()) {
 
                String id = result.getString(1);
-               String nom = result.getString(2);
-               String prenom = result.getString(3);
-               String type = result.getString(4);
-
-               Personne obj = new Personne(id,nom,prenom,type);
+               String a = result.getString(1);
+               String z = result.getString(1);
+               
+               Inscription obj = new Inscription(id,a,z);
                table.add(obj);
 
           }
         
+
         } catch (SQLException e) {
          System.out.println("pas arraylist");
         }
        return table;
   }
-  
-   
 }
+

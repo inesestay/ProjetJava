@@ -12,14 +12,21 @@ package sqlconnexion.Model;
 public class Enseignement {
     ///CHARACTERISTICS
     
-    private int id;
-    private int classeID;
-    private int enseignantID;
-    private int disciplineId;
+    private String id;
+    private String classeID;
+    private String enseignantID;
+    private String disciplineId;
     
     ///CONSTRUCTORS
-    public Enseignement(int id, int classeID, int enseignantID, int disciplineId ){
+    public Enseignement(String id, String classeID, String enseignantID, String disciplineId ){
         this.id=id;
+        this.classeID=classeID;
+        this.enseignantID=enseignantID;
+        this.disciplineId =disciplineId ;       
+     
+    }
+    public Enseignement( String classeID, String enseignantID, String disciplineId ){
+      
         this.classeID=classeID;
         this.enseignantID=enseignantID;
         this.disciplineId =disciplineId ;       
@@ -27,41 +34,41 @@ public class Enseignement {
     }
     
     public Enseignement(){
-        id = 0;
-        classeID = 0;
-        enseignantID = 0;
-        disciplineId  = 0;
+        id = "";
+        classeID = "";
+        enseignantID = "";
+        disciplineId  = "";
     }
     
     ///GETTERS AND SETTERS
 
-    public int getId() {
+    public String getId() {
         return id;
     }
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public int getClasseID() {
+    public String getClasseID() {
         return classeID;
     }
 
-    public void setClasseID(int classeID) {
+    public void setClasseID(String classeID) {
         this.classeID = classeID;
     }
 
-    public int getEnseignantID() {
+    public String getEnseignantID() {
         return enseignantID;
     }
 
-    public void setEnseignantID(int enseignantID) {
+    public void setEnseignantID(String enseignantID) {
         this.enseignantID = enseignantID;
     }
-    public int getDisciplineID() {
+    public String getDisciplineID() {
         return disciplineId ;
     }
 
-    public void setDisciplineID(int disciplineId ) {
+    public void setDisciplineID(String disciplineId ) {
         this.disciplineId  = disciplineId ;
     }
     

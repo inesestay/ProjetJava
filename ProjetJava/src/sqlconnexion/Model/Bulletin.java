@@ -11,32 +11,38 @@ package sqlconnexion.Model;
  */
 public class Bulletin {
     ///CHARACTERISTICS
-    private int id;
+    private String id;
     private String appreciation;
-    private int trimestreID;
-    private int inscriptionID;
+    private String trimestreID;
+    private String inscriptionID;
     
     ///METHODS
     public Bulletin(){
-        id=0;
+        id="";
         appreciation="";
-        trimestreID=0;
-        inscriptionID=0;
+        trimestreID="";
+        inscriptionID="";
     }
     
-    public Bulletin(int id,String appreciation,int trimestreID ,int inscriptionID ){
+    public Bulletin(String id,String appreciation,String trimestreID ,String inscriptionID ){
         this.id=id;
+        this.appreciation=appreciation;
+        this.trimestreID=trimestreID;
+        this.inscriptionID=inscriptionID;
+    }
+     public Bulletin(String appreciation,String trimestreID ,String inscriptionID ){
+       
         this.appreciation=appreciation;
         this.trimestreID=trimestreID;
         this.inscriptionID=inscriptionID;
     }
     
     ///GETTERS AND SETTERS
-    public int getId(){
+    public String getId(){
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -48,19 +54,19 @@ public class Bulletin {
         this.appreciation = appreciation;
     }
 
-    public int getTrimestreID() {
+    public String getTrimestreID() {
         return trimestreID;
     }
 
-    public void setTrimestreID(int trimID) {
+    public void setTrimestreID(String trimID) {
         this.trimestreID = trimID;
     }
 
-    public int getInscriptionID() {
+    public String getInscriptionID() {
         return inscriptionID;
     }
 
-    public void setInscriptionID(int inscriptionID) {
+    public void setInscriptionID(String inscriptionID) {
         this.inscriptionID = inscriptionID;
     }
     

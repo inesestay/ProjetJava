@@ -13,9 +13,8 @@ package sqlconnexion.factory;
 
 import java.sql.*;
 import java.util.logging.*;
+import static projetjava.Graphique.MyWindow.nomBDD;
 import sqlconnexion.DAO.*;
-import sqlconnexion.Model.Inscription;
-
 /**
  * this is a static class able to be call everywhere in the code and construct the good DAO.
  * surcharge connection on SQL so that is done only one time
@@ -45,7 +44,8 @@ public class DAOFactory {
             // ecole is the name of database
             // second parameter the id for connecting to the mysql db ( on phpmyadmin)
             // thirs parameter is the password
-            tmp = DriverManager.getConnection("jdbc:mysql://localhost/ecole","root","");
+            String bdd = nomBDD.getText();
+            tmp = DriverManager.getConnection("jdbc:mysql://localhost/"+bdd+"","root","");
          } catch (ClassNotFoundException ex) {
                 Logger.getLogger(DAOFactory.class.getName()).log(Level.SEVERE, null, ex);
          }
@@ -65,6 +65,15 @@ public class DAOFactory {
     return new PersonneDAO(conn);
   }
   
+   /**
+  * Retourne un objet annee interagissant avec la BDD
+  * @return DAO
+  */
+  public static DAO getAnneeScolaireDAO(){
+    return new AnneeScolaireDAO(conn);
+  }
+  
+  
   /**
   * Retourne un objet Discipline interagissant avec la BDD
   * @return DAO
@@ -72,8 +81,74 @@ public class DAOFactory {
   public static DAO getDisciplineDAO(){
     return new DisciplineDAO(conn);
   }
+  
+    /**
+  * Retourne un objet Année Scolaire interagissant avec la BDD
+  * @return DAO
+  */
 
-    public static DAO getInscriptionDAO() {
-        return new InscriptionDAO(conn);
-    }    
+    /**
+  * Retourne un objet Bulletin interagissant avec la BDD
+  * @return DAO
+  */
+  public static DAO getBulletinDAO(){
+    return new BulletinDAO(conn);
+  }
+     
+    /**
+  * Retourne un objet Classe interagissant avec la BDD
+  * @return DAO
+  */
+  public static DAO getClasseDAO(){
+    return new ClasseDAO(conn);
+  }
+  
+    /**
+  * Retourne un objet Detail Bulletin interagissant avec la BDD
+  * @return DAO
+  */
+  public static DAO getDetailBulletinDAO(){
+    return new DetailBulletinDAO(conn);
+  }
+    
+  /**
+  * Retourne un objet Enseignement interagissant avec la BDD
+  * @return DAO
+  */
+  public static DAO getEnseignementDAO(){
+    return new EnseignementDAO(conn);
+  }
+  
+  /**
+  * Retourne un objet Evaluation interagissant avec la BDD
+  * @return DAO
+  */
+  public static DAO getEvaluationDAO(){
+    return new EvaluationDAO(conn);
+  }
+  
+  /**
+  * Retourne un objet Niveau interagissant avec la BDD
+  * @return DAO
+  */
+  public static DAO getNiveauDAO(){
+    return new NiveauDAO(conn);
+  }
+    
+  
+  /**
+  * Retourne un objet Trimestre interagissant avec la BDD
+  * @return DAO
+  */
+  public static DAO getTrimestreDAO(){
+    return new TrimestreDAO(conn);
+  }
+  
+  /**
+  * Retourne un objet Inscription interagissant avec la BDD
+  * @return DAO
+  */
+  public static DAO getInscriptionDAO(){
+    return new InscriptionDAO(conn);
+  }
 }

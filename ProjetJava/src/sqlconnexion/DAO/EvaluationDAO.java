@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.ArrayList;
 import sqlconnexion.Model.*;
 
 /**
@@ -27,17 +28,21 @@ public EvaluationDAO(Connection conn) {
   @Override
     public boolean create(Evaluation obj) {
          try {
+             if(("".equals(obj.getAppreciation())) || ("".equals(obj.getNote())) || ("".equals(obj.getDetailBulletinID()))){
+        
+                throw new SQLException("il manque un ou plusieurs champs");
+         }
             PreparedStatement statement = this.connect.prepareStatement(
-                    "INSERT INTO evaluation VALUES(?,?)");
-            statement.setObject(1,null,Types.INTEGER); 
-            statement.setObject(2,obj.getAppreciation(),Types.VARCHAR); 
-            statement.setObject(3,obj.getNote() ,Types.INTEGER); 
-            statement.setObject(4,obj.getDetailBulletinID(),Types.INTEGER); 
+                    "INSERT INTO evaluation(appreciation,note,detailBulletinID ) VALUES(?,?,?)");
+            statement.setObject(1,obj.getAppreciation(),Types.VARCHAR); 
+            statement.setObject(2,Integer.parseInt(obj.getNote()) ,Types.INTEGER); 
+            statement.setObject(3,Integer.parseInt(obj.getDetailBulletinID()),Types.INTEGER); 
             
             statement.executeUpdate(); 
              System.out.println("Evaluation créée");
         } catch (SQLException ex) {
             System.out.println("pas create Evaluation");
+            System.out.println(ex.getMessage());
             return false;
         }
         //en spécifiant bien les types SQL cibles 
@@ -47,10 +52,50 @@ public EvaluationDAO(Connection conn) {
 
   public boolean delete(Evaluation obj) {
      
-  
+       String requete = "DELETE FROM evaluation WHERE";
+      boolean virgule = false;
+      
+      if(!("".equals(obj.getAppreciation()))){
+          requete += " `appreciation`= "+"'" +obj.getAppreciation()+"'" ;
+          virgule=true;
+          
+           if(virgule==true ){
+              if (!("".equals(obj.getNote())) || !("".equals(obj.getDetailBulletinID())) || !("".equals(obj.getId())) ) {
+                  requete =requete + " AND" ;
+              }
+            }       
+      }
+            
+      if(!("".equals(obj.getNote()))){
+          requete += " `note` = "+ "'"+ obj.getNote()+ "'";
+          virgule=true;
+          
+           if(virgule==true){
+               if(!("".equals(obj.getDetailBulletinID())) || !("".equals(obj.getId()))){
+          requete =requete + " AND" ;
+               }
+            } 
+      }
+      
+      if(!("".equals(obj.getDetailBulletinID()))){
+          requete += " `detailBulletin` = "+"'"+obj.getDetailBulletinID()+ "'";
+          virgule=true;
+          
+           if(virgule==true){
+               if(!("".equals(obj.getId()))){
+          requete =requete + " AND" ;
+               }
+            }
+       
+      }     
+      
+      if(!("".equals(obj.getId()))){
+          requete += " `id` = "+"'"+obj.getId()+ "' ";
+      }
+            
+
    try {
-            PreparedStatement statement = this.connect.prepareStatement(
-                    "DELETE FROM evaluation WHERE id = " + obj.getId()+"" );
+            PreparedStatement statement = this.connect.prepareStatement(requete);
            
             statement.executeUpdate(); 
              System.out.println("Evaluation supp");
@@ -65,9 +110,43 @@ public EvaluationDAO(Connection conn) {
    
   public boolean update(Evaluation obj) {
       
+      String requete = "UPDATE evaluation SET ";
+      boolean virgule = false;
+      
+      if(!("".equals(obj.getAppreciation()))){
+          requete += " appreciation= "+"'" +obj.getAppreciation()+"'" ;
+          virgule=true;
+          
+           if(virgule==true ){
+              if (!("".equals(obj.getNote())) || !("".equals(obj.getDetailBulletinID()))) {
+                  requete =requete + "," ;
+              }
+            }       
+      }
+            
+      if(!("".equals(obj.getNote()))){
+          requete += " note = "+ "' "+ obj.getNote()+ "' ";
+          virgule=true;
+          
+           if(virgule==true){
+               if(!("".equals(obj.getDetailBulletinID()))){
+          requete =requete + "," ;
+               }
+            } 
+      }
+      
+      if(!("".equals(obj.getDetailBulletinID()))){
+          requete += " detailBulletin = "+"'"+obj.getDetailBulletinID()+ "' " + " ";
+       
+      }     
+      
+      
+      requete += "WHERE id = " + obj.getId()+"" ;
+      
+      System.out.println(requete);
+      
   try{
-            PreparedStatement statement = this.connect.prepareStatement(
-                    "UPDATE evaluation SET appreciation= '"+ obj.getAppreciation() +"',note= '"+ obj.getNote() +"', detailBulletinID= '"+ obj.getDetailBulletinID() +"' WHERE id = " + obj.getId()+"");
+            PreparedStatement statement = this.connect.prepareStatement(requete);
            
             statement.executeUpdate(); 
              System.out.println("Evaluation update");
@@ -80,7 +159,7 @@ public EvaluationDAO(Connection conn) {
         return true;
   }
    
-  public Evaluation find(int id) {
+  public Evaluation find(String id) {
     Evaluation d = new Evaluation();      
       
     try {
@@ -89,11 +168,39 @@ public EvaluationDAO(Connection conn) {
         ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM evaluation WHERE id = " + id);
       if(result.first())
          
-        d = new Evaluation(id,result.getString("appreciation"), result.getInt("note"), result.getInt("detailBulletinID"));         
+        d = new Evaluation(result.getString("id"),result.getString("appreciation"), result.getString("note"), result.getString("detailBulletinID"));         
     } catch (SQLException e) {
       e.printStackTrace();
     }
     return d;
+  }
+  
+   public ArrayList<Object> retour()
+  {
+       ArrayList<Object> table = new ArrayList();
+       
+       try {
+        ResultSet result = this.connect.createStatement(
+        ResultSet.TYPE_SCROLL_INSENSITIVE,
+        ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM evaluation");
+        //+nomTable+
+           while(result.next()) {
+
+               String id = result.getString(1);
+               String nom = result.getString(2);
+               String a = result.getString(3);
+               String z = result.getString(4);
+
+               Evaluation obj = new Evaluation(id,nom,a,z);
+               table.add(obj);
+
+          }
+        
+
+        } catch (SQLException e) {
+         System.out.println("pas arraylist");
+        }
+       return table;
   }
 }
 

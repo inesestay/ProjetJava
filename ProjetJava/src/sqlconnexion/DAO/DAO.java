@@ -8,6 +8,8 @@ import java.sql.Connection;
 
 
 import java.sql.*;
+import java.util.ArrayList;
+import sqlconnexion.Model.*;
 
 /**
  * abstract class template for the connection with the database
@@ -59,7 +61,14 @@ public abstract class DAO<T> {
    * @param id
    * @return the model with the correct key ID
    */
-  public abstract T find(int id);
+  public abstract T find(String id);
     
     
+  /**
+   * will search a table
+   * @param 
+   * @return the table
+   */
+  //public abstract ArrayList<Object> table(String name);
+    public abstract ArrayList<Object> retour();
 }

@@ -11,72 +11,70 @@ package sqlconnexion.Model;
  */
 public class Inscription {
     ///CHARACTERISTICS
-        private int id;
-        private int classID;
-        private int personneID;
+        private String id;
+        private String classID;
+        private String personneID;
         
     ///CONSTRUCTORS
         public Inscription(){
-            id=0;
-            classID=0;
-            personneID=0;
+            id="";
+            classID="";
+            personneID="";
         }
         
-        public Inscription(int id, int classID, int personneID){
+        public Inscription(String id, String classID, String personneID){
             this.id=id;
             this.classID=classID;
             this.personneID=personneID;
         }
         
-        public Inscription(int classID, int personneID){
-            this.id=-1;
+        public Inscription(String classID, String personneID){
+            this.id=id;
             this.classID=classID;
             this.personneID=personneID;
         }
-        
-        
     
     ///GETTERS AND SETTERS
 
     /**
      * @return the id
      */
-    public int getId() {
+    public String getId() {
         return id;
     }
 
     /**
      * @param id the id to set
      */
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
     /**
      * @return the classID
      */
-    public int getClassID() {
+    public String getClassID() {
         return classID;
     }
 
     /**
      * @param classID the classID to set
      */
-    public void setClassID(int classID) {
+    public void setClassID(String classID) {
         this.classID = classID;
     }
 
     /**
      * @return the personneID
      */
-    public int getPersonneID() {
+    public String getPersonneID() {
         return personneID;
     }
 
     /**
      * @param personneID the personneID to set
      */
-    public void setPersonneID(int personneID) {
+    public void setPersonneID(String personneID) {
         this.personneID = personneID;
     }
         

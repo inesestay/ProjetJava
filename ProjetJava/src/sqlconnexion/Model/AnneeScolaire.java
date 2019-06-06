@@ -10,17 +10,17 @@ package sqlconnexion.Model;
  * @author inese
  */
 public class AnneeScolaire {
-      private int AnneeScolaireID;
+      private String AnneeScolaireID;
       
       public AnneeScolaire(){
           
       }
       
-      public AnneeScolaire(int AnneeScolaireID){
+      public AnneeScolaire(String AnneeScolaireID){
             this.AnneeScolaireID = AnneeScolaireID;
       }
       
-      public int getAnneeScolaireID(){
+      public String getAnneeScolaireID(){
           return AnneeScolaireID;
       }
 }
