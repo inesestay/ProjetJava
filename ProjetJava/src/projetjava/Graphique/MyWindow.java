@@ -112,6 +112,7 @@ public class MyWindow extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource()==button1) {
+            delAllWindowSecondary();
             setVisible(false); //you can't see me!
             dispose(); //Destroy the JFrame object
         }
@@ -627,7 +628,7 @@ public class MyWindow extends JFrame implements ActionListener {
         d.gridy++;
         panelPrincipal.add(errorText, d);
  
-        if(affichageSupp){
+        if(affichageSupp && !(checkForWindowSecondary(table))){
             MyWindow helene = new MyWindow(nomBDD.getText());
             helene.setSize(500,1000);
             helene.setVisible(true);
@@ -1091,7 +1092,7 @@ public class MyWindow extends JFrame implements ActionListener {
         d.gridy++;
         panelPrincipal.add(errorText, d);
         
-        if(affichageSupp){
+        if(affichageSupp && !(checkForWindowSecondary(table))){
             
             MyWindow helene = new MyWindow(nomBDD.getText());
             helene.setSize(500,1000);
@@ -1225,5 +1226,16 @@ public class MyWindow extends JFrame implements ActionListener {
         }
         
         mw.clear();
+    }
+    
+    public boolean checkForWindowSecondary(String nomTable){
+        
+        for(MyWindow nelly  : mw){
+            if(nomTable.equals(nelly.tableEtudier)){
+                return true;
+            }
+        }
+        
+        return false;
     }
 }
