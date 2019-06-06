@@ -288,65 +288,70 @@ public class MyWindow extends JFrame implements ActionListener {
 
     public void creationObjetRequetteAjout(String table){
         //ici
+        boolean ines = false;
         try{
             //En fonction de la table, appelle la bonne requette
                     /////////////a modifier
             if(table == "Personne"){
                 DAO<Personne> pers = DAOFactory.getPersonneDAO();
                 //idd a regler
-                pers.create(new Personne(arrayJTextField.get(0).getText(),arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText()));
+                ines = pers.create(new Personne(arrayJTextField.get(0).getText(),arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText()));
                 errorText.setText("Personne ajoute !");
             }else if(table == "Inscription"){
                 DAO<Inscription> obj = DAOFactory.getInscriptionDAO();
                 //idd a regler
-                obj.create(new Inscription(arrayJTextField.get(0).getText(),arrayJTextField.get(1).getText()));
+                ines = obj.create(new Inscription(arrayJTextField.get(0).getText(),arrayJTextField.get(1).getText()));
                 errorText.setText("Inscription ajoute !");
             }else if(table == "AnneeScolaire"){
                 DAO<AnneeScolaire> obj = DAOFactory.getAnneeScolaireDAO();
                 //idd a regler
-                obj.create(new AnneeScolaire(arrayJTextField.get(0).getText()));
+                ines = obj.create(new AnneeScolaire(arrayJTextField.get(0).getText()));
                 errorText.setText("Annee scolaire ajoute !");
             }else if(table == "Bulletin"){
                 DAO<Bulletin> obj = DAOFactory.getBulletinDAO();
                 //idd a regler
-                obj.create(new Bulletin(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText()));
+                ines = obj.create(new Bulletin(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText()));
                 errorText.setText(" Bulletin ajoute !");
             }
             else if(table == "Classe"){
                 DAO<Classe> obj = DAOFactory.getClasseDAO();
                 //idd a regler
-                obj.create(new Classe(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText()));
+                ines = obj.create(new Classe(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText()));
                 errorText.setText(" Classe ajoute !");
             }else if(table == "DetailBulletin"){
                 DAO<DetailBulletin> obj = DAOFactory.getDetailBulletinDAO();
                 //idd a regler
-                obj.create(new DetailBulletin(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText()));
+                ines = obj.create(new DetailBulletin(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText()));
                 errorText.setText(" DetailBulletin ajoute !");
             }else if(table == "Discipline"){
                 DAO<Discipline> obj = DAOFactory.getDisciplineDAO();
                 //idd a regler
-                obj.create(new Discipline(arrayJTextField.get(0).getText()));
+                ines = obj.create(new Discipline(arrayJTextField.get(0).getText()));
                 errorText.setText(" Discipline ajoute !");
             }else if(table == "Enseignement"){
                 DAO<Enseignement> obj = DAOFactory.getEnseignementDAO();
                 //idd a regler
-                obj.create(new Enseignement(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText()));
+                ines = obj.create(new Enseignement(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText()));
                 errorText.setText(" Enseignement ajoute !");
             }else if(table == "Evaluation"){
                 DAO<Evaluation> obj = DAOFactory.getEvaluationDAO();
                 //idd a regler
-                obj.create(new Evaluation(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText()));
+                ines = obj.create(new Evaluation(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText()));
                 errorText.setText(" Evaluation ajoute !");
             }else if(table == "Trimestre"){
                 DAO<Trimestre> obj = DAOFactory.getTrimestreDAO();
                 //idd a regler
-                obj.create(new Trimestre(arrayJTextField.get(0).getText(),arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText(),arrayJTextField.get(3).getText()));
+                ines = obj.create(new Trimestre(arrayJTextField.get(0).getText(),arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText(),arrayJTextField.get(3).getText()));
                 errorText.setText(" Trimestre ajoute !");
             }else if(table == "Niveau"){
                 DAO<Niveau> obj = DAOFactory.getNiveauDAO();
                 //idd a regler
-                obj.create(new Niveau(arrayJTextField.get(0).getText()));
+                ines = obj.create(new Niveau(arrayJTextField.get(0).getText()));
                 errorText.setText(" Niveau ajoute !");
+            }
+            
+            if(!ines){
+                errorText.setText("Error : Requette non envoye");
             }
 
         }
