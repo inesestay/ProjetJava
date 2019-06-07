@@ -149,6 +149,6 @@ public class DAOFactory {
   * @return DAO
   */
   public static DAO getInscriptionDAO(){
-    return new InscriptionDAO(conn);
+    return new InscriDAO(conn);
   }
 }
