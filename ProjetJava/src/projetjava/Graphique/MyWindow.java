@@ -105,12 +105,7 @@ public class MyWindow extends JFrame implements ActionListener {
 
         add(panelPrincipal, BorderLayout.CENTER);
 	add(panelForButtons, BorderLayout.SOUTH);
-<<<<<<< HEAD
 
-       
-       
-=======
-        
         
         if(!nom.equals("")){
             System.out.println("OUI");
@@ -118,7 +113,7 @@ public class MyWindow extends JFrame implements ActionListener {
         }
         
         System.out.println("Bonsoir : " + nomBDD.getText());
->>>>>>> developpe
+
         updatePannelPrincipal(0);
     }
 
@@ -303,10 +298,8 @@ public class MyWindow extends JFrame implements ActionListener {
                 
                 DAO<Bulletin> obj = DAOFactory.getBulletinDAO();
                 DAO<Personne> p = DAOFactory.getPersonneDAO();
-               System.out.println("avant tout ");
-
+             
                 String a = String.valueOf(1);
-                System.out.println("chercher pers ");
                 Personne nelly = p.find(a);
                 
                
@@ -374,11 +367,9 @@ public class MyWindow extends JFrame implements ActionListener {
             if(table == "Personne"){
                 DAO<Personne> pers = DAOFactory.getPersonneDAO();
                 //idd a regler
-<<<<<<< HEAD
-                pers.create(new Personne(arrayJTextField.get(0).getText(),arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText(), 0));
-=======
-                ines = pers.create(new Personne(arrayJTextField.get(0).getText(),arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText()));
->>>>>>> developpe
+
+                ines = pers.create(new Personne(arrayJTextField.get(0).getText(),arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText(), 0));
+
                 errorText.setText("Personne ajoute !");
             }else if(table == "Inscription"){
                 DAO<Inscription> obj = DAOFactory.getInscriptionDAO();
