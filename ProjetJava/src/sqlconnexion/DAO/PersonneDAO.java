@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.ArrayList;
+import sqlconnexion.Model.Discipline;
 
 
 /**
@@ -169,11 +170,17 @@ public PersonneDAO(Connection conn) {
         ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM personne WHERE id = " + id);
       if(result.first())
       {
+         
         personne = new Personne(result.getString("id"),result.getString("nom"),result.getString("prenom"),result.getString("type"));  
         if(personne.getType().equals("Etudiant"))
         {
             System.out.println("moy"+moyenne(personne.getId()));
             personne.setMoyenne(moyenne(personne.getId()));
+        }
+        else if(personne.getType().equals("Prof"))
+        {
+            
+            personne.setDiscipline(retourDiscipline(personne.getId()));
         }
       }
     } catch (SQLException e) {
@@ -244,6 +251,39 @@ public PersonneDAO(Connection conn) {
         }
         return somme/notes.size();
     }
-  
+
+   
+    public ArrayList<String> retourDiscipline(String id)
+    {
+      
+        ArrayList<String> dd = new ArrayList<>();
+     
+        try {
+        
+        ResultSet result = this.connect.createStatement(
+        ResultSet.TYPE_SCROLL_INSENSITIVE,
+        ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT DISTINCT nom FROM discipline,enseignement WHERE enseignement.personneId LIKE "+id+" AND enseignement.disciplineId LIKE discipline.id ");
+        
+        
+        while(result.next()) {
+
+               String d = result.getString(1);
+               dd.add(d);
+               
+          }
+        
+        } catch (SQLException e) {
+         System.out.println("pas discipline");
+        }
+        
+        System.out.print("Les disciplines enseignées par ce prof sont : ");
+        for(int i =0; i<dd.size(); i++)
+        {
+        System.out.print(dd.get(i) + " | ");
+        }
+        
+        return dd;
+    }
+
    
 }
