@@ -33,7 +33,7 @@ import sqlconnexion.factory.DAOFactory;
 public class MyWindow extends JFrame implements ActionListener {
 
     boolean affichageSupp;
-    JButton button1, button2,buttonConnexionBDD, addMenu, delMenu, dispMenu, modifMenu, menu, addElement, delElement, modifElement,session;
+    JButton button1, button2,buttonConnexionBDD, addMenu, delMenu, dispMenu, modifMenu, menu, addElement, delElement, modifElement,session,connexionSession;
     JLabel label1, label2, label3, label4, errorText;
     JPanel panelForButtons, panelPrincipal;
     JTextField idBDD, pswBDD, idSession;
@@ -68,8 +68,10 @@ public class MyWindow extends JFrame implements ActionListener {
         addElement = new JButton("Ajout Element");
         delElement = new JButton("Supprimer Element");
         modifElement = new JButton("Modifier Element");
-        session = new JButton("Ouvrir sa session");
+        session = new JButton("Session");
         
+        connexionSession = new JButton("Ouvrir ma session");
+                
         idBDD = new JTextField();
         pswBDD = new JTextField();
         nomBDD = new JTextField();
@@ -89,6 +91,8 @@ public class MyWindow extends JFrame implements ActionListener {
         delElement.addActionListener(this);
         modifElement.addActionListener(this);
         session.addActionListener(this);
+        
+        connexionSession.addActionListener(this);
 
 
         mw = new ArrayList<MyWindow>();
@@ -183,6 +187,10 @@ public class MyWindow extends JFrame implements ActionListener {
         }else if(e.getSource()==modifElement){
             creationObjetRequetteModif((String)tablesBoxModif.getSelectedItem());
         }
+        
+        else if(e.getSource()==connexionSession){
+            ouvertureSession();
+        }
     }
 
     // 0 : menu connexion
@@ -192,6 +200,7 @@ public class MyWindow extends JFrame implements ActionListener {
     // 4 : menu disp
     // 5 : modif
     // 6 : session
+    
     public void updatePannelPrincipal(int option){
         switch(option){
             //Menu connexion
@@ -318,16 +327,18 @@ public class MyWindow extends JFrame implements ActionListener {
 
         d.gridy = 0;
         d.gridx = 0;
-
-        d.gridwidth = 1;
         
-        d.gridwidth = 2;
+        d.gridy = 0;
+        d.gridx = 0;
+        d.gridwidth =11;
+        JLabel id = new JLabel("id de connexion: ");
+        panelPrincipal.add(id, d);
         
-        //ajout texte
         
+        d.gridy++;
         d.gridx++;
-        
-        //ajout label 
+        panelPrincipal.add(connexionSession, d);
+   
        // panelPrincipal.add(tablesBoxAdd, d);
         
         idSession.setColumns(10);
@@ -1273,5 +1284,23 @@ public class MyWindow extends JFrame implements ActionListener {
         }
         
         return false;
+    }
+
+    public void ouvertureSession() {
+       idSession.getText();
+        DAO<Personne> pers = DAOFactory.getPersonneDAO();
+        
+        ArrayList<Object> myArray = new ArrayList();
+       
+        myArray = pers.retour();
+                
+        for (int i=0;i<myArray.size();i++) {
+            Personne p = (Personne)myArray.get(i);
+            p.getId();
+           
+            if(p.getId().equals(idSession.getText())){
+                System.out.println("salut");
+            }
+        }
     }
 }
