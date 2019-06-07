@@ -14,6 +14,7 @@ import sqlconnexion.DAO.DAO;
 import sqlconnexion.DAO.PersonneDAO;
 import sqlconnexion.factory.DAOFactory;
 import projetjava.Graphique.MainGraphique;
+import sqlconnexion.DAO.BulletinDAO;
 
 /**
  *
@@ -27,11 +28,8 @@ public class ProjetJava {
    static JTextField nomBDD;
     
     public static void main(String[] args) {
-        
-        //Scanner sc = new Scanner(System.in);
-       // System.out.println("saisir le nom de la base svp :");
-       // bdd = sc.next();
-        MainGraphique.launch();
+      
+       MainGraphique.launch();
     }
 }
     
