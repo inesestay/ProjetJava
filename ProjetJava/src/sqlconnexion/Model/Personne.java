@@ -5,6 +5,8 @@
  */
 package sqlconnexion.Model;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author inese
@@ -16,6 +18,7 @@ public class Personne {
     private String prenom;
     private String type;
     private float moyenne;
+    public ArrayList<String> dd;
     
     public Personne()
     {
@@ -24,6 +27,7 @@ public class Personne {
         this.prenom="";
         this.type="";
         this.moyenne=-1;
+        dd = new ArrayList<>();
         
     }
     
@@ -34,6 +38,7 @@ public class Personne {
         this.prenom=prenom;
         this.type=type;
         this.moyenne=m;
+        dd = new ArrayList<>();
     }
     
     public Personne (String id, String nom, String prenom, String type)
@@ -42,6 +47,7 @@ public class Personne {
         this.nom=nom;
         this.prenom=prenom;
         this.type=type;
+        dd = new ArrayList<>();
     }
     
     public String getId(){return this.id;}
@@ -55,4 +61,10 @@ public class Personne {
     public void setPrenom(String prenom){this.prenom = prenom;}
     public void setType(String type){this.type = type;}
     public void setMoyenne(Float m){this.moyenne = m;}
+    public void setDiscipline(ArrayList<String> dd)
+    {
+        this.dd.clear();
+        for(int i=0; i<dd.size(); i++){ this.dd.add(dd.get(i));}
+       
+    }
 }
