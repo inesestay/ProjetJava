@@ -105,7 +105,6 @@ public class MyWindow extends JFrame implements ActionListener {
 
         add(panelPrincipal, BorderLayout.CENTER);
 	add(panelForButtons, BorderLayout.SOUTH);
-<<<<<<< HEAD
 
         
         if(!nom.equals("")){
