@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package sqlconnexion.DAO;
+import static java.lang.Float.parseFloat;
 import sqlconnexion.Model.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -200,4 +201,11 @@ public class BulletinDAO extends DAO<Bulletin> {
         }
        return table;
   }
+   
+   /**
+     *calcul la moyenne d'un eleve
+     * @param eleve
+     * @return
+     */
+    
 }

@@ -96,6 +96,8 @@ public class MyWindow extends JFrame implements ActionListener {
         add(panelPrincipal, BorderLayout.CENTER);
 	add(panelForButtons, BorderLayout.SOUTH);
 
+       
+       
         updatePannelPrincipal(0);
     }
 
@@ -264,6 +266,18 @@ public class MyWindow extends JFrame implements ActionListener {
 
                 errorText.setText("");
                 panelPrincipal.setBackground(Color.GRAY);
+                
+                DAO<Bulletin> obj = DAOFactory.getBulletinDAO();
+                DAO<Personne> p = DAOFactory.getPersonneDAO();
+               System.out.println("avant tout ");
+
+                String a = String.valueOf(1);
+                System.out.println("chercher pers ");
+                Personne nelly = p.find(a);
+                
+               
+                System.out.println("moyenne :"+nelly.getMoyenne());
+                
                 break;
             case 2:
                 panelPrincipal.removeAll();
@@ -295,7 +309,7 @@ public class MyWindow extends JFrame implements ActionListener {
             if(table == "Personne"){
                 DAO<Personne> pers = DAOFactory.getPersonneDAO();
                 //idd a regler
-                pers.create(new Personne(arrayJTextField.get(0).getText(),arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText()));
+                pers.create(new Personne(arrayJTextField.get(0).getText(),arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText(), 0));
                 errorText.setText("Personne ajoute !");
             }else if(table == "Inscription"){
                 DAO<Inscription> obj = DAOFactory.getInscriptionDAO();
