@@ -32,24 +32,27 @@ import sqlconnexion.factory.DAOFactory;
 
 public class MyWindow extends JFrame implements ActionListener {
 
+    boolean affichageSupp;
     JButton button1, button2,buttonConnexionBDD, addMenu, delMenu, dispMenu, modifMenu, menu, addElement, delElement, modifElement;
     JLabel label1, label2, label3, label4, errorText;
     JPanel panelForButtons, panelPrincipal;
     JTextField idBDD, pswBDD;
     public static JTextField nomBDD;
     JComboBox tablesBox, tablesBoxAdd, tablesBoxDel, tablesBoxModif;
+    ArrayList<MyWindow> mw;
+    String tableEtudier;
 
     Connexion myBDD;
 
     ArrayList<JLabel> arrayJLabel;
     ArrayList<JTextField> arrayJTextField;
 
-    public MyWindow() {
+    public MyWindow(String nom) {
 	super();
 
         arrayJLabel = null;
         arrayJTextField = null;
-
+        affichageSupp = false;
 	setLayout(new BorderLayout());
 
         buttonConnexionBDD= new JButton("Connexion");
@@ -65,7 +68,10 @@ public class MyWindow extends JFrame implements ActionListener {
         addElement = new JButton("Ajout Element");
         delElement = new JButton("Supprimer Element");
         modifElement = new JButton("Modifier Element");
-
+        
+        idBDD = new JTextField();
+        pswBDD = new JTextField();
+        nomBDD = new JTextField();
 
         button1.addActionListener(this);
         button2.addActionListener(this);
@@ -82,34 +88,46 @@ public class MyWindow extends JFrame implements ActionListener {
         modifElement.addActionListener(this);
 
 
-
+        mw = new ArrayList<MyWindow>();
+        tableEtudier = new String();
 
         panelForButtons=new JPanel();
         panelForButtons.add(button1);
 
-        /*
-	canvas = new MyCanvas();
-        canvas.setOption(0);
-        */
         panelPrincipal=new JPanel();
 
         add(panelPrincipal, BorderLayout.CENTER);
 	add(panelForButtons, BorderLayout.SOUTH);
+<<<<<<< HEAD
 
        
        
+=======
+        
+        
+        if(!nom.equals("")){
+            System.out.println("OUI");
+            nomBDD.setText(nom);
+        }
+        
+        System.out.println("Bonsoir : " + nomBDD.getText());
+>>>>>>> developpe
         updatePannelPrincipal(0);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource()==button1) {
-            System.exit(0);
+            delAllWindowSecondary();
+            setVisible(false); //you can't see me!
+            dispose(); //Destroy the JFrame object
         }
-        else if(e.getSource()==button2) {
+        else if(e.getSource()==button2) {             
+            delAllWindowSecondary();         
             updatePannelPrincipal(0);
         }
         else if(e.getSource()==menu) {
+            delAllWindowSecondary();
             updatePannelPrincipal(1);
         }
         else if(e.getSource()==buttonConnexionBDD) {
@@ -152,7 +170,7 @@ public class MyWindow extends JFrame implements ActionListener {
 
         else if(e.getSource()==tablesBox) {
             System.out.println((String)tablesBox.getSelectedItem());
-            updateDisplayMenu((String)tablesBox.getSelectedItem(), panelPrincipal);
+            updateDisplayMenu((String)tablesBox.getSelectedItem(), panelPrincipal, 0,0);
         }else if(e.getSource()==tablesBoxAdd) {
             updateMenuAjout((String)tablesBoxAdd.getSelectedItem());
         }else if(e.getSource()==addElement){
@@ -190,9 +208,7 @@ public class MyWindow extends JFrame implements ActionListener {
 
                 GridBagConstraints c = new GridBagConstraints();
 
-                idBDD = new JTextField();
-                pswBDD = new JTextField();
-                nomBDD = new JTextField();
+                
 
                 label1 = new JLabel("ID connexion");
                 label2 = new JLabel("Password connexion");
@@ -285,6 +301,7 @@ public class MyWindow extends JFrame implements ActionListener {
                 break;
             case 3:
                 panelPrincipal.removeAll();
+                affichageSupp = false;
                 delMenu();
                 break;
             case 4:
@@ -292,8 +309,8 @@ public class MyWindow extends JFrame implements ActionListener {
                 displayMenu();
                 break;
             case 5:
-                System.out.println("Proute");
                 panelPrincipal.removeAll();
+                affichageSupp = false;
                 modifMenu();
                 break;
         }
@@ -303,65 +320,74 @@ public class MyWindow extends JFrame implements ActionListener {
 
     public void creationObjetRequetteAjout(String table){
         //ici
+        boolean ines = false;
         try{
             //En fonction de la table, appelle la bonne requette
                     /////////////a modifier
             if(table == "Personne"){
                 DAO<Personne> pers = DAOFactory.getPersonneDAO();
                 //idd a regler
+<<<<<<< HEAD
                 pers.create(new Personne(arrayJTextField.get(0).getText(),arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText(), 0));
+=======
+                ines = pers.create(new Personne(arrayJTextField.get(0).getText(),arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText()));
+>>>>>>> developpe
                 errorText.setText("Personne ajoute !");
             }else if(table == "Inscription"){
                 DAO<Inscription> obj = DAOFactory.getInscriptionDAO();
                 //idd a regler
-                obj.create(new Inscription(arrayJTextField.get(0).getText(),arrayJTextField.get(1).getText()));
+                ines = obj.create(new Inscription(arrayJTextField.get(0).getText(),arrayJTextField.get(1).getText()));
                 errorText.setText("Inscription ajoute !");
             }else if(table == "AnneeScolaire"){
                 DAO<AnneeScolaire> obj = DAOFactory.getAnneeScolaireDAO();
                 //idd a regler
-                obj.create(new AnneeScolaire(arrayJTextField.get(0).getText()));
+                ines = obj.create(new AnneeScolaire(arrayJTextField.get(0).getText()));
                 errorText.setText("Annee scolaire ajoute !");
             }else if(table == "Bulletin"){
                 DAO<Bulletin> obj = DAOFactory.getBulletinDAO();
                 //idd a regler
-                obj.create(new Bulletin(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText()));
+                ines = obj.create(new Bulletin(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText()));
                 errorText.setText(" Bulletin ajoute !");
             }
             else if(table == "Classe"){
                 DAO<Classe> obj = DAOFactory.getClasseDAO();
                 //idd a regler
-                obj.create(new Classe(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText()));
+                ines = obj.create(new Classe(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText()));
                 errorText.setText(" Classe ajoute !");
             }else if(table == "DetailBulletin"){
                 DAO<DetailBulletin> obj = DAOFactory.getDetailBulletinDAO();
                 //idd a regler
-                obj.create(new DetailBulletin(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText()));
+                ines = obj.create(new DetailBulletin(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText()));
                 errorText.setText(" DetailBulletin ajoute !");
             }else if(table == "Discipline"){
                 DAO<Discipline> obj = DAOFactory.getDisciplineDAO();
                 //idd a regler
-                obj.create(new Discipline(arrayJTextField.get(0).getText()));
+                ines = obj.create(new Discipline(arrayJTextField.get(0).getText()));
                 errorText.setText(" Discipline ajoute !");
             }else if(table == "Enseignement"){
                 DAO<Enseignement> obj = DAOFactory.getEnseignementDAO();
                 //idd a regler
-                obj.create(new Enseignement(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText()));
+                ines = obj.create(new Enseignement(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText()));
                 errorText.setText(" Enseignement ajoute !");
             }else if(table == "Evaluation"){
                 DAO<Evaluation> obj = DAOFactory.getEvaluationDAO();
                 //idd a regler
-                obj.create(new Evaluation(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText()));
+                ines = obj.create(new Evaluation(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText()));
                 errorText.setText(" Evaluation ajoute !");
             }else if(table == "Trimestre"){
                 DAO<Trimestre> obj = DAOFactory.getTrimestreDAO();
                 //idd a regler
-                obj.create(new Trimestre(arrayJTextField.get(0).getText(),arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText(),arrayJTextField.get(3).getText()));
+                ines = obj.create(new Trimestre(arrayJTextField.get(0).getText(),arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText(),arrayJTextField.get(3).getText()));
                 errorText.setText(" Trimestre ajoute !");
             }else if(table == "Niveau"){
                 DAO<Niveau> obj = DAOFactory.getNiveauDAO();
                 //idd a regler
-                obj.create(new Niveau(arrayJTextField.get(0).getText()));
+                ines = obj.create(new Niveau(arrayJTextField.get(0).getText()));
                 errorText.setText(" Niveau ajoute !");
+            }
+            
+            if(!ines){
+                errorText.setText("Error : Requette non envoye");
             }
 
         }
@@ -516,7 +542,7 @@ public class MyWindow extends JFrame implements ActionListener {
     public void updateMenuDel(String table){
         panelPrincipal.remove(delElement);
         panelPrincipal.remove(errorText);
-
+        
 
         if(arrayJLabel == null){
             arrayJLabel = new ArrayList<JLabel>();
@@ -623,7 +649,21 @@ public class MyWindow extends JFrame implements ActionListener {
 
         d.gridy++;
         panelPrincipal.add(errorText, d);
+ 
+        if(affichageSupp && !(checkForWindowSecondary(table))){
+            MyWindow helene = new MyWindow(nomBDD.getText());
+            helene.setSize(500,1000);
+            helene.setVisible(true);
+            helene.updateDisplayMenu(table, helene.panelPrincipal, 0, 0);
+            
+            mw.add(helene);
+        }else{
+            affichageSupp = true;
+        }
+        
+        
         panelPrincipal.updateUI();
+
     }
 
     public void creationObjetRequetteDel(String table){
@@ -729,6 +769,11 @@ public class MyWindow extends JFrame implements ActionListener {
                     errorText.setText("Niveau non supprimé !");
                 }
             }
+            
+            //Update all window
+            updateAllWindowSecondary();
+        
+        
         }
         catch (Exception e1){
             errorText.setText("Error : " + (String)e1.getMessage() + " " + e1.getStackTrace());
@@ -738,7 +783,7 @@ public class MyWindow extends JFrame implements ActionListener {
     }
 
     public void displayMenu(){
-        /////////////a modifier
+        
         String[] listTableName = { "Personne", "Inscription", "AnneeScolaire","Bulletin","Classe","DetailBulletin","Discipline","Enseignement","Evaluation","Niveau","Trimestre" };
 
         tablesBox = new JComboBox(listTableName);
@@ -746,15 +791,19 @@ public class MyWindow extends JFrame implements ActionListener {
 
         add(tablesBox, BorderLayout.PAGE_START);
 
-        updateDisplayMenu((String)tablesBox.getSelectedItem(), panelPrincipal);
+        updateDisplayMenu((String)tablesBox.getSelectedItem(), panelPrincipal,0,0);
     }
 
-    public void updateDisplayMenu(String nomCategorie, JPanel thePanel)  {
-        panelPrincipal.removeAll();
-
+    public void updateDisplayMenu(String nomCategorie, JPanel thePanel, int x, int y)  {
+        thePanel.removeAll();
+        thePanel.setBackground(Color.GRAY);
+        tableEtudier = nomCategorie;
+        
         ArrayList<Object> myArray = new ArrayList<Object>();
         ArrayList<JLabel> lea = new ArrayList<JLabel>();
 
+        System.out.println("NOM BDD : " + nomBDD.getText());
+        
                 /////////////a modifier
         if(nomCategorie == "Personne"){
             DAO<Personne> pers = DAOFactory.getPersonneDAO();
@@ -832,8 +881,8 @@ public class MyWindow extends JFrame implements ActionListener {
 
         GridBagConstraints d = new GridBagConstraints();
 
-        d.gridy = 0;
-        d.gridx = 0;
+        d.gridy = x;
+        d.gridx = y;
         d.weightx = 1;
 
         d.gridwidth = 1;
@@ -1064,6 +1113,19 @@ public class MyWindow extends JFrame implements ActionListener {
 
         d.gridy++;
         panelPrincipal.add(errorText, d);
+        
+        if(affichageSupp && !(checkForWindowSecondary(table))){
+            
+            MyWindow helene = new MyWindow(nomBDD.getText());
+            helene.setSize(500,1000);
+            helene.setVisible(true);
+            helene.updateDisplayMenu(table, helene.panelPrincipal, 0, 0);
+            
+            mw.add(helene);
+        }else{
+            affichageSupp = true;
+        }
+                
         panelPrincipal.updateUI();
     }
 
@@ -1165,9 +1227,37 @@ public class MyWindow extends JFrame implements ActionListener {
                     errorText.setText("Niveau non modifié !");
                 }
             }
+            
+            updateAllWindowSecondary();
         }
         catch (Exception e1){
             errorText.setText("Error : " + (String)e1.getMessage());
         }
+    }
+    
+    public void updateAllWindowSecondary(){
+        for(MyWindow nelly : mw){
+             nelly.updateDisplayMenu(nelly.tableEtudier, nelly.panelPrincipal, 0, 0);
+        }
+    }
+    
+    public void delAllWindowSecondary(){
+        for(MyWindow nelly : mw){
+            nelly.setVisible(false); //you can't see me!
+            nelly.dispose(); //Destroy the JFrame object 
+        }
+        
+        mw.clear();
+    }
+    
+    public boolean checkForWindowSecondary(String nomTable){
+        
+        for(MyWindow nelly  : mw){
+            if(nomTable.equals(nelly.tableEtudier)){
+                return true;
+            }
+        }
+        
+        return false;
     }
 }

@@ -15,7 +15,7 @@ public class MainGraphique {
     public static void launch(){
         System.out.println("Hello World !");
         Scanner sc = new Scanner(System.in);
-        MyWindow mw = new MyWindow();
+        MyWindow mw = new MyWindow("");
 	mw.setSize(1000,800);
 	mw.setVisible(true);
 	mw.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
