@@ -33,10 +33,10 @@ import sqlconnexion.factory.DAOFactory;
 public class MyWindow extends JFrame implements ActionListener {
 
     boolean affichageSupp;
-    JButton button1, button2,buttonConnexionBDD, addMenu, delMenu, dispMenu, modifMenu, menu, addElement, delElement, modifElement;
+    JButton button1, button2,buttonConnexionBDD, addMenu, delMenu, dispMenu, modifMenu, menu, addElement, delElement, modifElement,session;
     JLabel label1, label2, label3, label4, errorText;
     JPanel panelForButtons, panelPrincipal;
-    JTextField idBDD, pswBDD;
+    JTextField idBDD, pswBDD, idSession;
     public static JTextField nomBDD;
     JComboBox tablesBox, tablesBoxAdd, tablesBoxDel, tablesBoxModif;
     ArrayList<MyWindow> mw;
@@ -68,10 +68,12 @@ public class MyWindow extends JFrame implements ActionListener {
         addElement = new JButton("Ajout Element");
         delElement = new JButton("Supprimer Element");
         modifElement = new JButton("Modifier Element");
+        session = new JButton("Ouvrir sa session");
         
         idBDD = new JTextField();
         pswBDD = new JTextField();
         nomBDD = new JTextField();
+        idSession = new JTextField();
 
         button1.addActionListener(this);
         button2.addActionListener(this);
@@ -86,6 +88,7 @@ public class MyWindow extends JFrame implements ActionListener {
         addElement.addActionListener(this);
         delElement.addActionListener(this);
         modifElement.addActionListener(this);
+        session.addActionListener(this);
 
 
         mw = new ArrayList<MyWindow>();
@@ -160,6 +163,8 @@ public class MyWindow extends JFrame implements ActionListener {
             updatePannelPrincipal(4);
         }else if(e.getSource()==modifMenu) {
             updatePannelPrincipal(5);
+        }else if(e.getSource()==session) {
+            updatePannelPrincipal(6);
         }
 
         else if(e.getSource()==tablesBox) {
@@ -186,6 +191,7 @@ public class MyWindow extends JFrame implements ActionListener {
     // 3 : menu del
     // 4 : menu disp
     // 5 : modif
+    // 6 : session
     public void updatePannelPrincipal(int option){
         switch(option){
             //Menu connexion
@@ -213,7 +219,7 @@ public class MyWindow extends JFrame implements ActionListener {
                 idBDD.setColumns(10);
                 pswBDD.setColumns(10);
                 nomBDD.setColumns(10);
-
+                
                 c.gridy = 0;
                 c.gridx = 0;
                 panelPrincipal.add(label1, c);
@@ -273,6 +279,9 @@ public class MyWindow extends JFrame implements ActionListener {
 
                 d.gridy = 3;
                 panelPrincipal.add(modifMenu, d);
+                
+                d.gridy = 4;
+                panelPrincipal.add(session, d);
 
                 errorText.setText("");
                 panelPrincipal.setBackground(Color.GRAY);
@@ -295,9 +304,36 @@ public class MyWindow extends JFrame implements ActionListener {
                 affichageSupp = false;
                 modifMenu();
                 break;
+            case 6:
+                panelPrincipal.removeAll();
+                connexionSession();
+                break;
         }
 
         panelPrincipal.updateUI();
+    }
+    
+    public void connexionSession(){
+        GridBagConstraints d = new GridBagConstraints();
+
+        d.gridy = 0;
+        d.gridx = 0;
+
+        d.gridwidth = 1;
+        
+        d.gridwidth = 2;
+        
+        //ajout texte
+        
+        d.gridx++;
+        
+        //ajout label 
+       // panelPrincipal.add(tablesBoxAdd, d);
+        
+        idSession.setColumns(10);
+        panelPrincipal.add(idSession);
+        
+        
     }
 
     public void creationObjetRequetteAjout(String table){

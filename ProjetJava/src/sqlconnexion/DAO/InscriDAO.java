@@ -19,9 +19,9 @@ import java.util.ArrayList;
 import sqlconnexion.Model.Inscription;
 import sqlconnexion.Model.Personne;
 
-public class InscriptionDAO extends DAO<Inscription> {
+public class InscriDAO extends DAO<Inscription> {
     
-public InscriptionDAO(Connection conn) {
+public InscriDAO(Connection conn) {
     
     
     super(conn);
@@ -122,6 +122,7 @@ public InscriptionDAO(Connection conn) {
       }     
       
       requete += "WHERE id = " + obj.getId()+"" ;
+      System.out.println(requete);
      
      try {
 
@@ -166,8 +167,8 @@ public InscriptionDAO(Connection conn) {
            while(result.next()) {
 
                String id = result.getString(1);
-               String a = result.getString(1);
-               String z = result.getString(1);
+               String a = result.getString(2);
+               String z = result.getString(3);
                
                Inscription obj = new Inscription(id,a,z);
                table.add(obj);
