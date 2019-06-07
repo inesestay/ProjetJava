@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package sqlconnexion.DAO;
+import static java.lang.Float.parseFloat;
 import sqlconnexion.Model.Personne;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -167,7 +168,14 @@ public PersonneDAO(Connection conn) {
         ResultSet.TYPE_SCROLL_INSENSITIVE,
         ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM personne WHERE id = " + id);
       if(result.first())
-        personne = new Personne(result.getString("id"),result.getString("nom"),result.getString("prenom"),result.getString("type"));         
+      {
+        personne = new Personne(result.getString("id"),result.getString("nom"),result.getString("prenom"),result.getString("type"));  
+        if(personne.getType().equals("Etudiant"))
+        {
+            System.out.println("moy"+moyenne(personne.getId()));
+            personne.setMoyenne(moyenne(personne.getId()));
+        }
+      }
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -200,6 +208,42 @@ public PersonneDAO(Connection conn) {
         }
        return table;
   }
+   
+    public float moyenne(String id)
+    {
+       
+        float somme=0;
+        ArrayList<Float> notes = new ArrayList<>();
+      //  String id_eleve = eleve.getId();
+      
+        try {
+         System.out.println("SELECT DISTINCT note FROM `personne`,`inscription`,`bulletin`,`detailbulletin`,`evaluation` WHERE `inscription`.`personneID` LIKE `"+id+"` AND `inscription`.`id` LIKE `bulletin`.`inscriptionID` AND `detailbulletin`.`bulletinID` LIKE `bulletin`.`id` AND `detailbulletin`.`id` LIKE `evaluation`.`detailBulletinID`   ");
+   
+        ResultSet result = this.connect.createStatement(
+        ResultSet.TYPE_SCROLL_INSENSITIVE,
+        ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT DISTINCT note FROM personne,inscription,bulletin,detailbulletin,evaluation WHERE inscription.personneID LIKE "+id+" AND inscription.id LIKE bulletin.inscriptionID AND detailbulletin.bulletinID LIKE bulletin.id AND detailbulletin.id LIKE evaluation.detailBulletinID ");
+        
+        
+        while(result.next()) {
+
+               String note = result.getString(1);
+               float note2 = parseFloat(note);
+               notes.add(note2);
+               
+          }
+        
+        } catch (SQLException e) {
+         System.out.println("pas moyenne");
+        }
+        
+        for(int i=0; i<notes.size(); i++)
+        {
+            somme += notes.get(i);
+             System.out.println("array : "+somme);
+             System.out.println("taille : "+notes.size());
+        }
+        return somme/notes.size();
+    }
   
    
 }

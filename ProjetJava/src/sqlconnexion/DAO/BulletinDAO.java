@@ -207,31 +207,5 @@ public class BulletinDAO extends DAO<Bulletin> {
      * @param eleve
      * @return
      */
-    /*public float moyenne(Personne eleve)
-    {
-        float moyenne=0;
-        float somme=0;
-        ArrayList<Float> notes = new ArrayList<>();
-        String id_eleve = eleve.getId();
-      
-        try {
-        ResultSet result = this.connect.createStatement(
-        ResultSet.TYPE_SCROLL_INSENSITIVE,
-        ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT note FROM `personne`,`inscription`,`bulletin`,`detailbulletin`,`evaluation` WHERE `"+id_eleve+"`LIKE `inscription`.`personneID` AND `inscription`.`id` LIKE `bulletin`.`inscriptionID` AND `detailbulletin`.`bulletinID` LIKE `bulletin`.`id` AND `detailbulletin`.`id` LIKE `evaluation`.`detailBulletinID`   ");
-           while(result.next()) {
-
-               String note = result.getString(1);
-               float note2 = parseFloat(note);
-               notes.add(note2);
-          }
-        
-        } catch (SQLException e) {
-         System.out.println("pas moyenne");
-        }
-        for(int i=0; i<notes.size(); i++)
-        {
-            somme = somme+notes.get(i);
-        }
-        return moyenne/notes.size();
-    }*/
+    
 }
