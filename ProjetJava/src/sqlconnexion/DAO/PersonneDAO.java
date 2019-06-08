@@ -302,7 +302,7 @@ public PersonneDAO(Connection conn) {
     * 
     * @param id
     * @param discipline
-    * @return la moyenne d'une discipline
+    * @return la moyenne d'une discipline choisie
     */ 
    public float moyenneMatiere(String id, String discipline)
    {
@@ -326,12 +326,7 @@ public PersonneDAO(Connection conn) {
          System.out.println(e.getMessage());
         }
             
-        for(int i=0; i<notes.size(); i++)
-        {
-            somme += notes.get(i);
-             System.out.println("array : "+somme);
-             System.out.println("taille : "+notes.size());
-        }
+       
         return somme/notes.size();
    }
    
