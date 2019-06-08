@@ -41,37 +41,63 @@ public class DetailBulletin {
         }
         
     ///GETTERS AND SETTERS
+
+    /**
+     * @return the id
+     */
     public String getId() {
         return id;
     }
 
+    /**
+     * @param id the id to set
+     */
     public void setId(String id) {
         this.id = id;
     }
 
+    /**
+     * @return the appreciation
+     */
     public String getAppreciation() {
         return appreciation;
     }
 
+    /**
+     * @param appreciation the appreciation to set
+     */
     public void setAppreciation(String appreciation) {
         this.appreciation = appreciation;
     }
 
+    /**
+     * @return the bulletinID
+     */
     public String getBulletinID() {
         return bulletinID;
     }
 
+    /**
+     * @param bulletinID the bulletinID to set
+     */
     public void setBulletinID(String bulletinID) {
         this.bulletinID = bulletinID;
     }
 
+    /**
+     * @return the enseignementID
+     */
     public String getEnseignementID() {
         return enseignementID;
     }
 
+    /**
+     * @param enseignementID the enseignementID to set
+     */
     public void setEnseignementID(String enseignementID) {
         this.enseignementID = enseignementID;
     }
+
         
     
 }

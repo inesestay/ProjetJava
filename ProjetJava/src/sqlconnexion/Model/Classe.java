@@ -38,37 +38,63 @@ public class Classe {
     }
     
     ///GETTERS AND SETTERS
+
+    /**
+     * @return the id
+     */
     public String getId() {
         return id;
     }
 
+    /**
+     * @param id the id to set
+     */
     public void setId(String id) {
         this.id = id;
     }
 
+    /**
+     * @return the nom
+     */
     public String getNom() {
         return nom;
     }
 
+    /**
+     * @param nom the nom to set
+     */
     public void setNom(String nom) {
         this.nom = nom;
     }
 
+    /**
+     * @return the niveauID
+     */
     public String getNiveauID() {
         return niveauID;
     }
 
+    /**
+     * @param niveauID the niveauID to set
+     */
     public void setNiveauID(String niveauID) {
         this.niveauID = niveauID;
     }
 
+    /**
+     * @return the anneescolaireID
+     */
     public String getAnneescolaireID() {
         return anneescolaireID;
     }
 
+    /**
+     * @param anneescolaireID the anneescolaireID to set
+     */
     public void setAnneescolaireID(String anneescolaireID) {
         this.anneescolaireID = anneescolaireID;
     }
+
     
     
 }

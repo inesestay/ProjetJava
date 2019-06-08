@@ -42,35 +42,62 @@ public class Enseignement {
     
     ///GETTERS AND SETTERS
 
+    /**
+     * @return the id
+     */
     public String getId() {
         return id;
     }
+
+    /**
+     * @param id the id to set
+     */
     public void setId(String id) {
         this.id = id;
     }
 
+    /**
+     * @return the classeID
+     */
     public String getClasseID() {
         return classeID;
     }
 
+    /**
+     * @param classeID the classeID to set
+     */
     public void setClasseID(String classeID) {
         this.classeID = classeID;
     }
 
+    /**
+     * @return the enseignantID
+     */
     public String getEnseignantID() {
         return enseignantID;
     }
 
+    /**
+     * @param enseignantID the enseignantID to set
+     */
     public void setEnseignantID(String enseignantID) {
         this.enseignantID = enseignantID;
     }
+
+    /**
+     * @return the disciplineId
+     */
     public String getDisciplineID() {
-        return disciplineId ;
+        return disciplineId;
     }
 
-    public void setDisciplineID(String disciplineId ) {
-        this.disciplineId  = disciplineId ;
+    /**
+     * @param disciplineId the disciplineId to set
+     */
+    public void setDisciplineId(String disciplineId) {
+        this.disciplineId = disciplineId;
     }
+
     
     
 }
