@@ -17,8 +17,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.ArrayList;
+import sqlconnexion.Model.Bulletin;
 import sqlconnexion.Model.Inscription;
 import sqlconnexion.Model.Personne;
+import sqlconnexion.factory.DAOFactory;
 
 public class InscriDAO extends DAO<Inscription> {
     
@@ -70,42 +72,22 @@ public InscriDAO(Connection conn) {
      */
 @Override
   public boolean delete(Inscription obj) {
-
-      String requete = "DELETE FROM inscription WHERE";
-      boolean virgule = false;
-      
-      if(!("".equals(obj.getClassID()))){
-          requete += " `classeID`= "+"'" +obj.getClassID()+"'" ;
-          virgule=true;
-          
-           if(virgule==true ){
-              if (!("".equals(obj.getPersonneID())) || !("".equals(obj.getId()))) {
-                  requete =requete + " AND" ;
-              }
-            }       
-      }
-            
-      if(!("".equals(obj.getPersonneID()))){
-          requete += " `personneID` = "+ "'"+ obj.getPersonneID()+ "'";
-          virgule=true;
-          
-           if(virgule==true){
-               if(!("".equals(obj.getId()))){
-          requete =requete + " AND" ;
-               }
-            } 
-      }
-      
-      
-      if(!("".equals(obj.getId()))){
-          requete += " `id` = "+"'"+obj.getId()+ "' ";
-      }
       
    try {
-            PreparedStatement statement = this.connect.prepareStatement(requete);
-           
-            statement.executeUpdate(); 
-             System.out.println("inscription supp");
+            ArrayList<Integer> ines = find(obj);
+            for(int nelly : ines){
+                //Suppression dans buleltin
+                DAO<Bulletin>adrien = DAOFactory.getBulletinDAO();
+                adrien.delete(new Bulletin("", "", "", Integer.toString(nelly)));
+                
+                //Suppression dans la table
+                String requete = "DELETE FROM inscription WHERE  `id` =" + nelly;
+                PreparedStatement statement = this.connect.prepareStatement(requete);
+                statement.executeUpdate(); 
+                System.out.println("inscription supp");
+            }
+            
+            
         } catch (SQLException ex) {
             System.out.println("pas supp");
             return false;
@@ -185,6 +167,53 @@ public InscriDAO(Connection conn) {
     return inscription;
   }
   
+  
+  public ArrayList<Integer> find(Inscription inscriATrouver){
+      ArrayList<Integer> aRetourner = new ArrayList<Integer>();
+      
+      String requete = "SELECT * FROM inscription WHERE";
+      boolean virgule = false;
+      
+      if(!("".equals(inscriATrouver.getId()))){
+          requete += " `id`= "+"'" +inscriATrouver.getId() +"'" ;
+          virgule=true;      
+      }
+            
+      if(!("".equals(inscriATrouver.getClassID()))){         
+          if(virgule){
+              requete += " AND";
+          }
+          
+          requete += " `classID` = '"+ inscriATrouver.getClassID()+ "'";
+          
+          virgule=true;
+      }
+      
+      
+      if(!("".equals(inscriATrouver.getPersonneID()))){
+                    if(virgule){
+              requete += " AND";
+          }
+          requete += " `personneID` = '"+ inscriATrouver.getPersonneID()+ "'";
+      }
+      
+   try {
+            ResultSet result = this.connect.createStatement(
+            ResultSet.TYPE_SCROLL_INSENSITIVE,
+            ResultSet.CONCUR_READ_ONLY).executeQuery(requete);
+            
+            while(result.next()) {
+               aRetourner.add(result.getInt(1));
+               System.out.println("Trouver : " + result.getInt(1));
+          }
+            
+        } catch (SQLException ex) {
+            System.out.println("Requette echouer");
+        }
+      
+      
+      return aRetourner;
+  }
   
   /**
    * récupérer toutes les inscriptions

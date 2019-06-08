@@ -339,11 +339,11 @@ public class MyWindow extends JFrame implements ActionListener {
                 errorText.setText("");
                 panelPrincipal.setBackground(Color.GRAY);
                 
-                DAO<Bulletin> obj = DAOFactory.getBulletinDAO();
-                DAO<Personne> p = DAOFactory.getPersonneDAO();
-             
+                /*
+                DAO<Inscription> obj = DAOFactory.getInscriptionDAO();
                 
-                
+                obj.find(new Inscription("", "", "4"));
+                  */  
                 break;
             case 2:
                 panelPrincipal.removeAll();

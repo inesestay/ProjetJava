@@ -264,4 +264,9 @@ public EnseignementDAO(Connection conn) {
         }
         return moyenne/notes.size();
     }
+
+    @Override
+    public ArrayList<Integer> find(Enseignement inscriATrouver) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

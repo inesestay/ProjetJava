@@ -66,7 +66,7 @@ public PersonneDAO(Connection conn) {
      */
 @Override
   public boolean delete(Personne obj) {
-      
+           
       String requete = "DELETE FROM personne WHERE";
       boolean virgule = false;
       
@@ -112,7 +112,7 @@ public PersonneDAO(Connection conn) {
    try {
             PreparedStatement statement = this.connect.prepareStatement(requete);
            
-            statement.executeUpdate(); 
+            statement.executeUpdate();  
              System.out.println("personne supp");
         } catch (SQLException ex) {
             System.out.println("pas supp");
@@ -330,6 +330,11 @@ public PersonneDAO(Connection conn) {
         }
         
         return dd;
+    }
+
+    @Override
+    public ArrayList<Integer> find(Personne inscriATrouver) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
    

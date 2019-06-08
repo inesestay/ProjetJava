@@ -201,4 +201,9 @@ public class AnneeScolaireDAO extends DAO<AnneeScolaire>{
         }
         return moyenne/notes.size();
     }
+
+    @Override
+    public ArrayList<Integer> find(AnneeScolaire inscriATrouver) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

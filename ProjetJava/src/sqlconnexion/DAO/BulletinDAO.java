@@ -235,6 +235,11 @@ public class BulletinDAO extends DAO<Bulletin> {
         }
        return table;
   }
+
+    @Override
+    public ArrayList<Integer> find(Bulletin inscriATrouver) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
    
    /**
      *calcul la moyenne d'un eleve

@@ -217,4 +217,9 @@ public DisciplineDAO(Connection conn) {
         }
         return moyenne/notes.size();
     }
+
+    @Override
+    public ArrayList<Integer> find(Discipline inscriATrouver) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
