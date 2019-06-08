@@ -82,10 +82,6 @@ public class DAOFactory {
     return new DisciplineDAO(conn);
   }
   
-    /**
-  * Retourne un objet Année Scolaire interagissant avec la BDD
-  * @return DAO
-  */
 
     /**
   * Retourne un objet Bulletin interagissant avec la BDD
