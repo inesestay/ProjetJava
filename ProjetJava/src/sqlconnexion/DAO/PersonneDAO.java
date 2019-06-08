@@ -194,7 +194,7 @@ public PersonneDAO(Connection conn) {
 @Override
   public Personne find(String id) {
     Personne personne = new Personne();      
-      
+    String discipline = "physique";
     try {
       ResultSet result = this.connect.createStatement(
         ResultSet.TYPE_SCROLL_INSENSITIVE,
@@ -205,8 +205,11 @@ public PersonneDAO(Connection conn) {
         personne = new Personne(result.getString("id"),result.getString("nom"),result.getString("prenom"),result.getString("type"));  
         if(personne.getType().equals("Etudiant"))
         {
-            System.out.println("moy"+moyenne(personne.getId()));
-            personne.setMoyenne(moyenne(personne.getId()));
+            //System.out.println("moy"+moyenne(personne.getId()));
+           // personne.setMoyenne(moyenne(personne.getId()));
+            float m = moyenneMatiere(personne.getId(), discipline);
+            System.out.println("moyenne physique" + m);
+            
         }
         else if(personne.getType().equals("Prof"))
         {
@@ -267,7 +270,7 @@ public PersonneDAO(Connection conn) {
       //  String id_eleve = eleve.getId();
       
         try {
-         System.out.println("SELECT DISTINCT note FROM `personne`,`inscription`,`bulletin`,`detailbulletin`,`evaluation` WHERE `inscription`.`personneID` LIKE `"+id+"` AND `inscription`.`id` LIKE `bulletin`.`inscriptionID` AND `detailbulletin`.`bulletinID` LIKE `bulletin`.`id` AND `detailbulletin`.`id` LIKE `evaluation`.`detailBulletinID`   ");
+       //  System.out.println("SELECT DISTINCT note FROM `personne`,`inscription`,`bulletin`,`detailbulletin`,`evaluation` WHERE `inscription`.`personneID` LIKE `"+id+"` AND `inscription`.`id` LIKE `bulletin`.`inscriptionID` AND `detailbulletin`.`bulletinID` LIKE `bulletin`.`id` AND `detailbulletin`.`id` LIKE `evaluation`.`detailBulletinID`   ");
    
         ResultSet result = this.connect.createStatement(
         ResultSet.TYPE_SCROLL_INSENSITIVE,
@@ -295,6 +298,48 @@ public PersonneDAO(Connection conn) {
         return somme/notes.size();
     }
 
+   /**
+    * 
+    * @param id
+    * @param discipline
+    * @return la moyenne d'une discipline
+    */ 
+   public float moyenneMatiere(String id, String discipline)
+   {
+         float somme=0;
+        ArrayList<Float> notes = new ArrayList<>();
+      
+        try {
+     System.out.println("on rentre dans le try");
+        ResultSet result = this.connect.createStatement(
+        ResultSet.TYPE_SCROLL_INSENSITIVE,
+        ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT DISTINCT note FROM personne,inscription,bulletin,detailbulletin,evaluation,discipline,enseignement WHERE discipline.nom LIKE "+discipline+" AND inscription.personneID LIKE "+id+" AND inscription.id LIKE bulletin.inscriptionID AND detailbulletin.bulletinID LIKE bulletin.id AND detailbulletin.id LIKE evaluation.detailBulletinID AND detailbulletin.enseignementID LIKE enseignement.id AND enseignement.disciplineId LIKE discipline.id AND evaluation.detailBulletinID LIKE detailbulletin.id AND detailbulletin.enseignementID LIKE enseignement.id AND enseignement.disciplineId LIKE discipline.id");
+        System.out.println("apres try");
+        
+        while(result.next()) {
+System.out.println("on rentre");
+               String note = result.getString(1);
+               float note2 = parseFloat(note);
+               notes.add(note2);
+               
+          }
+        
+        } catch (SQLException e) {
+         System.out.println("pas moyenne");
+         System.out.println(e.getMessage());
+        }
+            
+        for(int i=0; i<notes.size(); i++)
+        {
+            somme += notes.get(i);
+             System.out.println("array : "+somme);
+             System.out.println("taille : "+notes.size());
+        }
+        return somme/notes.size();
+   }
+   
+   
+   
    /**
     * recherche les disciplines enseignées par un prof
     * @param id
