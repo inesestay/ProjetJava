@@ -25,6 +25,14 @@ public DetailBulletinDAO(Connection conn) {
     super(conn);
   }
 
+/**
+ * creer un objet dans la bdd
+ * @param obj
+ * @return true si l'objet est créé dans la bdd
+ * blindage : si un champ est vide, l'objet ne peut etre créé
+ * si aucun champ vide, on ajoute a la bdd
+ * sinon exception créée
+ */
   @Override
     public boolean create(DetailBulletin obj) {
         
@@ -52,6 +60,13 @@ public DetailBulletinDAO(Connection conn) {
         return true;
     }
 
+    /**
+     * supprime un element
+     * possibilité de supprimer avec un juste un certain nombre de champs remplis
+     * si pas supprimé exception
+     * @param obj
+     * @return true si objet supprimé, sinon false
+     */
   public boolean delete(DetailBulletin obj) {
      
         String requete = "DELETE FROM detailBulletin WHERE";
@@ -109,6 +124,13 @@ public DetailBulletinDAO(Connection conn) {
         return true;
   }
    
+  /**
+   * modifier un élélement de la bdd
+   * possibilité de modifier n'importe quel champs
+   *
+   * @param obj
+   * @return true si l'objet est modifié, sinon false
+   */
   public boolean update(DetailBulletin obj) {
       
        String requete = "UPDATE detailBulletin SET ";
@@ -159,6 +181,13 @@ public DetailBulletinDAO(Connection conn) {
         
         return true;
   }
+  
+  /**
+   * recherche d'un element dans la bdd
+   * @param id
+   * @return detail bulletin recherché
+   * sinon lance exception
+   */
    
   public DetailBulletin find(String id) {
     DetailBulletin d = new DetailBulletin();      
@@ -175,6 +204,12 @@ public DetailBulletinDAO(Connection conn) {
     return d;
   }
   
+  
+  /**
+   * récupérer tous les details bulletins
+   * @return ArrayList<Object> de details bulletins
+   * 
+   */
    public ArrayList<Object> retour()
   {
        ArrayList<Object> table = new ArrayList();

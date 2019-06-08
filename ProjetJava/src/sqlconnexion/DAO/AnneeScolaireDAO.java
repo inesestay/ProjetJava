@@ -24,7 +24,14 @@ public class AnneeScolaireDAO extends DAO<AnneeScolaire>{
     
     super(conn);
   }
-
+/**
+ * creer un objet dans la bdd
+ * @param obj
+ * @return true si l'objet est créé dans la bdd
+ * blindage : si un champ est vide, l'objet ne peut etre créé
+ * si aucun champ vide, on ajoute a la bdd
+ * sinon exception créée
+ */
   @Override
     public boolean create(AnneeScolaire obj) {
          try {
@@ -49,6 +56,12 @@ public class AnneeScolaireDAO extends DAO<AnneeScolaire>{
         return true;
     }
 
+    /**
+     * supprime un element
+     * si pas supprimé exception
+     * @param obj
+     * @return true si objet supprimé, sinon false
+     */
   public boolean delete(AnneeScolaire obj) {
       
      String requete = "DELETE FROM anneeScolaire WHERE";
@@ -75,6 +88,13 @@ public class AnneeScolaireDAO extends DAO<AnneeScolaire>{
         return true;
   }
    
+  /**
+   * modifier un élélement de la bdd
+   * possibilité de modifier n'importe quel champs
+   *
+   * @param obj
+   * @return true si l'objet est modifié, sinon false
+   */
   public boolean update(AnneeScolaire obj) {
       
       String requete = "UPDATE personne SET ";
@@ -103,6 +123,13 @@ public class AnneeScolaireDAO extends DAO<AnneeScolaire>{
         return true;
   }
    
+  
+  /**
+   * recherche d'un element dans la bdd
+   * @param id
+   * @return l'année soclaire recherchée
+   * sinon lance exception
+   */
   public AnneeScolaire find(String id) {
     AnneeScolaire a = new AnneeScolaire();      
       
@@ -118,6 +145,12 @@ public class AnneeScolaireDAO extends DAO<AnneeScolaire>{
     return a;
   }
   
+  
+  /**
+   * récupérer tous les années scolaires
+   * @return ArrayList<Object> d'annnées scolaires
+   * 
+   */
    public ArrayList<Object> retour()
   {
        ArrayList<Object> table = new ArrayList();
@@ -140,6 +173,7 @@ public class AnneeScolaireDAO extends DAO<AnneeScolaire>{
         }
        return table;
   }
+   
     public float moyenne(Personne eleve)
     {
         float moyenne=0;

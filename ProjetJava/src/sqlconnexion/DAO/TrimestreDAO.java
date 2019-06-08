@@ -26,6 +26,14 @@ public TrimestreDAO(Connection conn) {
     super(conn);
   }
 
+/**
+ * creer un objet dans la bdd
+ * @param obj
+ * @return true si l'objet est créé dans la bdd
+ * blindage : si un champ est vide, l'objet ne peut etre créé
+ * si aucun champ vide, on ajoute a la bdd
+ * sinon exception créée
+ */
   @Override
     public boolean create( Trimestre obj) {
          try {
@@ -51,6 +59,13 @@ public TrimestreDAO(Connection conn) {
         return true;
     }
 
+    /**
+     * supprime un element
+     * possibilité de supprimer avec un juste un certain nombre de champs remplis
+     * si pas supprimé exception
+     * @param obj
+     * @return true si objet supprimé, sinon false
+     */
   public boolean delete( Trimestre obj) {
      String requete = "DELETE FROM trimestre WHERE";
       boolean virgule = false;
@@ -121,6 +136,13 @@ public TrimestreDAO(Connection conn) {
         return true;
   }
    
+  /**
+   * modifier un élélement de la bdd
+   * possibilité de modifier n'importe quel champs
+   *
+   * @param obj
+   * @return true si l'objet est modifié, sinon false
+   */
   public boolean update( Trimestre obj) {
       
       String requete = "UPDATE trimestre SET ";
@@ -181,6 +203,12 @@ public TrimestreDAO(Connection conn) {
         return true;
   }
    
+  /**
+   * recherche d'un element dans la bdd
+   * @param id
+   * @return le trimestre recherché
+   * sinon lance exception
+   */
   public  Trimestre find(String id) {
      Trimestre d = new  Trimestre();      
       
@@ -196,6 +224,12 @@ public TrimestreDAO(Connection conn) {
     return d;
   }
   
+  
+  /**
+   * récupérer tous lestrimestres
+   * @return ArrayList<Object> de trimestres
+   * 
+   */
    public ArrayList<Object> retour()
   {
        ArrayList<Object> table = new ArrayList();

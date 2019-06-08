@@ -23,6 +23,15 @@ public class BulletinDAO extends DAO<Bulletin> {
     
     super(conn);
   }
+    
+    /**
+ * creer un objet dans la bdd
+ * @param obj
+ * @return true si l'objet est créé dans la bdd
+ * blindage : si un champ est vide, l'objet ne peut etre créé
+ * si aucun champ vide, on ajoute a la bdd
+ * sinon exception créée
+ */
 
   @Override
     public boolean create(Bulletin obj) {
@@ -51,6 +60,12 @@ public class BulletinDAO extends DAO<Bulletin> {
         return true;
     }
 
+    /**
+     * supprime un element
+     * si pas supprimé exception
+     * @param obj
+     * @return true si objet supprimé, sinon false
+     */
   public boolean delete(Bulletin obj) {
      
        String requete = "DELETE FROM bulletin WHERE";
@@ -108,6 +123,13 @@ public class BulletinDAO extends DAO<Bulletin> {
         return true;
   }
    
+  /**
+   * modifier un élélement de la bdd
+   * possibilité de modifier n'importe quel champs
+   *
+   * @param obj
+   * @return true si l'objet est modifié, sinon false
+   */
   public boolean update(Bulletin obj) {
       
       String requete = "UPDATE bulletin SET ";
@@ -159,6 +181,12 @@ public class BulletinDAO extends DAO<Bulletin> {
         return true;
   }
    
+  /**
+   * recherche d'un element dans la bdd
+   * @param id
+   * @return le bulletin recherché
+   * sinon lance exception
+   */
   public Bulletin find(String id) {
     Bulletin d = new Bulletin();      
       
@@ -174,6 +202,12 @@ public class BulletinDAO extends DAO<Bulletin> {
     return d;
   }
   
+  
+  /**
+   * récupérer tous les bulletins
+   * @return ArrayList<Object> de bulletins
+   * 
+   */
    public ArrayList<Object> retour()
   {
        ArrayList<Object> table = new ArrayList();
