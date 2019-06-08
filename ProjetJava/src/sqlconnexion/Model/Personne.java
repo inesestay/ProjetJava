@@ -18,7 +18,7 @@ public class Personne {
     private String prenom;
     private String type;
     private float moyenne;
-    public ArrayList<String> dd;
+    private ArrayList<String> dd;
     
     public Personne()
     {
@@ -49,7 +49,7 @@ public class Personne {
         this.type=type;
         dd = new ArrayList<>();
     }
-    
+    /*
     public String getId(){return this.id;}
     public String getNom(){return this.nom;}
     public String getPrenom(){return this.prenom;}
@@ -66,5 +66,90 @@ public class Personne {
         this.dd.clear();
         for(int i=0; i<dd.size(); i++){ this.dd.add(dd.get(i));}
        
+    }*/
+
+    /**
+     * @return the id
+     */
+    public String getId() {
+        return id;
     }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    /**
+     * @return the nom
+     */
+    public String getNom() {
+        return nom;
+    }
+
+    /**
+     * @param nom the nom to set
+     */
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    /**
+     * @return the prenom
+     */
+    public String getPrenom() {
+        return prenom;
+    }
+
+    /**
+     * @param prenom the prenom to set
+     */
+    public void setPrenom(String prenom) {
+        this.prenom = prenom;
+    }
+
+    /**
+     * @return the type
+     */
+    public String getType() {
+        return type;
+    }
+
+    /**
+     * @param type the type to set
+     */
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    /**
+     * @return the moyenne
+     */
+    public float getMoyenne() {
+        return moyenne;
+    }
+
+    /**
+     * @param moyenne the moyenne to set
+     */
+    public void setMoyenne(float moyenne) {
+        this.moyenne = moyenne;
+    }
+
+    /**
+     * @return the dd
+     */
+    public ArrayList<String> getDd() {
+        return dd;
+    }
+
+    /**
+     * @param dd the dd to set
+     */
+    public void setDiscipline(ArrayList<String> dd) {
+        this.dd = dd;
+    }
+    
 }

@@ -39,36 +39,62 @@ public class Evaluation {
     
     ///GETTERS AND SETTERS
 
+    /**
+     * @return the id
+     */
     public String getId() {
         return id;
     }
 
+    /**
+     * @param id the id to set
+     */
     public void setId(String id) {
         this.id = id;
     }
 
+    /**
+     * @return the appreciation
+     */
     public String getAppreciation() {
         return appreciation;
     }
 
+    /**
+     * @param appreciation the appreciation to set
+     */
     public void setAppreciation(String appreciation) {
         this.appreciation = appreciation;
     }
 
+    /**
+     * @return the note
+     */
     public String getNote() {
         return note;
     }
 
+    /**
+     * @param note the note to set
+     */
     public void setNote(String note) {
         this.note = note;
     }
 
+    /**
+     * @return the detailBulletinID
+     */
     public String getDetailBulletinID() {
         return detailBulletinID;
     }
 
+    /**
+     * @param detailBulletinID the detailBulletinID to set
+     */
     public void setDetailBulletinID(String detailBulletinID) {
         this.detailBulletinID = detailBulletinID;
     }
+
+    
     
 }

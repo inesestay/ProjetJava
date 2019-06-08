@@ -19,8 +19,20 @@ public class AnneeScolaire {
       public AnneeScolaire(String AnneeScolaireID){
             this.AnneeScolaireID = AnneeScolaireID;
       }
+
+    /**
+     * @return the AnneeScolaireID
+     */
+    public String getAnneeScolaireID() {
+        return AnneeScolaireID;
+    }
+
+    /**
+     * @param AnneeScolaireID the AnneeScolaireID to set
+     */
+    public void setAnneeScolaireID(String AnneeScolaireID) {
+        this.AnneeScolaireID = AnneeScolaireID;
+    }
       
-      public String getAnneeScolaireID(){
-          return AnneeScolaireID;
-      }
+  
 }

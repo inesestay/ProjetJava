@@ -42,37 +42,62 @@ public class Bulletin {
     }
     
     ///GETTERS AND SETTERS
-    public String getId(){
+
+    /**
+     * @return the id
+     */
+    public String getId() {
         return id;
     }
 
+    /**
+     * @param id the id to set
+     */
     public void setId(String id) {
         this.id = id;
     }
 
+    /**
+     * @return the appreciation
+     */
     public String getAppreciation() {
         return appreciation;
     }
 
+    /**
+     * @param appreciation the appreciation to set
+     */
     public void setAppreciation(String appreciation) {
         this.appreciation = appreciation;
     }
 
+    /**
+     * @return the trimestreID
+     */
     public String getTrimestreID() {
         return trimestreID;
     }
 
-    public void setTrimestreID(String trimID) {
-        this.trimestreID = trimID;
+    /**
+     * @param trimestreID the trimestreID to set
+     */
+    public void setTrimestreID(String trimestreID) {
+        this.trimestreID = trimestreID;
     }
 
+    /**
+     * @return the inscriptionID
+     */
     public String getInscriptionID() {
         return inscriptionID;
     }
 
+    /**
+     * @param inscriptionID the inscriptionID to set
+     */
     public void setInscriptionID(String inscriptionID) {
         this.inscriptionID = inscriptionID;
     }
-    
+
     
 }
