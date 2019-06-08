@@ -67,60 +67,26 @@ public PersonneDAO(Connection conn) {
 @Override
   public boolean delete(Personne obj) {
            
-      String requete = "DELETE FROM personne WHERE";
-      boolean virgule = false;
-      
-      if(!("".equals(obj.getNom()))){
-          requete += " `nom`= "+"'" +obj.getNom()+"'" ;
-          virgule=true;
-          
-           if(virgule==true ){
-              if (!("".equals(obj.getPrenom())) || !("".equals(obj.getType())) || !("".equals(obj.getId())) ) {
-                  requete =requete + " AND" ;
-              }
-            }       
-      }
+      try {
+            ArrayList<Integer> ines = find(obj);
+        for(int nelly : ines){
+            //Suppression suplémentaire
             
-      if(!("".equals(obj.getPrenom()))){
-          requete += " `prenom` = "+ "'"+ obj.getPrenom()+ "'";
-          virgule=true;
-          
-           if(virgule==true){
-               if(!("".equals(obj.getType())) || !("".equals(obj.getId()))){
-          requete =requete + " AND" ;
-               }
-            } 
-      }
-      
-      if(!("".equals(obj.getType()))){
-          requete += " `type` = "+"'"+obj.getType()+ "'";
-          virgule=true;
-          
-           if(virgule==true){
-               if(!("".equals(obj.getId()))){
-          requete =requete + " AND" ;
-               }
-            }
-       
-      }     
-      
-      if(!("".equals(obj.getId()))){
-          requete += " `id` = "+"'"+obj.getId()+ "' ";
-      }
-            
-
-   try {
+            //Suppression dans la table
+            String requete = "DELETE FROM personne WHERE  `id` =" + nelly;
             PreparedStatement statement = this.connect.prepareStatement(requete);
-           
-            statement.executeUpdate();  
-             System.out.println("personne supp");
-        } catch (SQLException ex) {
-            System.out.println("pas supp");
-            return false;
+            statement.executeUpdate(); 
+            System.out.println("inscription supp");
         }
+            
+            
+    } catch (SQLException ex) {
+        System.out.println("pas supp");
+        return false;
+    }
         //en spécifiant bien les types SQL cibles 
         
-        return true;
+    return true;
   }
    /**
    * modifier un élélement de la bdd
@@ -371,7 +337,55 @@ public PersonneDAO(Connection conn) {
 
     @Override
     public ArrayList<Integer> find(Personne inscriATrouver) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ArrayList<Integer> aRetourner = new ArrayList<Integer>();
+      
+        String requete = "SELECT * FROM personne WHERE";
+        boolean virgule = false;
+
+        if(!("".equals(inscriATrouver.getId()))){
+            requete += " `id`= "+"'" +inscriATrouver.getId() +"'" ;
+            virgule=true;      
+        }
+
+        if(!("".equals(inscriATrouver.getNom()))){         
+            if(virgule){
+                requete += " AND";
+            }
+            requete += " `nom` = '"+ inscriATrouver.getNom()+ "'";
+            virgule=true;
+        }
+
+
+        if(!("".equals(inscriATrouver.getPrenom()))){
+            if(virgule){
+                requete += " AND";
+            }
+            requete += " `prenom` = '"+ inscriATrouver.getPrenom()+ "'";
+            virgule=true;
+        }
+
+        if(!("".equals(inscriATrouver.getType()))){
+            if(virgule){
+                requete += " AND";
+            }
+            requete += " `type` = '"+ inscriATrouver.getType()+ "'";
+            virgule=true;
+        }
+
+        try {
+            ResultSet result = this.connect.createStatement(
+            ResultSet.TYPE_SCROLL_INSENSITIVE,
+            ResultSet.CONCUR_READ_ONLY).executeQuery(requete);
+
+            while(result.next()) {
+                aRetourner.add(result.getInt(1));
+            }
+
+          } catch (SQLException ex) {
+              System.out.println("Requette echouer");
+          }
+
+        return aRetourner;
     }
 
    

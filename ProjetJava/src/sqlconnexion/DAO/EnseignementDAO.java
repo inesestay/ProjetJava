@@ -67,59 +67,26 @@ public EnseignementDAO(Connection conn) {
      */
   public boolean delete(Enseignement obj) {
      
-       String requete = "DELETE FROM enseignement WHERE";
-      boolean virgule = false;
-      
-      if(!("".equals(obj.getClasseID()))){
-          requete += " `classeID`= "+"'" +obj.getClasseID()+"'" ;
-          virgule=true;
-          
-           if(virgule==true ){
-              if (!("".equals(obj.getDisciplineID())) || !("".equals(obj.getEnseignantID())) || !("".equals(obj.getId())) ) {
-                  requete =requete + " AND" ;
-              }
-            }       
-      }
+      try {
+            ArrayList<Integer> ines = find(obj);
+        for(int nelly : ines){
+            //Suppression suplémentaire
             
-      if(!("".equals(obj.getDisciplineID()))){
-          requete += " `disciplineId` = "+ "'"+ obj.getDisciplineID()+ "'";
-          virgule=true;
-          
-           if(virgule==true){
-               if(!("".equals(obj.getEnseignantID())) || !("".equals(obj.getId()))){
-          requete =requete + " AND" ;
-               }
-            } 
-      }
-      
-      if(!("".equals(obj.getEnseignantID()))){
-          requete += " `personneId` = "+"'"+obj.getEnseignantID()+ "'";
-          virgule=true;
-          
-           if(virgule==true){
-               if(!("".equals(obj.getId()))){
-          requete =requete + " AND" ;
-               }
-            }
-       
-      }     
-      
-      if(!("".equals(obj.getId()))){
-          requete += " `id` = "+"'"+obj.getId()+ "' ";
-      }
-      
-   try {
+            //Suppression dans la table
+            String requete = "DELETE FROM enseignement WHERE  `id` =" + nelly;
             PreparedStatement statement = this.connect.prepareStatement(requete);
-           
             statement.executeUpdate(); 
-             System.out.println("Enseignement supp");
-        } catch (SQLException ex) {
-            System.out.println("pas supp Enseignement");
-            return false;
+            System.out.println("inscription supp");
         }
+            
+            
+    } catch (SQLException ex) {
+        System.out.println("pas supp");
+        return false;
+    }
         //en spécifiant bien les types SQL cibles 
         
-        return true;
+    return true;
   }
   
   /**
@@ -267,6 +234,54 @@ public EnseignementDAO(Connection conn) {
 
     @Override
     public ArrayList<Integer> find(Enseignement inscriATrouver) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ArrayList<Integer> aRetourner = new ArrayList<Integer>();
+      
+        String requete = "SELECT * FROM enseignement WHERE";
+        boolean virgule = false;
+
+        if(!("".equals(inscriATrouver.getId()))){
+            requete += " `id`= "+"'" +inscriATrouver.getId() +"'" ;
+            virgule=true;      
+        }
+
+        if(!("".equals(inscriATrouver.getClasseID()))){         
+            if(virgule){
+                requete += " AND";
+            }
+            requete += " `classeID` = '"+ inscriATrouver.getClasseID()+ "'";
+            virgule=true;
+        }
+
+
+        if(!("".equals(inscriATrouver.getDisciplineID()))){
+            if(virgule){
+                requete += " AND";
+            }
+            requete += " `disciplineId` = '"+ inscriATrouver.getDisciplineID()+ "'";
+            virgule=true;
+        }
+
+        if(!("".equals(inscriATrouver.getEnseignantID()))){
+            if(virgule){
+                requete += " AND";
+            }
+            requete += " `personneId` = '"+ inscriATrouver.getEnseignantID()+ "'";
+            virgule=true;
+        }
+
+        try {
+            ResultSet result = this.connect.createStatement(
+            ResultSet.TYPE_SCROLL_INSENSITIVE,
+            ResultSet.CONCUR_READ_ONLY).executeQuery(requete);
+
+            while(result.next()) {
+                aRetourner.add(result.getInt(1));
+            }
+
+          } catch (SQLException ex) {
+              System.out.println("Requette echouer");
+          }
+
+        return aRetourner;
     }
 }

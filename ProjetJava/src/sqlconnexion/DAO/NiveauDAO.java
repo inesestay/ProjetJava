@@ -56,39 +56,26 @@ public NiveauDAO(Connection conn) {
 
   public boolean delete(Niveau obj) {
      
-       String requete = "DELETE FROM niveau WHERE";
-      boolean virgule = false;
-      
-      if(!("".equals(obj.getNom()))){
-          requete += " `nom`= "+"'" +obj.getNom()+"'" ;
-          virgule=true;
-            System.out.println(obj.getNom());
-           if(virgule==true ){
-              if (!("".equals(obj.getId())) ) {
-                  requete =requete + " AND" ;
-              }
-            }       
-      }
+      try {
+            ArrayList<Integer> ines = find(obj);
+        for(int nelly : ines){
+            //Suppression suplémentaire
             
-      
-      if(!("".equals(obj.getId()))){
-          requete += " `id` = "+"'"+obj.getId()+ "' ";
-      }
-      
-      System.out.println(requete);
-                  
-  
-   try {
+            //Suppression dans la table
+            String requete = "DELETE FROM niveau WHERE  `id` =" + nelly;
             PreparedStatement statement = this.connect.prepareStatement(requete);
             statement.executeUpdate(); 
-             System.out.println("Niveau supp");
-        } catch (SQLException ex) {
-            System.out.println("pas supp Niveau");
-            return false;
+            System.out.println("inscription supp");
         }
+            
+            
+    } catch (SQLException ex) {
+        System.out.println("pas supp");
+        return false;
+    }
         //en spécifiant bien les types SQL cibles 
         
-        return true;
+    return true;
   }
   
   /**
@@ -210,6 +197,37 @@ public NiveauDAO(Connection conn) {
 
     @Override
     public ArrayList<Integer> find(Niveau inscriATrouver) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ArrayList<Integer> aRetourner = new ArrayList<Integer>();
+      
+        String requete = "SELECT * FROM niveau WHERE";
+        boolean virgule = false;
+
+        if(!("".equals(inscriATrouver.getId()))){
+            requete += " `id`= "+"'" +inscriATrouver.getId() +"'" ;
+            virgule=true;      
+        }
+
+        if(!("".equals(inscriATrouver.getNom()))){         
+            if(virgule){
+                requete += " AND";
+            }
+            requete += " `nom` = '"+ inscriATrouver.getNom()+ "'";
+            virgule=true;
+        }
+
+        try {
+            ResultSet result = this.connect.createStatement(
+            ResultSet.TYPE_SCROLL_INSENSITIVE,
+            ResultSet.CONCUR_READ_ONLY).executeQuery(requete);
+
+            while(result.next()) {
+                aRetourner.add(result.getInt(1));
+            }
+
+          } catch (SQLException ex) {
+              System.out.println("Requette echouer");
+          }
+
+        return aRetourner;
     }
 }

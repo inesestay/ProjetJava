@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.ArrayList;
+import sqlconnexion.factory.DAOFactory;
 /**
  *
  * @author nelly
@@ -64,28 +65,26 @@ public class AnneeScolaireDAO extends DAO<AnneeScolaire>{
      */
   public boolean delete(AnneeScolaire obj) {
       
-     String requete = "DELETE FROM anneeScolaire WHERE";
-      boolean virgule = false;
-      
-      if(!("".equals(obj.getAnneeScolaireID()))){
-          requete += " `type` = "+"'"+obj.getAnneeScolaireID()+ "'";
-          virgule=true;
-                 
-      }     
-      
-  
-   try {
+    try {
+            ArrayList<Integer> ines = find(obj);
+        for(int nelly : ines){
+            //Suppression suplémentaire
+            
+            //Suppression dans la table
+            String requete = "DELETE FROM anneescolaire WHERE  `AnneeScolaireID` =" + nelly;
             PreparedStatement statement = this.connect.prepareStatement(requete);
-           
             statement.executeUpdate(); 
-             System.out.println("annee supp");
-        } catch (SQLException ex) {
-            System.out.println("pas supp annee");
-            return false;
+            System.out.println("inscription supp");
         }
+            
+            
+    } catch (SQLException ex) {
+        System.out.println("pas supp");
+        return false;
+    }
         //en spécifiant bien les types SQL cibles 
         
-        return true;
+    return true;
   }
    
   /**
@@ -146,6 +145,8 @@ public class AnneeScolaireDAO extends DAO<AnneeScolaire>{
   }
   
   
+  
+  
   /**
    * récupérer tous les années scolaires
    * @return ArrayList<Object> d'annnées scolaires
@@ -204,6 +205,27 @@ public class AnneeScolaireDAO extends DAO<AnneeScolaire>{
 
     @Override
     public ArrayList<Integer> find(AnneeScolaire inscriATrouver) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ArrayList<Integer> aRetourner = new ArrayList<Integer>();
+      
+      String requete = "SELECT * FROM anneescolaire WHERE";
+      
+      if(!("".equals(inscriATrouver.getAnneeScolaireID()))){
+          requete += " `AnneeScolaireID`= "+"'" +inscriATrouver.getAnneeScolaireID() +"'" ;    
+      }
+            
+      try {
+        ResultSet result = this.connect.createStatement(
+        ResultSet.TYPE_SCROLL_INSENSITIVE,
+        ResultSet.CONCUR_READ_ONLY).executeQuery(requete);
+            
+        while(result.next()) {
+            aRetourner.add(result.getInt(1));
+        }
+            
+        } catch (SQLException ex) {
+            System.out.println("Requette echouer");
+        }
+      
+      return aRetourner;
     }
 }

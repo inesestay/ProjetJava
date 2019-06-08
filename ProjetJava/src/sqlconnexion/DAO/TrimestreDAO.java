@@ -67,73 +67,26 @@ public TrimestreDAO(Connection conn) {
      * @return true si objet supprimé, sinon false
      */
   public boolean delete( Trimestre obj) {
-     String requete = "DELETE FROM trimestre WHERE";
-      boolean virgule = false;
-      
-      if(!("".equals(obj.getNum()))){
-          requete += " `numero`= "+"'" +obj.getNum()+"'" ;
-          virgule=true;
-          
-           if(virgule==true ){
-              if (!("".equals(obj.getDebut())) || !("".equals(obj.getFin())) || !("".equals(obj.getAnneescolaireID())) ||  !("".equals(obj.getId())) ) {
-                  requete =requete + " AND" ;
-              }
-            }       
-      }
+      try {
+            ArrayList<Integer> ines = find(obj);
+        for(int nelly : ines){
+            //Suppression suplémentaire
             
-      if(!("".equals(obj.getDebut()))){
-          requete += " `debut` = "+ "'"+ obj.getDebut()+ "'";
-          virgule=true;
-          
-           if(virgule==true){
-               if(!("".equals(obj.getFin())) || !("".equals(obj.getAnneescolaireID())) ||  !("".equals(obj.getId()))){
-          requete =requete + " AND" ;
-               }
-            } 
-      }
-      
-      if(!("".equals(obj.getFin()))){
-          requete += " `fin` = "+"'"+obj.getFin()+ "'";
-          virgule=true;
-          
-           if(virgule==true){
-               if(!("".equals(obj.getAnneescolaireID())) ||  !("".equals(obj.getId()))){
-          requete =requete + " AND" ;
-               }
-            }
-       
-      }    
-      
-      if(!("".equals(obj.getAnneescolaireID()))){
-          requete += " `anneescolaireID` = "+"'"+obj.getAnneescolaireID()+ "'";
-          virgule=true;
-          
-           if(virgule==true){
-               if(!("".equals(obj.getId()))){
-          requete =requete + " AND" ;
-               }
-            }
-       
-      }  
-      
-      if(!("".equals(obj.getId()))){
-          requete += " `id` = "+"'"+obj.getId()+ "' ";
-      }
-      
-      System.out.println(requete);
-  
-   try {
+            //Suppression dans la table
+            String requete = "DELETE FROM trimestre WHERE  `id` =" + nelly;
             PreparedStatement statement = this.connect.prepareStatement(requete);
-           
             statement.executeUpdate(); 
-             System.out.println(" Trimestre supp");
-        } catch (SQLException ex) {
-            System.out.println("pas supp  Trimestre");
-            return false;
+            System.out.println("inscription supp");
         }
+            
+            
+    } catch (SQLException ex) {
+        System.out.println("pas supp");
+        return false;
+    }
         //en spécifiant bien les types SQL cibles 
         
-        return true;
+    return true;
   }
    
   /**
@@ -288,7 +241,63 @@ public TrimestreDAO(Connection conn) {
 
     @Override
     public ArrayList<Integer> find(Trimestre inscriATrouver) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ArrayList<Integer> aRetourner = new ArrayList<Integer>();
+      
+        String requete = "SELECT * FROM trimestre WHERE";
+        boolean virgule = false;
+
+        if(!("".equals(inscriATrouver.getId()))){
+            requete += " `id`= "+"'" +inscriATrouver.getId() +"'" ;
+            virgule=true;      
+        }
+
+        if(!("".equals(inscriATrouver.getNum()))){         
+            if(virgule){
+                requete += " AND";
+            }
+            requete += " `numero` = '"+ inscriATrouver.getNum()+ "'";
+            virgule=true;
+        }
+
+
+        if(!("".equals(inscriATrouver.getDebut()))){
+            if(virgule){
+                requete += " AND";
+            }
+            requete += " `debut` = '"+ inscriATrouver.getDebut()+ "'";
+            virgule=true;
+        }
+
+        if(!("".equals(inscriATrouver.getFin()))){
+            if(virgule){
+                requete += " AND";
+            }
+            requete += " `fin` = '"+ inscriATrouver.getFin()+ "'";
+            virgule=true;
+        }
+        
+        if(!("".equals(inscriATrouver.getAnneescolaireID()))){
+            if(virgule){
+                requete += " AND";
+            }
+            requete += " `anneescolaireID` = '"+ inscriATrouver.getAnneescolaireID()+ "'";
+            virgule=true;
+        }
+
+        try {
+            ResultSet result = this.connect.createStatement(
+            ResultSet.TYPE_SCROLL_INSENSITIVE,
+            ResultSet.CONCUR_READ_ONLY).executeQuery(requete);
+
+            while(result.next()) {
+                aRetourner.add(result.getInt(1));
+            }
+
+          } catch (SQLException ex) {
+              System.out.println("Requette echouer");
+          }
+
+        return aRetourner;
     }
 }
 

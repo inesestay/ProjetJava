@@ -73,28 +73,28 @@ public InscriDAO(Connection conn) {
 @Override
   public boolean delete(Inscription obj) {
       
-   try {
+    try {
             ArrayList<Integer> ines = find(obj);
-            for(int nelly : ines){
-                //Suppression dans buleltin
-                DAO<Bulletin>adrien = DAOFactory.getBulletinDAO();
-                adrien.delete(new Bulletin("", "", "", Integer.toString(nelly)));
-                
-                //Suppression dans la table
-                String requete = "DELETE FROM inscription WHERE  `id` =" + nelly;
-                PreparedStatement statement = this.connect.prepareStatement(requete);
-                statement.executeUpdate(); 
-                System.out.println("inscription supp");
-            }
-            
-            
-        } catch (SQLException ex) {
-            System.out.println("pas supp");
-            return false;
+        for(int nelly : ines){
+            //Suppression dans buleltin
+            DAO<Bulletin>adrien = DAOFactory.getBulletinDAO();
+            adrien.delete(new Bulletin("", "", "", Integer.toString(nelly)));
+
+            //Suppression dans la table
+            String requete = "DELETE FROM inscription WHERE  `id` =" + nelly;
+            PreparedStatement statement = this.connect.prepareStatement(requete);
+            statement.executeUpdate(); 
+            System.out.println("inscription supp");
         }
+            
+            
+    } catch (SQLException ex) {
+        System.out.println("pas supp");
+        return false;
+    }
         //en spécifiant bien les types SQL cibles 
         
-        return true;
+    return true;
   }
    
   /**
@@ -167,7 +167,11 @@ public InscriDAO(Connection conn) {
     return inscription;
   }
   
-  
+  /**
+   * récupérer toutes les id des inscription avec des attribut qui correspond
+   * @return ArrayList<Integer> des id d inscription 
+   * 
+   */
   public ArrayList<Integer> find(Inscription inscriATrouver){
       ArrayList<Integer> aRetourner = new ArrayList<Integer>();
       
@@ -204,13 +208,11 @@ public InscriDAO(Connection conn) {
             
             while(result.next()) {
                aRetourner.add(result.getInt(1));
-               System.out.println("Trouver : " + result.getInt(1));
           }
             
         } catch (SQLException ex) {
             System.out.println("Requette echouer");
         }
-      
       
       return aRetourner;
   }

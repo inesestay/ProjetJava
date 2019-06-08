@@ -67,60 +67,27 @@ public class BulletinDAO extends DAO<Bulletin> {
      * @return true si objet supprimé, sinon false
      */
   public boolean delete(Bulletin obj) {
-     
-       String requete = "DELETE FROM bulletin WHERE";
-      boolean virgule = false;
-      
-      if(!("".equals(obj.getAppreciation()))){
-          requete += " `appreciation`= "+"'" +obj.getAppreciation()+"'" ;
-          virgule=true;
-          
-           if(virgule==true ){
-              if (!("".equals(obj.getTrimestreID())) || !("".equals(obj.getInscriptionID())) || !("".equals(obj.getId())) ) {
-                  requete =requete + " AND" ;
-              }
-            }       
-      }
+    
+      try {
+            ArrayList<Integer> ines = find(obj);
+        for(int nelly : ines){
+            //Suppression suplémentaire
             
-      if(!("".equals(obj.getTrimestreID()))){
-          requete += " `trimestreID` = "+ "'"+ obj.getTrimestreID()+ "'";
-          virgule=true;
-          
-           if(virgule==true){
-               if(!("".equals(obj.getInscriptionID())) || !("".equals(obj.getId()))){
-          requete =requete + " AND" ;
-               }
-            } 
-      }
-      
-      if(!("".equals(obj.getInscriptionID()))){
-          requete += " `inscriptionID` = "+"'"+obj.getInscriptionID()+ "'";
-          virgule=true;
-          
-           if(virgule==true){
-               if(!("".equals(obj.getId()))){
-          requete =requete + " AND" ;
-               }
-            }
-       
-      }     
-      
-      if(!("".equals(obj.getId()))){
-          requete += " `id` = "+"'"+obj.getId()+ "' ";
-      }
-  
-   try {
+            //Suppression dans la table
+            String requete = "DELETE FROM bulletin WHERE  `id` =" + nelly;
             PreparedStatement statement = this.connect.prepareStatement(requete);
-           
             statement.executeUpdate(); 
-             System.out.println("bulletin supp");
-        } catch (SQLException ex) {
-            System.out.println("pas supp bulletin");
-            return false;
+            System.out.println("inscription supp");
         }
+            
+            
+    } catch (SQLException ex) {
+        System.out.println("pas supp");
+        return false;
+    }
         //en spécifiant bien les types SQL cibles 
         
-        return true;
+    return true;
   }
    
   /**
@@ -238,7 +205,55 @@ public class BulletinDAO extends DAO<Bulletin> {
 
     @Override
     public ArrayList<Integer> find(Bulletin inscriATrouver) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ArrayList<Integer> aRetourner = new ArrayList<Integer>();
+      
+        String requete = "SELECT * FROM bulletin WHERE";
+        boolean virgule = false;
+
+        if(!("".equals(inscriATrouver.getId()))){
+            requete += " `id`= "+"'" +inscriATrouver.getId() +"'" ;
+            virgule=true;      
+        }
+
+        if(!("".equals(inscriATrouver.getAppreciation()))){         
+            if(virgule){
+                requete += " AND";
+            }
+            requete += " `appreciation` = '"+ inscriATrouver.getAppreciation()+ "'";
+            virgule=true;
+        }
+
+
+        if(!("".equals(inscriATrouver.getTrimestreID()))){
+            if(virgule){
+                requete += " AND";
+            }
+            requete += " `trimestreID` = '"+ inscriATrouver.getTrimestreID()+ "'";
+            virgule=true;
+        }
+
+        if(!("".equals(inscriATrouver.getInscriptionID()))){
+            if(virgule){
+                requete += " AND";
+            }
+            requete += " `inscriptionID` = '"+ inscriATrouver.getInscriptionID()+ "'";
+            virgule=true;
+        }
+
+        try {
+            ResultSet result = this.connect.createStatement(
+            ResultSet.TYPE_SCROLL_INSENSITIVE,
+            ResultSet.CONCUR_READ_ONLY).executeQuery(requete);
+
+            while(result.next()) {
+                aRetourner.add(result.getInt(1));
+            }
+
+          } catch (SQLException ex) {
+              System.out.println("Requette echouer");
+          }
+
+        return aRetourner;
     }
    
    /**
