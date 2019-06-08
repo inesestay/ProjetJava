@@ -3,7 +3,7 @@ package projetjava.Graphique;
 /**
  *
  * @author quentin
- * 
+ *
  */
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -36,7 +36,7 @@ public class MyWindow extends JFrame implements ActionListener {
 
     //boolean pour savoir si on vient d arriver sur la fenetre ou action realiser
     boolean affichageSupp;
-    //Les differents bouton 
+    //Les differents bouton
     JButton button1, button2,buttonConnexionBDD, addMenu, delMenu, dispMenu, modifMenu, menu, addElement, delElement, modifElement,session,connexionSession;
     //Label pour les information a afficher
     JLabel label1, label2, label3, label4, errorText,info;
@@ -59,7 +59,7 @@ public class MyWindow extends JFrame implements ActionListener {
     ArrayList<JLabel> arrayJLabel;
     //Pour optimisation des methode de recuperation
     ArrayList<JTextField> arrayJTextField;
-    
+
     /**
  * Constructeur d'une frame
  * @param nom nom de la table a afficher par defaut si c est une fenetre secondaire
@@ -88,14 +88,14 @@ public class MyWindow extends JFrame implements ActionListener {
         delElement = new JButton("Supprimer Element");
         modifElement = new JButton("Modifier Element");
         session = new JButton("Session");
-        
+
         connexionSession = new JButton("Ouvrir ma session");
-                
+
         idBDD = new JTextField();
         pswBDD = new JTextField();
         nomBDD = new JTextField();
         idSession = new JTextField();
-        
+
         button1.addActionListener(this);
         button2.addActionListener(this);
 
@@ -110,7 +110,7 @@ public class MyWindow extends JFrame implements ActionListener {
         delElement.addActionListener(this);
         modifElement.addActionListener(this);
         session.addActionListener(this);
-        
+
         connexionSession.addActionListener(this);
 
 
@@ -129,7 +129,7 @@ public class MyWindow extends JFrame implements ActionListener {
         if(!nom.equals("")){
             nomBDD.setText(nom);
         }
-        
+
         //Lance le chargement du menu principal
         updatePannelPrincipal(0);
     }
@@ -147,8 +147,8 @@ public class MyWindow extends JFrame implements ActionListener {
             dispose(); //Destroy the JFrame object
         }
         //Bouton deconexion
-        else if(e.getSource()==button2) {             
-            delAllWindowSecondary();         
+        else if(e.getSource()==button2) {
+            delAllWindowSecondary();
             updatePannelPrincipal(0);
         }
         //Bouton menu principal
@@ -200,7 +200,7 @@ public class MyWindow extends JFrame implements ActionListener {
         }else if(e.getSource()==session) {
             updatePannelPrincipal(6);
         }
-        
+
         //Menu deroulant dans le menu d affichage
         else if(e.getSource()==tablesBox) {
             System.out.println((String)tablesBox.getSelectedItem());
@@ -238,7 +238,7 @@ public class MyWindow extends JFrame implements ActionListener {
     // 5 : modif
     // 6 : session
     // 7 : affichage de la session
-    
+
     /**
  * Met a jour le pannelPrincipal en fonction du menu souhaiter
  * @param option numero du menu a afficher
@@ -260,7 +260,7 @@ public class MyWindow extends JFrame implements ActionListener {
 
                 GridBagConstraints c = new GridBagConstraints();
 
-                
+
 
                 label1 = new JLabel("ID connexion");
                 label2 = new JLabel("Password connexion");
@@ -272,7 +272,7 @@ public class MyWindow extends JFrame implements ActionListener {
                 idBDD.setColumns(10);
                 pswBDD.setColumns(10);
                 nomBDD.setColumns(10);
-                
+
                 c.gridy = 0;
                 c.gridx = 0;
                 panelPrincipal.add(label1, c);
@@ -332,18 +332,18 @@ public class MyWindow extends JFrame implements ActionListener {
 
                 d.gridy = 3;
                 panelPrincipal.add(modifMenu, d);
-                
+
                 d.gridy = 4;
                 panelPrincipal.add(session, d);
 
                 errorText.setText("");
                 panelPrincipal.setBackground(Color.GRAY);
-                
+
                 /*
                 DAO<Inscription> obj = DAOFactory.getInscriptionDAO();
-                
+
                 obj.find(new Inscription("", "", "4"));
-                  */  
+                  */
                 break;
             case 2:
                 panelPrincipal.removeAll();
@@ -371,7 +371,7 @@ public class MyWindow extends JFrame implements ActionListener {
 
         panelPrincipal.updateUI();
     }
-    
+
     /**
  * Menu de connexion a la sessios
  * Menu pour rentrer son ID et avoir des statistiques en fonction de son ID
@@ -381,25 +381,25 @@ public class MyWindow extends JFrame implements ActionListener {
 
         d.gridy = 0;
         d.gridx = 0;
-        
+
         d.gridy = 0;
         d.gridx = 0;
         d.gridwidth =11;
         JLabel id = new JLabel("id de connexion: ");
         panelPrincipal.add(id, d);
-        
-        
+
+
         d.gridy++;
         d.gridx++;
         panelPrincipal.add(connexionSession, d);
-   
-        
+
+
         idSession.setColumns(10);
         panelPrincipal.add(idSession);
-        
-        
+
+
     }
-    
+
     /**
  * Lance la requette d ajout d un element a la BDD
  * @param table nom de la table ou il faut ajouter l element
@@ -409,7 +409,7 @@ public class MyWindow extends JFrame implements ActionListener {
         boolean ines = false;
         try{
             //En fonction de la table, appelle la bonne requette
-           
+
             if(table == "Personne"){
                 //Creer un objet de la table en DAO
                 DAO<Personne> pers = DAOFactory.getPersonneDAO();
@@ -459,7 +459,7 @@ public class MyWindow extends JFrame implements ActionListener {
                 ines = obj.create(new Niveau(arrayJTextField.get(0).getText()));
                 errorText.setText(" Niveau ajoute !");
             }
-            //Si la requette est incorect et n a pas ete lance 
+            //Si la requette est incorect et n a pas ete lance
             if(!ines){
                 errorText.setText("Error : Requette non envoye");
             }
@@ -582,7 +582,7 @@ public class MyWindow extends JFrame implements ActionListener {
         panelPrincipal.add(tablesBoxAdd, d);
 
         d.gridwidth = 1;
-        
+
         //Pour chaque element dans notre array list on va ajouter son nom et un JTextField
         for(int i = 0; i < arrayElement.size(); i++){
             //au moins on a fait un peu de code modulaire ^^'
@@ -614,7 +614,7 @@ public class MyWindow extends JFrame implements ActionListener {
         //Bizzarement ça ressemble a ce qu on a fait dans supprimer, et ba c est parce que c est la meme chose mais voila O:-)
         String[] listTableName = { "Personne", "Inscription", "AnneeScolaire","Bulletin","Classe","DetailBulletin","Discipline","Enseignement","Evaluation","Niveau","Trimestre"};
 
-        //Ajout du menu deroulant de toutes les tables avec 
+        //Ajout du menu deroulant de toutes les tables avec
         tablesBoxDel = new JComboBox(listTableName);
         tablesBoxDel.addActionListener(this);
 
@@ -625,7 +625,7 @@ public class MyWindow extends JFrame implements ActionListener {
         d.gridx = 0;
         d.gridwidth = 11;
         panelPrincipal.add(tablesBoxDel, d);
-        
+
         //On met a jour le menu de suppression avec les champs
         updateMenuDel((String)tablesBoxDel.getSelectedItem());
 
@@ -636,11 +636,11 @@ public class MyWindow extends JFrame implements ActionListener {
  * @param table nom de la table ou l on veut supprimer un element
  */
     public void updateMenuDel(String table){
-        
+
         //On retire tout les ancien element du panelPrincipal
         panelPrincipal.remove(delElement);
         panelPrincipal.remove(errorText);
-        
+
 
         if(arrayJLabel == null){
             arrayJLabel = new ArrayList<JLabel>();
@@ -731,7 +731,7 @@ public class MyWindow extends JFrame implements ActionListener {
 
         d.gridwidth = 1;
 
-        //Ajoute tous les elements graphiqeu 
+        //Ajoute tous les elements graphiqeu
         for(int i = 0; i < arrayElement.size(); i++){
 
             arrayJTextField.get(i).setColumns(15);
@@ -749,7 +749,7 @@ public class MyWindow extends JFrame implements ActionListener {
 
         d.gridy++;
         panelPrincipal.add(errorText, d);
- 
+
         //Si on est sur une action et que la fenetre secondaire n'a pas encore ete cree
         if(affichageSupp && !(checkForWindowSecondary(table))){
             //On creer la fenetre secondaire
@@ -757,16 +757,16 @@ public class MyWindow extends JFrame implements ActionListener {
             helene.setSize(500,1000);
             helene.setVisible(true);
             helene.updateDisplayMenu(table, helene.panelPrincipal, 0, 0);
-            
+
             mw.add(helene);
         }else{
             //Ca signifie qu on etait sur l initialisation du menu donc la prochaine action
-            // qui va declancher l update aura ete un choix de table donc il faudra 
+            // qui va declancher l update aura ete un choix de table donc il faudra
             //generer la creation d une fenetre secondaire
             affichageSupp = true;
         }
-        
-        
+
+
         panelPrincipal.updateUI();
 
     }
@@ -862,10 +862,10 @@ public class MyWindow extends JFrame implements ActionListener {
                     errorText.setText("Niveau non supprimé !");
                 }
             }
-            
+
             //Update all window
             updateAllWindowSecondary();
-        
+
         }
         catch (Exception e1){
             errorText.setText("Error : " + (String)e1.getMessage() + " " + e1.getStackTrace());
@@ -877,7 +877,7 @@ public class MyWindow extends JFrame implements ActionListener {
  * Charge le menu qui va afficher le contenue de la table choisis dans le menu deroulant
  */
     public void displayMenu(){
-        
+
         String[] listTableName = { "Personne", "Inscription", "AnneeScolaire","Bulletin","Classe","DetailBulletin","Discipline","Enseignement","Evaluation","Niveau","Trimestre" };
 
         tablesBox = new JComboBox(listTableName);
@@ -892,7 +892,7 @@ public class MyWindow extends JFrame implements ActionListener {
  * Met a jour l affichage des information de la table donne dans le panel donnee
  * @param nomCategorie nom de la table a afficher le contenue
  * @param thePanel panel ou la table dois etre afficher (generalement panelPrincipal)
- * @param x position en x du debut de l affichage du tableau 
+ * @param x position en x du debut de l affichage du tableau
  * @param y position en y du debut de l affichage du tableau
 
  */
@@ -900,7 +900,7 @@ public class MyWindow extends JFrame implements ActionListener {
         thePanel.removeAll();
         thePanel.setBackground(Color.GRAY);
         tableEtudier = nomCategorie;
-        
+
         ArrayList<Object> myArray = new ArrayList<Object>();
         ArrayList<JLabel> lea = new ArrayList<JLabel>();
 
@@ -1209,19 +1209,19 @@ public class MyWindow extends JFrame implements ActionListener {
 
         d.gridy++;
         panelPrincipal.add(errorText, d);
-        
+
         if(affichageSupp && !(checkForWindowSecondary(table))){
-            
+
             MyWindow helene = new MyWindow(nomBDD.getText());
             helene.setSize(500,1000);
             helene.setVisible(true);
             helene.updateDisplayMenu(table, helene.panelPrincipal, 0, 0);
-            
+
             mw.add(helene);
         }else{
             affichageSupp = true;
         }
-                
+
         panelPrincipal.updateUI();
     }
 
@@ -1312,14 +1312,14 @@ public class MyWindow extends JFrame implements ActionListener {
                     errorText.setText("Niveau non modifié !");
                 }
             }
-            
+
             updateAllWindowSecondary();
         }
         catch (Exception e1){
             errorText.setText("Error : " + (String)e1.getMessage());
         }
     }
-    
+
  /**
  * Mise a jour de l affichage de toutes les fenetres secondaire
  */
@@ -1334,72 +1334,72 @@ public class MyWindow extends JFrame implements ActionListener {
     public void delAllWindowSecondary(){
         for(MyWindow nelly : mw){
             nelly.setVisible(false); //you can't see me!
-            nelly.dispose(); //Destroy the JFrame object 
+            nelly.dispose(); //Destroy the JFrame object
         }
-        
+
         mw.clear();
     }
-    
+
  /**
  * Verifie si la table secondaire a deja ete cree
  * @param nomTable nom de la table de la fenetre secondaire qu on veut verifier l existance
  * @return True si la table existe, False sinon
  */
     public boolean checkForWindowSecondary(String nomTable){
-        
+
         for(MyWindow nelly  : mw){
             if(nomTable.equals(nelly.tableEtudier)){
                 return true;
             }
         }
-        
+
         return false;
     }
 
-    
+
 /**
  * Methode qui permet d 'identifier la bonne personnequi a été ajouté
  */
     public void ouvertureSession() {
        idSession.getText();
         DAO<Personne> pers = DAOFactory.getPersonneDAO();
-        
+
         ArrayList<Object> myArray = new ArrayList();
-       
+
         myArray = pers.retour();
-             
+
         GridBagConstraints d = new GridBagConstraints();
 
         d.gridy = 0;
         d.gridx = 0;
-        
+
         for (int i=0;i<myArray.size();i++) {
             Personne p = (Personne)myArray.get(i);
             p.getId();
-           
+
             if(p.getId().equals(idSession.getText())){
               updateSession(p.getId(),pers,p);
             }
         }
     }
-    
-    
+
+
 /**
- * Methode qui met à jour ouvertureSession pour afficher les informations de la personne selectionnées. 
+ * Methode qui met à jour ouvertureSession pour afficher les informations de la personne selectionnées.
  */
      public void updateSession(String id, DAO pers,Personne p){
-        
+
         panelPrincipal.removeAll();
-        
+
         GridBagConstraints d = new GridBagConstraints();
-        
+
         d.gridy = 0;
         d.gridx = 0;
-        
+
         Personne nelly = (Personne) pers.find(p.getId());
-        
+
         info.setText("moyenne de : "+nelly.getPrenom()+" "+nelly.getNom()+" est de "+nelly.getMoyenne());
-        
+
         panelPrincipal.add(info, d);
         panelPrincipal.updateUI();
     }
