@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -26,6 +27,15 @@ public EvaluationDAO(Connection conn) {
     super(conn);
   }
 
+
+/**
+ * creer un objet dans la bdd
+ * @param obj
+ * @return true si l'objet est créé dans la bdd
+ * blindage : si un champ est vide, l'objet ne peut etre créé
+ * si aucun champ vide, on ajoute a la bdd
+ * sinon exception créée
+ */
   @Override
     public boolean create(Evaluation obj) {
          try {
@@ -51,6 +61,13 @@ public EvaluationDAO(Connection conn) {
         return true;
     }
 
+    /**
+     * supprime un element
+     * possibilité de supprimer avec un juste un certain nombre de champs remplis
+     * si pas supprimé exception
+     * @param obj
+     * @return true si objet supprimé, sinon false
+     */
   public boolean delete(Evaluation obj) {
      
        String requete = "DELETE FROM evaluation WHERE";
@@ -109,6 +126,13 @@ public EvaluationDAO(Connection conn) {
         return true;
   }
    
+  /**
+   * modifier un élélement de la bdd
+   * possibilité de modifier n'importe quel champs
+   *
+   * @param obj
+   * @return true si l'objet est modifié, sinon false
+   */
   public boolean update(Evaluation obj) {
       
       String requete = "UPDATE evaluation SET ";
@@ -160,6 +184,12 @@ public EvaluationDAO(Connection conn) {
         return true;
   }
    
+  /**
+   * recherche d'un element dans la bdd
+   * @param id
+   * @return l'evaluation  recherchée
+   * sinon lance exception
+   */
   public Evaluation find(String id) {
     Evaluation d = new Evaluation();      
       
@@ -176,6 +206,12 @@ public EvaluationDAO(Connection conn) {
     return d;
   }
   
+  
+  /**
+   * récupérer tous les evaluations
+   * @return ArrayList<Object> d'evaluations
+   * 
+   */
    public ArrayList<Object> retour()
   {
        ArrayList<Object> table = new ArrayList();

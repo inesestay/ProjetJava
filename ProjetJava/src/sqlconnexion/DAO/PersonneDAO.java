@@ -27,6 +27,14 @@ public PersonneDAO(Connection conn) {
     super(conn);
   }
 
+/**
+ * creer un objet dans la bdd
+ * @param obj
+ * @return true si l'objet est créé dans la bdd
+ * blindage : si un champ est vide, l'objet ne peut etre créé
+ * si aucun champ vide, on ajoute a la bdd
+ * sinon exception créée
+ */
   @Override
     public boolean create(Personne obj){
     try{
@@ -49,6 +57,13 @@ public PersonneDAO(Connection conn) {
     return true;
 }
 
+    /**
+     * supprime un element
+     * possibilité de supprimer avec un juste un certain nombre de champs remplis
+     * si pas supprimé exception
+     * @param obj
+     * @return true si objet supprimé, sinon false
+     */
 @Override
   public boolean delete(Personne obj) {
       
@@ -107,7 +122,13 @@ public PersonneDAO(Connection conn) {
         
         return true;
   }
-   
+   /**
+   * modifier un élélement de la bdd
+   * possibilité de modifier n'importe quel champs
+   *
+   * @param obj
+   * @return true si l'objet est modifié, sinon false
+   */
 @Override
   public boolean update(Personne obj) {
       
@@ -160,6 +181,16 @@ public PersonneDAO(Connection conn) {
         return true;
   }
    
+  
+  /**
+   * recherche d'un element dans la bdd
+   * @param id
+   * @return la personne recherchée
+   * sinon lance exception
+   * 
+   * si la personne est un eleve, on calcule sa moyenne générale
+   * si la personne est un prof, on recherche les discilpines qu'il enseigne
+   */
 @Override
   public Personne find(String id) {
     Personne personne = new Personne();      
@@ -189,6 +220,12 @@ public PersonneDAO(Connection conn) {
     return personne;
   }
   
+  /**
+   * récupérer toutes les personnes
+   * @return ArrayList<Object> de personnes
+   * 
+   */
+  
    public ArrayList<Object> retour()
   {
        ArrayList<Object> table = new ArrayList();
@@ -216,6 +253,12 @@ public PersonneDAO(Connection conn) {
        return table;
   }
    
+   
+   /**
+    * donne la moyenne générale d'un eleve
+    * @param id
+    * @return moyenne
+    */
     public float moyenne(String id)
     {
        
@@ -252,7 +295,11 @@ public PersonneDAO(Connection conn) {
         return somme/notes.size();
     }
 
-   
+   /**
+    * recherche les disciplines enseignées par un prof
+    * @param id
+    * @return arrayList de disciplines
+    */
     public ArrayList<String> retourDiscipline(String id)
     {
       

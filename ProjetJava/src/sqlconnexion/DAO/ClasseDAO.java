@@ -24,6 +24,15 @@ public ClasseDAO(Connection conn) {
     super(conn);
   }
 
+/**
+ * creer un objet dans la bdd
+ * @param obj
+ * @return true si l'objet est créé dans la bdd
+ * blindage : si un champ est vide, l'objet ne peut etre créé
+ * si aucun champ vide, on ajoute a la bdd
+ * sinon exception créée
+ */
+
   @Override
     public boolean create(Classe obj) {
          try {
@@ -51,6 +60,13 @@ public ClasseDAO(Connection conn) {
         return true;
     }
 
+    /**
+     * supprime un element
+     * possibilité de supprimer avec un juste un certain nombre de champs remplis
+     * si pas supprimé exception
+     * @param obj
+     * @return true si objet supprimé, sinon false
+     */
   public boolean delete(Classe obj) {
      
       String requete = "DELETE FROM classe WHERE";
@@ -110,6 +126,13 @@ public ClasseDAO(Connection conn) {
         return true;
   }
    
+  /**
+   * modifier un élélement de la bdd
+   * possibilité de modifier n'importe quel champs
+   *
+   * @param obj
+   * @return true si l'objet est modifié, sinon false
+   */
   public boolean update(Classe obj) {
       
        String requete = "UPDATE classe SET ";
@@ -162,6 +185,12 @@ public ClasseDAO(Connection conn) {
         return true;
   }
    
+  /**
+   * recherche d'un element dans la bdd
+   * @param id
+   * @return la classe recherchée
+   * sinon lance exception
+   */
   public Classe find(String id) {
     Classe d = new Classe();      
       
@@ -178,6 +207,12 @@ public ClasseDAO(Connection conn) {
     return d;
   }
   
+  
+  /**
+   * récupérer tous les classes
+   * @return ArrayList<Object> de classes
+   * 
+   */
    public ArrayList<Object> retour()
   {
        ArrayList<Object> table = new ArrayList();

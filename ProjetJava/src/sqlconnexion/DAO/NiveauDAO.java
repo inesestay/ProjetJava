@@ -25,6 +25,14 @@ public NiveauDAO(Connection conn) {
     super(conn);
   }
 
+/**
+ * creer un objet dans la bdd
+ * @param obj
+ * @return true si l'objet est créé dans la bdd
+ * blindage : si un champ est vide, l'objet ne peut etre créé
+ * si aucun champ vide, on ajoute a la bdd
+ * sinon exception créée
+ */
   @Override
     public boolean create(Niveau obj) {
          try {
@@ -82,6 +90,14 @@ public NiveauDAO(Connection conn) {
         
         return true;
   }
+  
+  /**
+   * modifier un élélement de la bdd
+   * possibilité de modifier n'importe quel champs
+   *
+   * @param obj
+   * @return true si l'objet est modifié, sinon false
+   */
    
   public boolean update(Niveau obj) {
       
@@ -111,6 +127,13 @@ public NiveauDAO(Connection conn) {
         return true;
   }
    
+  
+  /**
+   * recherche d'un element dans la bdd
+   * @param id
+   * @return le niveau recherché
+   * sinon lance exception
+   */
   public Niveau find(String id) {
     Niveau d = new Niveau();      
       
@@ -126,6 +149,12 @@ public NiveauDAO(Connection conn) {
     return d;
   }
   
+  
+  /**
+   * récupérer tous les niveaux
+   * @return ArrayList<Object> de niveaux
+   * 
+   */
    public ArrayList<Object> retour()
   {
        ArrayList<Object> table = new ArrayList();

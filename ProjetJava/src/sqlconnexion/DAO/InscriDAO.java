@@ -28,6 +28,14 @@ public InscriDAO(Connection conn) {
     super(conn);
   }
 
+/**
+ * creer un objet dans la bdd
+ * @param obj
+ * @return true si l'objet est créé dans la bdd
+ * blindage : si un champ est vide, l'objet ne peut etre créé
+ * si aucun champ vide, on ajoute a la bdd
+ * sinon exception créée
+ */
   @Override
     public boolean create(Inscription obj){
 
@@ -53,6 +61,13 @@ public InscriDAO(Connection conn) {
     return true;
 }
 
+    /**
+     * supprime un element
+     * possibilité de supprimer avec un juste un certain nombre de champs remplis
+     * si pas supprimé exception
+     * @param obj
+     * @return true si objet supprimé, sinon false
+     */
 @Override
   public boolean delete(Inscription obj) {
 
@@ -100,6 +115,13 @@ public InscriDAO(Connection conn) {
         return true;
   }
    
+  /**
+   * modifier un élélement de la bdd
+   * possibilité de modifier n'importe quel champs
+   *
+   * @param obj
+   * @return true si l'objet est modifié, sinon false
+   */
 @Override
   public boolean update(Inscription obj) {
       
@@ -140,6 +162,13 @@ public InscriDAO(Connection conn) {
         return true;
   }
    
+  
+  /**
+   * recherche d'un element dans la bdd
+   * @param id
+   * @return l'insciption recherchée
+   * sinon lance exception
+   */
 @Override
   public Inscription find(String id) {
     Inscription inscription = new Inscription();      
@@ -156,6 +185,12 @@ public InscriDAO(Connection conn) {
     return inscription;
   }
   
+  
+  /**
+   * récupérer toutes les inscriptions
+   * @return ArrayList<Object> d'inscriptions
+   * 
+   */
    public ArrayList<Object> retour()
   {
        ArrayList<Object> table = new ArrayList();
