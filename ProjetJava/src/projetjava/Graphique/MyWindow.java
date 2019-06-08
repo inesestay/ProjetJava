@@ -299,7 +299,7 @@ public class MyWindow extends JFrame implements ActionListener {
                 DAO<Bulletin> obj = DAOFactory.getBulletinDAO();
                 DAO<Personne> p = DAOFactory.getPersonneDAO();
              
-                String a = String.valueOf(2);
+                String a = String.valueOf(1);
                 Personne nelly = p.find(a);
                 
                

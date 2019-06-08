@@ -206,9 +206,9 @@ public PersonneDAO(Connection conn) {
         if(personne.getType().equals("Etudiant"))
         {
             //System.out.println("moy"+moyenne(personne.getId()));
-           // personne.setMoyenne(moyenne(personne.getId()));
+            personne.setMoyenne(moyenne(personne.getId()));
             float m = moyenneMatiere(personne.getId(), discipline);
-            System.out.println("moyenne physique" + m);
+            //System.out.println("moyenne physique" + m);
             
         }
         else if(personne.getType().equals("Prof"))
@@ -310,18 +310,15 @@ public PersonneDAO(Connection conn) {
         ArrayList<Float> notes = new ArrayList<>();
       
         try {
-     System.out.println("on rentre dans le try");
         ResultSet result = this.connect.createStatement(
         ResultSet.TYPE_SCROLL_INSENSITIVE,
-        ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT DISTINCT note FROM personne,inscription,bulletin,detailbulletin,evaluation,discipline,enseignement WHERE discipline.nom LIKE "+discipline+" AND inscription.personneID LIKE "+id+" AND inscription.id LIKE bulletin.inscriptionID AND detailbulletin.bulletinID LIKE bulletin.id AND detailbulletin.id LIKE evaluation.detailBulletinID AND detailbulletin.enseignementID LIKE enseignement.id AND enseignement.disciplineId LIKE discipline.id AND evaluation.detailBulletinID LIKE detailbulletin.id AND detailbulletin.enseignementID LIKE enseignement.id AND enseignement.disciplineId LIKE discipline.id");
-        System.out.println("apres try");
+        ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT DISTINCT note FROM personne,inscription,bulletin,detailbulletin,evaluation,discipline,enseignement WHERE discipline.nom LIKE '"+discipline+"' AND inscription.personneID LIKE "+id+" AND inscription.id LIKE bulletin.inscriptionID AND detailbulletin.bulletinID LIKE bulletin.id AND detailbulletin.id LIKE evaluation.detailBulletinID AND detailbulletin.enseignementID LIKE enseignement.id AND enseignement.disciplineId LIKE discipline.id AND evaluation.detailBulletinID LIKE detailbulletin.id AND detailbulletin.enseignementID LIKE enseignement.id AND enseignement.disciplineId LIKE discipline.id");
         
         while(result.next()) {
-System.out.println("on rentre");
+       
                String note = result.getString(1);
                float note2 = parseFloat(note);
                notes.add(note2);
-               
           }
         
         } catch (SQLException e) {
