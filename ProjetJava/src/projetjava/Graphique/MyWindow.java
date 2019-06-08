@@ -34,7 +34,7 @@ public class MyWindow extends JFrame implements ActionListener {
 
     boolean affichageSupp;
     JButton button1, button2,buttonConnexionBDD, addMenu, delMenu, dispMenu, modifMenu, menu, addElement, delElement, modifElement,session,connexionSession;
-    JLabel label1, label2, label3, label4, errorText;
+    JLabel label1, label2, label3, label4, errorText,info;
     JPanel panelForButtons, panelPrincipal;
     JTextField idBDD, pswBDD, idSession;
     public static JTextField nomBDD;
@@ -76,7 +76,7 @@ public class MyWindow extends JFrame implements ActionListener {
         pswBDD = new JTextField();
         nomBDD = new JTextField();
         idSession = new JTextField();
-
+        
         button1.addActionListener(this);
         button2.addActionListener(this);
 
@@ -112,7 +112,7 @@ public class MyWindow extends JFrame implements ActionListener {
             nomBDD.setText(nom);
         }
         
-        System.out.println("Bonsoir : " + nomBDD.getText());
+        
 
         updatePannelPrincipal(0);
     }
@@ -201,6 +201,7 @@ public class MyWindow extends JFrame implements ActionListener {
     // 4 : menu disp
     // 5 : modif
     // 6 : session
+    // 7 : affichage de la session
     
     public void updatePannelPrincipal(int option){
         switch(option){
@@ -224,6 +225,7 @@ public class MyWindow extends JFrame implements ActionListener {
                 label2 = new JLabel("Password connexion");
                 label3 = new JLabel("Nom BDD");
                 errorText = new JLabel("");
+                info = new JLabel("");
 
 
                 idBDD.setColumns(10);
@@ -299,11 +301,7 @@ public class MyWindow extends JFrame implements ActionListener {
                 DAO<Bulletin> obj = DAOFactory.getBulletinDAO();
                 DAO<Personne> p = DAOFactory.getPersonneDAO();
              
-                String a = String.valueOf(11);
-               // Personne nelly = p.find(a);
                 
-               
-               // System.out.println("moyenne :"+nelly.getMoyenne());
                 
                 break;
             case 2:
@@ -350,7 +348,6 @@ public class MyWindow extends JFrame implements ActionListener {
         d.gridx++;
         panelPrincipal.add(connexionSession, d);
    
-       // panelPrincipal.add(tablesBoxAdd, d);
         
         idSession.setColumns(10);
         panelPrincipal.add(idSession);
@@ -1299,6 +1296,11 @@ public class MyWindow extends JFrame implements ActionListener {
         return false;
     }
 
+    
+    /**
+         * Methode qui permet d 'identifier la bonne personnequi a été ajouté
+         */
+    
     public void ouvertureSession() {
        idSession.getText();
         DAO<Personne> pers = DAOFactory.getPersonneDAO();
@@ -1306,14 +1308,43 @@ public class MyWindow extends JFrame implements ActionListener {
         ArrayList<Object> myArray = new ArrayList();
        
         myArray = pers.retour();
-                
+             
+        GridBagConstraints d = new GridBagConstraints();
+
+        d.gridy = 0;
+        d.gridx = 0;
+        
         for (int i=0;i<myArray.size();i++) {
             Personne p = (Personne)myArray.get(i);
             p.getId();
            
             if(p.getId().equals(idSession.getText())){
-                System.out.println("salut");
+              updateSession(p.getId(),pers,p);
             }
         }
     }
+    
+    
+    /**
+         * Methode qui met à jour ouvertureSession pour afficher les informations de la personne selectionnées. 
+         */
+    
+     public void updateSession(String id, DAO pers,Personne p){
+        
+        panelPrincipal.removeAll();
+        
+        GridBagConstraints d = new GridBagConstraints();
+        
+        d.gridy = 0;
+        d.gridx = 0;
+        
+        Personne nelly = (Personne) pers.find(p.getId());
+        
+        info.setText("moyenne de : "+nelly.getPrenom()+" "+nelly.getNom()+" est de "+nelly.getMoyenne());
+        
+        panelPrincipal.add(info, d);
+        panelPrincipal.updateUI();
+    }
+    
+    
 }

@@ -11,14 +11,18 @@ package sqlconnexion.Model;
  */
 public class Trimestre {
     
-    ///CHARACTERISTICS
+    /**
+ *les attributes
+ */
     private String id;
     private String num;
     private String debut;
     private String fin;
     private String anneescolaireID;
     
-    ///CONSTRUCTORS
+    /**
+ *les constructeurs
+ */
     public Trimestre(){
         id = "";
         num="";
@@ -43,45 +47,79 @@ public class Trimestre {
         this.anneescolaireID=anneescolaireID;      
     }
     
-    ///GETTERS AND SETTERS
+    /**
+     * getters et setters
+     */
 
+
+    /**
+     * return  id
+     */
     public String getId() {
         return id;
     }
 
+    /**
+     * param id the id to set
+     */
     public void setId(String id) {
         this.id = id;
     }
 
+    /**
+     * return  num
+     */
     public String getNum() {
         return num;
     }
 
+    /**
+     * param num the num to set
+     */
     public void setNum(String num) {
         this.num = num;
     }
 
+    /**
+     * return the debut
+     */
     public String getDebut() {
         return debut;
     }
 
+    /**
+     * param debut the debut to set
+     */
     public void setDebut(String debut) {
         this.debut = debut;
     }
 
+    /**
+     * return the fin
+     */
     public String getFin() {
         return fin;
     }
 
+    /**
+     *param fin the fin to set
+     */
     public void setFin(String fin) {
         this.fin = fin;
     }
 
+    /**
+     * return the anneescolaireID
+     */
     public String getAnneescolaireID() {
         return anneescolaireID;
     }
 
+    /**
+     * param anneescolaireID the anneescolaireID to set
+     */
     public void setAnneescolaireID(String anneescolaireID) {
         this.anneescolaireID = anneescolaireID;
     }
+    
 }
