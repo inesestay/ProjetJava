@@ -14,12 +14,14 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import projetjava.Connexion;
 import sqlconnexion.DAO.DAO;
@@ -37,7 +39,7 @@ public class MyWindow extends JFrame implements ActionListener {
     //boolean pour savoir si on vient d arriver sur la fenetre ou action realiser
     boolean affichageSupp;
     //Les differents bouton
-    JButton button1, button2,buttonConnexionBDD, addMenu, delMenu, dispMenu, modifMenu, menu, addElement, delElement, modifElement,session,connexionSession;
+    JButton button1, button2,buttonConnexionBDD, addMenu, delMenu, dispMenu, modifMenu, menu, addElement, delElement, modifElement,session,connexionSession, statMenu;
     //Label pour les information a afficher
     JLabel label1, label2, label3, label4, errorText,info;
     //Les deux panel de la fenetre, le premier pour les boutons du bas de la fenetre et le panelPrincipal ou tout est afficher dessus
@@ -88,7 +90,8 @@ public class MyWindow extends JFrame implements ActionListener {
         delElement = new JButton("Supprimer Element");
         modifElement = new JButton("Modifier Element");
         session = new JButton("Session");
-
+        statMenu = new JButton("Statistique");
+        
         connexionSession = new JButton("Ouvrir ma session");
 
         idBDD = new JTextField();
@@ -110,6 +113,7 @@ public class MyWindow extends JFrame implements ActionListener {
         delElement.addActionListener(this);
         modifElement.addActionListener(this);
         session.addActionListener(this);
+        statMenu.addActionListener(this);
 
         connexionSession.addActionListener(this);
 
@@ -199,6 +203,9 @@ public class MyWindow extends JFrame implements ActionListener {
         //Boutton pour rejoindre la session des stats
         }else if(e.getSource()==session) {
             updatePannelPrincipal(6);
+        //Menu des statistiques global
+        }else if(e.getSource() == statMenu){
+            updatePannelPrincipal(8);
         }
 
         //Menu deroulant dans le menu d affichage
@@ -238,6 +245,7 @@ public class MyWindow extends JFrame implements ActionListener {
     // 5 : modif
     // 6 : session
     // 7 : affichage de la session
+    // 8 : statistique global
 
     /**
  * Met a jour le pannelPrincipal en fonction du menu souhaiter
@@ -335,6 +343,9 @@ public class MyWindow extends JFrame implements ActionListener {
 
                 d.gridy = 4;
                 panelPrincipal.add(session, d);
+                
+                d.gridy = 5;
+                panelPrincipal.add(statMenu, d);
 
                 errorText.setText("");
                 panelPrincipal.setBackground(Color.GRAY);
@@ -366,6 +377,10 @@ public class MyWindow extends JFrame implements ActionListener {
             case 6:
                 panelPrincipal.removeAll();
                 connexionSession();
+                break;
+            case 8:
+                panelPrincipal.removeAll();
+                menuStatsGlobal();
                 break;
         }
 
@@ -1403,4 +1418,32 @@ public class MyWindow extends JFrame implements ActionListener {
         panelPrincipal.add(info, d);
         panelPrincipal.updateUI();
     }
+     
+     public void menuStatsGlobal(){
+         
+        GridBagConstraints d = new GridBagConstraints();
+
+        d.gridy = 0;
+        d.gridx = 0;
+        
+        ButtonGroup bg = new ButtonGroup();
+        JRadioButton br1 = new JRadioButton("1");
+        JRadioButton br2 = new JRadioButton("2");
+        JRadioButton br3 = new JRadioButton("3");
+
+  
+       bg.add(br1);
+       bg.add(br2);
+       bg.add(br3);
+       
+       panelPrincipal.add(br1, d);
+       
+       d.gridy++;
+       panelPrincipal.add(br2, d);
+       
+       d.gridy++;
+       panelPrincipal.add(br3, d);
+
+     }
 }
+
