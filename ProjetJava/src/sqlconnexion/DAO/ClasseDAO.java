@@ -285,5 +285,31 @@ public ClasseDAO(Connection conn) {
 
         return aRetourner;
     }
+    
+    public float moyenneMatiere(String id, String discipline)
+   {
+         float somme=0;
+        ArrayList<Float> notes = new ArrayList<>();
+      
+        try {
+        ResultSet result = this.connect.createStatement(
+        ResultSet.TYPE_SCROLL_INSENSITIVE,
+        ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT DISTINCT note FROM personne,inscription,bulletin,detailbulletin,evaluation,discipline,enseignement WHERE discipline.nom LIKE '"+discipline+"' AND inscription.personneID LIKE "+id+" AND inscription.id LIKE bulletin.inscriptionID AND detailbulletin.bulletinID LIKE bulletin.id AND detailbulletin.id LIKE evaluation.detailBulletinID AND detailbulletin.enseignementID LIKE enseignement.id AND enseignement.disciplineId LIKE discipline.id AND evaluation.detailBulletinID LIKE detailbulletin.id AND detailbulletin.enseignementID LIKE enseignement.id AND enseignement.disciplineId LIKE discipline.id");
+        
+        while(result.next()) {
+       
+               String note = result.getString(1);
+               float note2 = parseFloat(note);
+               notes.add(note2);
+          }
+        
+        } catch (SQLException e) {
+         System.out.println("pas moyenne");
+         System.out.println(e.getMessage());
+        }
+            
+       
+        return somme/notes.size();
+   }
 }
 
