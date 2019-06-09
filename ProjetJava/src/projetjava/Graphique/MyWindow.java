@@ -242,6 +242,9 @@ public class MyWindow extends JFrame implements ActionListener {
         else if(e.getSource() == etudiantClassement){
             classementEtudiant();
         }
+        else if(e.getSource() ==etudiantRattrapage){
+            rattrapageEtudiant();
+        }
     }
 
     // 0 : menu connexion
@@ -1434,6 +1437,8 @@ public class MyWindow extends JFrame implements ActionListener {
         d.gridx = 0;
         
         panelPrincipal.add(etudiantClassement, d);
+        d.gridx++;
+        panelPrincipal.add(etudiantRattrapage, d);
         
     }
      
@@ -1446,6 +1451,7 @@ public class MyWindow extends JFrame implements ActionListener {
 
         d.gridy = 0;
         d.gridx = 0;
+        d.gridwidth = 2;
          
         ArrayList<Integer> helene = new ArrayList<Integer>();
          
@@ -1467,6 +1473,33 @@ public class MyWindow extends JFrame implements ActionListener {
             Personne nelly = pers.find(Integer.toString(helene.get(ines)));
             
             panelPrincipal.add(new JLabel(Integer.toString(ines + 1) + " Nom : " + nelly.getNom() + " Prenom : " + nelly.getNom() + " Moyenne : " + nelly.getMoyenne()), d);
+        }
+      
+        panelPrincipal.updateUI();
+     }
+    
+     public void rattrapageEtudiant(){
+         panelPrincipal.removeAll();
+        menuStatsGlobal();
+        
+        GridBagConstraints d = new GridBagConstraints();
+
+        d.gridy = 0;
+        d.gridx = 0;
+        d.gridwidth = 2;
+        ArrayList<Integer> helene = new ArrayList<Integer>();
+         
+        DAO<Personne> pers = DAOFactory.getPersonneDAO();
+        helene = pers.find(new Personne("","", "", "Etudiant"));
+        
+        
+        for(int ines = 0; ines < helene.size(); ines++){
+            Personne nelly = pers.find(Integer.toString(helene.get(ines)));
+            if(nelly.getMoyenne() < 10){
+                d.gridy++;
+                panelPrincipal.add(new JLabel("Nom : " + nelly.getNom() + " Prenom : " + nelly.getNom() + " Moyenne : " + nelly.getMoyenne()), d);
+            }
+            
         }
       
         panelPrincipal.updateUI();
