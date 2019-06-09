@@ -39,7 +39,7 @@ public class MyWindow extends JFrame implements ActionListener {
     //boolean pour savoir si on vient d arriver sur la fenetre ou action realiser
     boolean affichageSupp;
     //Les differents bouton
-    JButton button1, button2,buttonConnexionBDD, addMenu, delMenu, dispMenu, modifMenu, menu, addElement, delElement, modifElement,session,connexionSession, statMenu, etudiantClassement;
+    JButton button1, button2,buttonConnexionBDD, addMenu, delMenu, dispMenu, modifMenu, menu, addElement, delElement, modifElement,session,connexionSession, statMenu, etudiantClassement, etudiantRattrapage;
     //Label pour les information a afficher
     JLabel label1, label2, label3, label4, errorText,info;
     //Les deux panel de la fenetre, le premier pour les boutons du bas de la fenetre et le panelPrincipal ou tout est afficher dessus
@@ -92,6 +92,7 @@ public class MyWindow extends JFrame implements ActionListener {
         session = new JButton("Session");
         statMenu = new JButton("Statistique");
         etudiantClassement = new JButton("Classement Eleve");
+        etudiantRattrapage = new JButton("Etudiant en rattrapage");
         
         connexionSession = new JButton("Ouvrir ma session");
 
@@ -116,6 +117,7 @@ public class MyWindow extends JFrame implements ActionListener {
         session.addActionListener(this);
         statMenu.addActionListener(this);
         etudiantClassement.addActionListener(this);
+        etudiantRattrapage.addActionListener(this);
 
         connexionSession.addActionListener(this);
 
