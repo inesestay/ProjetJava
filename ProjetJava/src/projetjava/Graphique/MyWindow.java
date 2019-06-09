@@ -39,7 +39,7 @@ public class MyWindow extends JFrame implements ActionListener {
     //Les differents bouton
     JButton button1, button2,buttonConnexionBDD, addMenu, delMenu, dispMenu, modifMenu, menu, addElement, delElement, modifElement,session,connexionSession,matiereValider;
     //Label pour les information a afficher
-    JLabel label1, label2, label3, label4, errorText,info;
+    JLabel label1, label2, label3, label4, errorText,info,info2;
     //Les deux panel de la fenetre, le premier pour les boutons du bas de la fenetre et le panelPrincipal ou tout est afficher dessus
     JPanel panelForButtons, panelPrincipal;
     //Lieu ou l'utilisateur peut rentrer des informations
@@ -56,7 +56,7 @@ public class MyWindow extends JFrame implements ActionListener {
     Connexion myBDD;
 
     //Lors des differents affichage, on peut avoir des Array de Jlabel qu on pourait update/enlever facilement si on les stocks
-    ArrayList<JLabel> arrayJLabel;
+     ArrayList<JLabel> arrayJLabel;
     //Pour optimisation des methode de recuperation
     ArrayList<JTextField> arrayJTextField;
 
@@ -70,6 +70,7 @@ public class MyWindow extends JFrame implements ActionListener {
 	super();
 
         arrayJLabel = null;
+        
         arrayJTextField = null;
         affichageSupp = false;
 	setLayout(new BorderLayout());
@@ -91,6 +92,8 @@ public class MyWindow extends JFrame implements ActionListener {
 
         connexionSession = new JButton("Ouvrir ma session");
         matiereValider = new JButton("Valider matière");
+        
+        
         
         idBDD = new JTextField();
         pswBDD = new JTextField();
@@ -273,7 +276,7 @@ public class MyWindow extends JFrame implements ActionListener {
                 label3 = new JLabel("Nom BDD");
                 errorText = new JLabel("");
                 info = new JLabel("");
-
+                info2 = new JLabel("");
 
                 idBDD.setColumns(10);
                 pswBDD.setColumns(10);
@@ -1410,25 +1413,19 @@ public class MyWindow extends JFrame implements ActionListener {
         d.gridx = 0;
         
         Personne nelly = (Personne) pers.find(p.getId());
-        
-        
         info.setText("moyenne générale de : "+nelly.getPrenom()+" "+nelly.getNom()+" est de "+nelly.getMoyenne());
         panelPrincipal.add(info, d); 
         
         d.gridy++;
-        
         matiere.setColumns(10);
-        panelPrincipal.add(matiere);
+        panelPrincipal.add(matiere,d);
         
         d.gridy++;
         panelPrincipal.add(matiereValider, d);
         
-        
-        
         d.gridy++;
-        //Il faut mettre un autre JLabel car là tu réécrie le premier
-        info.setText("moyenne de : "+nelly.getPrenom()+" "+nelly.getNom()+" en "+ matiere.getText() +" est de "+pers.moyenneMatiere(p.getId(), matiere.getText()));
-        panelPrincipal.add(info, d);    
+        info2.setText("moyenne de : "+nelly.getPrenom()+" "+nelly.getNom()+" en "+ matiere.getText() +" est de "+pers.moyenneMatiere(p.getId(), matiere.getText()));
+        panelPrincipal.add(info2, d);    
           
         panelPrincipal.updateUI();
     }
@@ -1441,10 +1438,27 @@ public class MyWindow extends JFrame implements ActionListener {
         d.gridy = 0;
         d.gridx = 0;
         
-        //Personne nelly = (Personne) pers.find(p.getId());
-         //ArrayList<String> mesDisciplines = new ArrayList<>();
-         //mesDisciplines = pers.retourDiscipline(p.getId());
-        d.gridy++;
-        //info.setText("Disciplines enseignées par le professeur: "+nelly.getPrenom()+" "+nelly.getNom()+" sont "+pers.retourDiscipline(p.getId()));
+        Personne nelly = (Personne) pers.find(p.getId());
+        
+        ArrayList<String> mesDisciplines = new ArrayList<>();
+       
+        for(int i =0; i<nelly.getDd().size(); i++)
+        {
+            mesDisciplines.add(nelly.getDd().get(i));
+        }
+        
+        d.gridy ++;
+        info.setText("Professeur "+nelly.getPrenom()+" "+nelly.getNom()+" enseigne : ");
+        panelPrincipal.add(info, d); 
+        
+        for(int i =0; i<mesDisciplines.size(); i++)
+        {
+            d.gridy ++;
+            panelPrincipal.add(new JLabel(mesDisciplines.get(i)), d); 
+           
+        }
+        
+          
+        panelPrincipal.updateUI();
      }
 }

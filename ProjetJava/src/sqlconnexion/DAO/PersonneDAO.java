@@ -187,7 +187,7 @@ public PersonneDAO(Connection conn) {
         else if(personne.getType().equals("Prof"))
         {
             
-            personne.setDiscipline(retourDiscipline(personne.getId()));
+            personne.setDd(retourDiscipline(personne.getId()));
         }
       }
     } catch (SQLException e) {

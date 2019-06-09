@@ -145,11 +145,13 @@ public class Personne {
         return dd;
     }
 
+   
     /**
      * @param dd the dd to set
      */
-    public void setDiscipline(ArrayList<String> dd) {
+    public void setDd(ArrayList<String> dd) {
         this.dd = dd;
     }
+    
     
 }
