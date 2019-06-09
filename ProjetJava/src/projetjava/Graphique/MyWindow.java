@@ -39,7 +39,7 @@ public class MyWindow extends JFrame implements ActionListener {
     //boolean pour savoir si on vient d arriver sur la fenetre ou action realiser
     boolean affichageSupp;
     //Les differents bouton
-    JButton button1, button2,buttonConnexionBDD, addMenu, delMenu, dispMenu, modifMenu, menu, addElement, delElement, modifElement,session,connexionSession, statMenu;
+    JButton button1, button2,buttonConnexionBDD, addMenu, delMenu, dispMenu, modifMenu, menu, addElement, delElement, modifElement,session,connexionSession, statMenu, etudiantClassement;
     //Label pour les information a afficher
     JLabel label1, label2, label3, label4, errorText,info;
     //Les deux panel de la fenetre, le premier pour les boutons du bas de la fenetre et le panelPrincipal ou tout est afficher dessus
@@ -91,6 +91,7 @@ public class MyWindow extends JFrame implements ActionListener {
         modifElement = new JButton("Modifier Element");
         session = new JButton("Session");
         statMenu = new JButton("Statistique");
+        etudiantClassement = new JButton("Classement Eleve");
         
         connexionSession = new JButton("Ouvrir ma session");
 
@@ -114,6 +115,7 @@ public class MyWindow extends JFrame implements ActionListener {
         modifElement.addActionListener(this);
         session.addActionListener(this);
         statMenu.addActionListener(this);
+        etudiantClassement.addActionListener(this);
 
         connexionSession.addActionListener(this);
 
@@ -235,6 +237,9 @@ public class MyWindow extends JFrame implements ActionListener {
         else if(e.getSource()==connexionSession){
             ouvertureSession();
         }
+        else if(e.getSource() == etudiantClassement){
+            classementEtudiant();
+        }
     }
 
     // 0 : menu connexion
@@ -349,7 +354,7 @@ public class MyWindow extends JFrame implements ActionListener {
                 d.gridy ++;
                 panelPrincipal.add(session, d);
                 
-                d.gridy = 5;
+                d.gridy ++;
                 panelPrincipal.add(statMenu, d);
 
                 errorText.setText("");
@@ -1426,24 +1431,43 @@ public class MyWindow extends JFrame implements ActionListener {
         d.gridy = 0;
         d.gridx = 0;
         
-        ButtonGroup bg = new ButtonGroup();
-        JRadioButton br1 = new JRadioButton("1");
-        JRadioButton br2 = new JRadioButton("2");
-        JRadioButton br3 = new JRadioButton("3");
+        panelPrincipal.add(etudiantClassement, d);
+        
+    }
+     
+     public void classementEtudiant(){
+        
+        panelPrincipal.removeAll();
+        menuStatsGlobal();
+        
+        GridBagConstraints d = new GridBagConstraints();
 
-  
-       bg.add(br1);
-       bg.add(br2);
-       bg.add(br3);
-       
-       panelPrincipal.add(br1, d);
-       
-       d.gridy++;
-       panelPrincipal.add(br2, d);
-       
-       d.gridy++;
-       panelPrincipal.add(br3, d);
-
+        d.gridy = 0;
+        d.gridx = 0;
+         
+        ArrayList<Integer> helene = new ArrayList<Integer>();
+         
+        DAO<Personne> pers = DAOFactory.getPersonneDAO();
+        helene = pers.find(new Personne("","", "", "Etudiant"));
+        
+        for(int i = 0; i < helene.size(); i++){
+            for(int j = 0; j < helene.size() - 1; j++){
+                if(pers.find(Integer.toString(helene.get(j))).getMoyenne() <  pers.find(Integer.toString(helene.get(j+ 1))).getMoyenne()){
+                    int temp = helene.get(j + 1);
+                    helene.set(j + 1, helene.get(j));                    
+                    helene.set(j, temp);
+                }
+            }
+        }
+        
+        for(int ines = 0; ines < helene.size(); ines++){
+            d.gridy++;
+            Personne nelly = pers.find(Integer.toString(helene.get(ines)));
+            
+            panelPrincipal.add(new JLabel(Integer.toString(ines + 1) + " Nom : " + nelly.getNom() + " Prenom : " + nelly.getNom() + " Moyenne : " + nelly.getMoyenne()), d);
+        }
+      
+        panelPrincipal.updateUI();
      }
 }
 

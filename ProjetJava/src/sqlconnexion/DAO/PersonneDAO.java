@@ -268,6 +268,10 @@ public PersonneDAO(Connection conn) {
              System.out.println("array : "+somme);
              System.out.println("taille : "+notes.size());
         }
+        
+        if(notes.size() == 0){
+            return 0;
+        }
         return somme/notes.size();
     }
 
