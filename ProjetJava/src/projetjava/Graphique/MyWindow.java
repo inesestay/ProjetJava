@@ -330,18 +330,23 @@ public class MyWindow extends JFrame implements ActionListener {
 
                 d.gridy = 0;
                 d.gridx = 0;
+                d.ipady = 10;
+                
+                panelPrincipal.add(new JLabel("Bienvenue sur Campus mdrr"), d);
+                d.fill = GridBagConstraints.HORIZONTAL;
+                d.gridy ++;
                 panelPrincipal.add(addMenu, d);
 
-                d.gridy = 1;
+                d.gridy ++;
                 panelPrincipal.add(delMenu, d);
 
-                d.gridy = 2;
+                d.gridy ++;
                 panelPrincipal.add(dispMenu, d);
 
-                d.gridy = 3;
+                d.gridy ++;
                 panelPrincipal.add(modifMenu, d);
 
-                d.gridy = 4;
+                d.gridy ++;
                 panelPrincipal.add(session, d);
                 
                 d.gridy = 5;
@@ -350,11 +355,6 @@ public class MyWindow extends JFrame implements ActionListener {
                 errorText.setText("");
                 panelPrincipal.setBackground(Color.GRAY);
 
-                /*
-                DAO<Inscription> obj = DAOFactory.getInscriptionDAO();
-
-                obj.find(new Inscription("", "", "4"));
-                  */
                 break;
             case 2:
                 panelPrincipal.removeAll();
