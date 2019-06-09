@@ -18,6 +18,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import sqlconnexion.Model.Discipline;
+import sqlconnexion.Model.Enseignement;
+import sqlconnexion.Model.Inscription;
+import sqlconnexion.factory.DAOFactory;
 
 
 /**
@@ -76,7 +79,11 @@ public PersonneDAO(Connection conn) {
             ArrayList<Integer> ines = find(obj);
         for(int nelly : ines){
             //Suppression suplémentaire
+            DAO<Enseignement>adrien = DAOFactory.getEnseignementDAO();
+            adrien.delete(new Enseignement("", "", "" ,Integer.toString(nelly)));
             
+            DAO<Inscription>adrienn = DAOFactory.getInscriptionDAO();
+            adrienn.delete(new Inscription("", "", Integer.toString(nelly)));
             //Suppression dans la table
             String requete = "DELETE FROM personne WHERE  `id` =" + nelly;
             PreparedStatement statement = this.connect.prepareStatement(requete);
@@ -263,6 +270,10 @@ public PersonneDAO(Connection conn) {
             somme += notes.get(i);
              System.out.println("array : "+somme);
              System.out.println("taille : "+notes.size());
+        }
+        
+        if(notes.size() == 0){
+            return 0;
         }
         return somme/notes.size();
     }

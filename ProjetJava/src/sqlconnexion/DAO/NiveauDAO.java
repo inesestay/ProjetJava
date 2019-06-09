@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.util.ArrayList;
 import sqlconnexion.Model.*;
+import sqlconnexion.factory.DAOFactory;
 
 /**
  *
@@ -60,7 +61,9 @@ public NiveauDAO(Connection conn) {
             ArrayList<Integer> ines = find(obj);
         for(int nelly : ines){
             //Suppression suplémentaire
-            
+            //Suppression dans classe
+            DAO<Classe>adrien = DAOFactory.getClasseDAO();
+            adrien.delete(new Classe("", "", Integer.toString(nelly), ""));
             //Suppression dans la table
             String requete = "DELETE FROM niveau WHERE  `id` =" + nelly;
             PreparedStatement statement = this.connect.prepareStatement(requete);
