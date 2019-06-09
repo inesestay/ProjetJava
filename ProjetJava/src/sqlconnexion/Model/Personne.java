@@ -18,6 +18,7 @@ public class Personne {
     private String prenom;
     private String type;
     private float moyenne;
+    private String appreciation;
     private ArrayList<String> dd;
     
     public Personne()
@@ -27,6 +28,7 @@ public class Personne {
         this.prenom="";
         this.type="";
         this.moyenne=-1;
+        this.appreciation="";
         dd = new ArrayList<>();
         
     }
@@ -38,6 +40,7 @@ public class Personne {
         this.prenom=prenom;
         this.type=type;
         this.moyenne=m;
+        this.appreciation="";
         dd = new ArrayList<>();
     }
     
@@ -47,6 +50,7 @@ public class Personne {
         this.nom=nom;
         this.prenom=prenom;
         this.type=type;
+        this.appreciation="";
         dd = new ArrayList<>();
     }
     /*
@@ -117,11 +121,26 @@ public class Personne {
         return type;
     }
 
+     /**
+     * @return the appreciation
+     */
+    public String getAppreciation() {
+        return appreciation;
+    }
+    
+    
     /**
      * @param type the type to set
      */
     public void setType(String type) {
         this.type = type;
+    }
+    
+     /**
+     * @param appreciation the type to set
+     */
+    public void setAppreciation(String type) {
+        this.appreciation = type;
     }
 
     /**
@@ -145,11 +164,13 @@ public class Personne {
         return dd;
     }
 
+   
     /**
      * @param dd the dd to set
      */
-    public void setDiscipline(ArrayList<String> dd) {
+    public void setDd(ArrayList<String> dd) {
         this.dd = dd;
     }
+    
     
 }

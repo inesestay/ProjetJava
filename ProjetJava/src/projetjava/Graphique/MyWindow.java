@@ -39,13 +39,13 @@ public class MyWindow extends JFrame implements ActionListener {
     //boolean pour savoir si on vient d arriver sur la fenetre ou action realiser
     boolean affichageSupp;
     //Les differents bouton
-    JButton button1, button2,buttonConnexionBDD, addMenu, delMenu, dispMenu, modifMenu, menu, addElement, delElement, modifElement,session,connexionSession, statMenu, etudiantClassement, etudiantRattrapage;
+    JButton button1, button2,buttonConnexionBDD, addMenu, delMenu, dispMenu, modifMenu, menu, addElement, delElement, modifElement,session,connexionSession, statMenu, etudiantClassement, etudiantRattrapage ,matiereValider;
     //Label pour les information a afficher
-    JLabel label1, label2, label3, label4, errorText,info;
+    JLabel label1, label2, label3, label4, errorText,info,info2,info3,info4;
     //Les deux panel de la fenetre, le premier pour les boutons du bas de la fenetre et le panelPrincipal ou tout est afficher dessus
     JPanel panelForButtons, panelPrincipal;
     //Lieu ou l'utilisateur peut rentrer des informations
-    JTextField idBDD, pswBDD, idSession;
+    JTextField idBDD, pswBDD, idSession,matiere;
     //nom de la bdd en static pour que tout les classes ai accee
     public static JTextField nomBDD;
     //Combo box sont les menus déroulant pour les differentes table avec des action lie
@@ -58,7 +58,7 @@ public class MyWindow extends JFrame implements ActionListener {
     Connexion myBDD;
 
     //Lors des differents affichage, on peut avoir des Array de Jlabel qu on pourait update/enlever facilement si on les stocks
-    ArrayList<JLabel> arrayJLabel;
+     ArrayList<JLabel> arrayJLabel;
     //Pour optimisation des methode de recuperation
     ArrayList<JTextField> arrayJTextField;
 
@@ -72,6 +72,7 @@ public class MyWindow extends JFrame implements ActionListener {
 	super();
 
         arrayJLabel = null;
+
         arrayJTextField = null;
         affichageSupp = false;
 	setLayout(new BorderLayout());
@@ -93,13 +94,17 @@ public class MyWindow extends JFrame implements ActionListener {
         statMenu = new JButton("Statistique");
         etudiantClassement = new JButton("Classement Eleve");
         etudiantRattrapage = new JButton("Etudiant en rattrapage");
-        
+
         connexionSession = new JButton("Ouvrir ma session");
+        matiereValider = new JButton("Valider matière");
+
+
 
         idBDD = new JTextField();
         pswBDD = new JTextField();
         nomBDD = new JTextField();
         idSession = new JTextField();
+        matiere = new JTextField();
 
         button1.addActionListener(this);
         button2.addActionListener(this);
@@ -120,7 +125,7 @@ public class MyWindow extends JFrame implements ActionListener {
         etudiantRattrapage.addActionListener(this);
 
         connexionSession.addActionListener(this);
-
+        matiereValider.addActionListener(this);
 
         mw = new ArrayList<MyWindow>();
         tableEtudier = new String();
@@ -239,8 +244,14 @@ public class MyWindow extends JFrame implements ActionListener {
         else if(e.getSource()==connexionSession){
             ouvertureSession();
         }
+
+        //boutton pour valider la matire sélectionnée
+        else if(e.getSource()==matiereValider){
+            ouvertureSession();
+  }
         else if(e.getSource() == etudiantClassement){
             classementEtudiant();
+
         }
         else if(e.getSource() ==etudiantRattrapage){
             rattrapageEtudiant();
@@ -262,7 +273,7 @@ public class MyWindow extends JFrame implements ActionListener {
  * @param option numero du menu a afficher
  * Va mettre a jour le panelPrincipal en fonction du menu souhaiter
  */
-    public void updatePannelPrincipal(int option){
+public void updatePannelPrincipal(int option){
         switch(option){
             //Menu connexion
             case 0:
@@ -285,7 +296,9 @@ public class MyWindow extends JFrame implements ActionListener {
                 label3 = new JLabel("Nom BDD");
                 errorText = new JLabel("");
                 info = new JLabel("");
-
+                info2 = new JLabel("");
+                info3 = new JLabel("");
+                info4 = new JLabel("");
 
                 idBDD.setColumns(10);
                 pswBDD.setColumns(10);
@@ -341,7 +354,7 @@ public class MyWindow extends JFrame implements ActionListener {
                 d.gridy = 0;
                 d.gridx = 0;
                 d.ipady = 10;
-                
+
                 panelPrincipal.add(new JLabel("Bienvenue sur Campus mdrr"), d);
                 d.fill = GridBagConstraints.HORIZONTAL;
                 d.gridy ++;
@@ -358,7 +371,7 @@ public class MyWindow extends JFrame implements ActionListener {
 
                 d.gridy ++;
                 panelPrincipal.add(session, d);
-                
+
                 d.gridy ++;
                 panelPrincipal.add(statMenu, d);
 
@@ -1383,10 +1396,11 @@ public class MyWindow extends JFrame implements ActionListener {
 
 
 /**
- * Methode qui permet d 'identifier la bonne personnequi a été ajouté
+ * Methode qui permet d 'identifier la bonne personne qui a été mise dans le JtextField et d ouvrir une page avec
+ * les informations qui lui correspondent
  */
     public void ouvertureSession() {
-       idSession.getText();
+       //idSession.getText();
         DAO<Personne> pers = DAOFactory.getPersonneDAO();
 
         ArrayList<Object> myArray = new ArrayList();
@@ -1402,17 +1416,23 @@ public class MyWindow extends JFrame implements ActionListener {
             Personne p = (Personne)myArray.get(i);
             p.getId();
 
-            if(p.getId().equals(idSession.getText())){
-              updateSession(p.getId(),pers,p);
+            if(p.getId().equals(idSession.getText()) && p.getType().equals("Etudiant")){
+              updateSessionEleve(p.getId(),pers,p);
+            }
+            else if(p.getId().equals(idSession.getText()) &&  p.getType().equals("Prof")){
+                updateSessionProf(p.getId(),pers,p);
             }
         }
     }
 
 
 /**
- * Methode qui met à jour ouvertureSession pour afficher les informations de la personne selectionnées.
+ * Methode qui met à jour ouvertureSession pour afficher les informations de l eleve selectionné.
+ * @param id qui est l id de la personne pour laquelle on veut afficher la moyenne
+ * @param pers pour obtenir les methodes dont j ai besoin pour récupérer les valeurs comme la moyenne par exemple
+ * @param p personne correspond à l id qu on cherchait
  */
-     public void updateSession(String id, DAO pers,Personne p){
+     public void updateSessionEleve(String id, DAO pers,Personne p){
 
         panelPrincipal.removeAll();
 
@@ -1422,87 +1442,145 @@ public class MyWindow extends JFrame implements ActionListener {
         d.gridx = 0;
 
         Personne nelly = (Personne) pers.find(p.getId());
-
-        info.setText("moyenne de : "+nelly.getPrenom()+" "+nelly.getNom()+" est de "+nelly.getMoyenne());
-
+        info.setText("moyenne générale de : "+nelly.getPrenom()+" "+nelly.getNom()+" est de "+nelly.getMoyenne());
         panelPrincipal.add(info, d);
+
+        d.gridy++;
+        matiere.setColumns(10);
+        panelPrincipal.add(matiere,d);
+
+        d.gridy++;
+        panelPrincipal.add(matiereValider, d);
+
+        d.gridy++;
+        info2.setText("moyenne de : "+nelly.getPrenom()+" "+nelly.getNom()+" en "+ matiere.getText() +" est de "+pers.moyenneMatiere(p.getId(), matiere.getText()));
+        panelPrincipal.add(info2, d);
+
+        d.gridy++;
+        info3.setText("Voici les évaluations de : "+nelly.getPrenom()+" "+nelly.getNom()+ " en "+matiere.getText()+ pers.evaluation(p.getId(), matiere.getText() ));
+        panelPrincipal.add(info3, d);
+
+        d.gridy++;
+        info4.setText("Voici les appréciations de : "+nelly.getPrenom()+" "+nelly.getNom()+nelly.getAppreciation());
+        panelPrincipal.add(info4, d);
+
         panelPrincipal.updateUI();
-    }
-     
-     public void menuStatsGlobal(){
-         
+}
+
+     /**
+ * Methode qui met à jour ouvertureSession pour afficher les informations du prof selectionné.
+ * @param id qui est l id de la personne pour laquelle on veut afficher la moyenne
+ * @param pers pour obtenir les methodes dont j ai besoin pour récupérer les valeurs comme la moyenne par exemple
+ * @param p personne correspond à l id qu on cherchait
+ */
+
+     public void updateSessionProf(String id, DAO pers,Personne p){
+         panelPrincipal.removeAll();
+
         GridBagConstraints d = new GridBagConstraints();
 
         d.gridy = 0;
         d.gridx = 0;
-        
+
+        Personne nelly = (Personne) pers.find(p.getId());
+
+        ArrayList<String> mesDisciplines = new ArrayList<>();
+
+        for(int i =0; i<nelly.getDd().size(); i++)
+        {
+            mesDisciplines.add(nelly.getDd().get(i));
+        }
+
+        d.gridy ++;
+        info.setText("Professeur "+nelly.getPrenom()+" "+nelly.getNom()+" enseigne : ");
+        panelPrincipal.add(info, d);
+
+        for(int i =0; i<mesDisciplines.size(); i++)
+        {
+            d.gridy ++;
+            panelPrincipal.add(new JLabel(mesDisciplines.get(i)), d);
+
+        }
+
+
+        panelPrincipal.updateUI();
+
+    }
+
+     public void menuStatsGlobal(){
+
+        GridBagConstraints d = new GridBagConstraints();
+
+        d.gridy = 0;
+        d.gridx = 0;
+
         panelPrincipal.add(etudiantClassement, d);
         d.gridx++;
         panelPrincipal.add(etudiantRattrapage, d);
-        
+
     }
-     
+
      public void classementEtudiant(){
-        
+
         panelPrincipal.removeAll();
         menuStatsGlobal();
-        
+
         GridBagConstraints d = new GridBagConstraints();
 
         d.gridy = 0;
         d.gridx = 0;
         d.gridwidth = 2;
-         
+
         ArrayList<Integer> helene = new ArrayList<Integer>();
-         
+
         DAO<Personne> pers = DAOFactory.getPersonneDAO();
         helene = pers.find(new Personne("","", "", "Etudiant"));
-        
+
         for(int i = 0; i < helene.size(); i++){
             for(int j = 0; j < helene.size() - 1; j++){
                 if(pers.find(Integer.toString(helene.get(j))).getMoyenne() <  pers.find(Integer.toString(helene.get(j+ 1))).getMoyenne()){
                     int temp = helene.get(j + 1);
-                    helene.set(j + 1, helene.get(j));                    
+                    helene.set(j + 1, helene.get(j));
                     helene.set(j, temp);
                 }
             }
         }
-        
+
         for(int ines = 0; ines < helene.size(); ines++){
             d.gridy++;
             Personne nelly = pers.find(Integer.toString(helene.get(ines)));
-            
+
             panelPrincipal.add(new JLabel(Integer.toString(ines + 1) + " Nom : " + nelly.getNom() + " Prenom : " + nelly.getNom() + " Moyenne : " + nelly.getMoyenne()), d);
         }
-      
+
         panelPrincipal.updateUI();
+
      }
-    
+
      public void rattrapageEtudiant(){
          panelPrincipal.removeAll();
         menuStatsGlobal();
-        
+
         GridBagConstraints d = new GridBagConstraints();
 
         d.gridy = 0;
         d.gridx = 0;
         d.gridwidth = 2;
         ArrayList<Integer> helene = new ArrayList<Integer>();
-         
+
         DAO<Personne> pers = DAOFactory.getPersonneDAO();
         helene = pers.find(new Personne("","", "", "Etudiant"));
-        
-        
+
+
         for(int ines = 0; ines < helene.size(); ines++){
             Personne nelly = pers.find(Integer.toString(helene.get(ines)));
             if(nelly.getMoyenne() < 10){
                 d.gridy++;
                 panelPrincipal.add(new JLabel("Nom : " + nelly.getNom() + " Prenom : " + nelly.getNom() + " Moyenne : " + nelly.getMoyenne()), d);
             }
-            
+
         }
-      
+
         panelPrincipal.updateUI();
      }
 }
-
