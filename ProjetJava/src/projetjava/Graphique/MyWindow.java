@@ -43,7 +43,7 @@ public class MyWindow extends JFrame implements ActionListener {
     JButton button1, button2,buttonConnexionBDD, addMenu, delMenu, dispMenu, modifMenu, menu, addElement, delElement, modifElement,session,connexionSession,matiereValider, statMenu, etudiantClassement;
 
     //Label pour les information a afficher
-    JLabel label1, label2, label3, label4, errorText,info,info2,info3;
+    JLabel label1, label2, label3, label4, errorText,info,info2,info3,info4;
     //Les deux panel de la fenetre, le premier pour les boutons du bas de la fenetre et le panelPrincipal ou tout est afficher dessus
     JPanel panelForButtons, panelPrincipal;
     //Lieu ou l'utilisateur peut rentrer des informations
@@ -296,6 +296,7 @@ public void updatePannelPrincipal(int option){
                 info = new JLabel("");
                 info2 = new JLabel("");
                 info3 = new JLabel("");
+                info4 = new JLabel("");
 
                 idBDD.setColumns(10);
                 pswBDD.setColumns(10);
@@ -1456,6 +1457,10 @@ public void updatePannelPrincipal(int option){
         d.gridy++;
         info3.setText("Voici les évaluations de : "+nelly.getPrenom()+" "+nelly.getNom()+ " en "+matiere.getText()+ pers.evaluation(p.getId(), matiere.getText() ));
         panelPrincipal.add(info3, d); 
+        
+        d.gridy++;
+        info4.setText("Voici les appréciations de : "+nelly.getPrenom()+" "+nelly.getNom()+nelly.getAppreciation());
+        panelPrincipal.add(info4, d); 
           
         panelPrincipal.updateUI();
 }
