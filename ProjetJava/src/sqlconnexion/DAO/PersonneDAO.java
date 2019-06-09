@@ -185,6 +185,7 @@ public PersonneDAO(Connection conn) {
         {
            
            // ArrayList< ArrayList<String>> m = evaluation(personne.getId(), discipline);
+            personne.setAppreciation(appreciation(personne.getId()));
           
         }
         else if(personne.getType().equals("Prof"))
@@ -276,6 +277,30 @@ public PersonneDAO(Connection conn) {
             return 0;
         }
         return somme/notes.size();
+    }
+    
+       /**
+    * appreciation du bulletin
+    * @param id
+    * @return l'appreciation
+    */
+    public String appreciation(String id)
+    {
+       String app="";
+        
+        try {
+        ResultSet result = this.connect.createStatement(
+        ResultSet.TYPE_SCROLL_INSENSITIVE,
+        ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT DISTINCT bulletin.appreciation FROM personne,inscription,bulletin WHERE inscription.personneID LIKE "+id+" AND inscription.id=bulletin.inscriptionID ");
+        
+        app = result.getString(1);
+        
+        } catch (SQLException e) {
+         System.out.println("pas appreciation");
+        }
+        
+       
+        return app;
     }
 
    /**
