@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.ArrayList;
+import sqlconnexion.factory.DAOFactory;
 
 /**
  *
@@ -72,6 +73,9 @@ public class BulletinDAO extends DAO<Bulletin> {
             ArrayList<Integer> ines = find(obj);
         for(int nelly : ines){
             //Suppression suplémentaire
+            DAO<DetailBulletin>adrien = DAOFactory.getDetailBulletinDAO();
+            adrien.delete(new DetailBulletin("", "", Integer.toString(nelly), ""));
+            
             
             //Suppression dans la table
             String requete = "DELETE FROM bulletin WHERE  `id` =" + nelly;

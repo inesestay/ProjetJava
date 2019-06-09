@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.ArrayList;
+import sqlconnexion.factory.DAOFactory;
 
 /**
  *
@@ -70,7 +71,8 @@ public DisciplineDAO(Connection conn) {
             ArrayList<Integer> ines = find(obj);
         for(int nelly : ines){
             //Suppression suplémentaire
-            
+            DAO<Enseignement>adrien = DAOFactory.getEnseignementDAO();
+            adrien.delete(new Enseignement("", "", Integer.toString(nelly), ""));
             //Suppression dans la table
             String requete = "DELETE FROM discipline WHERE  `id` =" + nelly;
             PreparedStatement statement = this.connect.prepareStatement(requete);

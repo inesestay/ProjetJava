@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.ArrayList;
+import sqlconnexion.factory.DAOFactory;
 /**
  *
  * @author nelly
@@ -73,7 +74,8 @@ public DetailBulletinDAO(Connection conn) {
             ArrayList<Integer> ines = find(obj);
         for(int nelly : ines){
             //Suppression suplémentaire
-            
+            DAO<Evaluation>adrien = DAOFactory.getEvaluationDAO();
+            adrien.delete(new Evaluation("", "", "" ,Integer.toString(nelly)));
             //Suppression dans la table
             String requete = "DELETE FROM detailBulletin WHERE  `id` =" + nelly;
             PreparedStatement statement = this.connect.prepareStatement(requete);

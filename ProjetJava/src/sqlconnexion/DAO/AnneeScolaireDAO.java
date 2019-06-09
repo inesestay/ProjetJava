@@ -69,7 +69,11 @@ public class AnneeScolaireDAO extends DAO<AnneeScolaire>{
             ArrayList<Integer> ines = find(obj);
         for(int nelly : ines){
             //Suppression suplémentaire
+            DAO<Classe>adrien = DAOFactory.getClasseDAO();
+            adrien.delete(new Classe("", "", "", Integer.toString(nelly)));
             
+            DAO<Trimestre>adrienn = DAOFactory.getTrimestreDAO();
+            adrienn.delete(new Trimestre("", "", "",Integer.toString(nelly)));
             //Suppression dans la table
             String requete = "DELETE FROM anneescolaire WHERE  `AnneeScolaireID` =" + nelly;
             PreparedStatement statement = this.connect.prepareStatement(requete);

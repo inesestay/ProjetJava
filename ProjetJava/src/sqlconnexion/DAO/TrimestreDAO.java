@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.util.ArrayList;
 import sqlconnexion.Model.*;
+import sqlconnexion.factory.DAOFactory;
 
 /**
  *
@@ -71,6 +72,9 @@ public TrimestreDAO(Connection conn) {
             ArrayList<Integer> ines = find(obj);
         for(int nelly : ines){
             //Suppression suplémentaire
+            //Suppresion dans bulletin
+            DAO<Bulletin>adrien = DAOFactory.getBulletinDAO();
+            adrien.delete(new Bulletin("", "", Integer.toString(nelly), ""));
             
             //Suppression dans la table
             String requete = "DELETE FROM trimestre WHERE  `id` =" + nelly;

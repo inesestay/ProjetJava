@@ -76,7 +76,7 @@ public InscriDAO(Connection conn) {
     try {
             ArrayList<Integer> ines = find(obj);
         for(int nelly : ines){
-            //Suppression dans buleltin
+            //Suppression dans bulleltin
             DAO<Bulletin>adrien = DAOFactory.getBulletinDAO();
             adrien.delete(new Bulletin("", "", "", Integer.toString(nelly)));
 
