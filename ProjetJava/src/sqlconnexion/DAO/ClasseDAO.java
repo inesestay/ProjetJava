@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.ArrayList;
+import sqlconnexion.factory.DAOFactory;
 /**
  *
  * @author nelly
@@ -73,7 +74,11 @@ public ClasseDAO(Connection conn) {
             ArrayList<Integer> ines = find(obj);
         for(int nelly : ines){
             //Suppression suplémentaire
+            DAO<Enseignement>adrien = DAOFactory.getEnseignementDAO();
+            adrien.delete(new Enseignement("", Integer.toString(nelly), "", ""));
             
+            DAO<Inscription>adrienn = DAOFactory.getInscriptionDAO();
+            adrienn.delete(new Inscription("", Integer.toString(nelly), ""));
             //Suppression dans la table
             String requete = "DELETE FROM classe WHERE  `id` =" + nelly;
             PreparedStatement statement = this.connect.prepareStatement(requete);
@@ -285,5 +290,31 @@ public ClasseDAO(Connection conn) {
 
         return aRetourner;
     }
+    
+    public float moyenneMatiere(String id, String discipline)
+   {
+         float somme=0;
+        ArrayList<Float> notes = new ArrayList<>();
+      
+        try {
+        ResultSet result = this.connect.createStatement(
+        ResultSet.TYPE_SCROLL_INSENSITIVE,
+        ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT DISTINCT note FROM personne,inscription,bulletin,detailbulletin,evaluation,discipline,enseignement WHERE discipline.nom LIKE '"+discipline+"' AND inscription.personneID LIKE "+id+" AND inscription.id LIKE bulletin.inscriptionID AND detailbulletin.bulletinID LIKE bulletin.id AND detailbulletin.id LIKE evaluation.detailBulletinID AND detailbulletin.enseignementID LIKE enseignement.id AND enseignement.disciplineId LIKE discipline.id AND evaluation.detailBulletinID LIKE detailbulletin.id AND detailbulletin.enseignementID LIKE enseignement.id AND enseignement.disciplineId LIKE discipline.id");
+        
+        while(result.next()) {
+       
+               String note = result.getString(1);
+               float note2 = parseFloat(note);
+               notes.add(note2);
+          }
+        
+        } catch (SQLException e) {
+         System.out.println("pas moyenne");
+         System.out.println(e.getMessage());
+        }
+            
+       
+        return somme/notes.size();
+   }
 }
 

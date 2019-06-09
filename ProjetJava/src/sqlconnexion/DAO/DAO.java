@@ -72,6 +72,9 @@ public abstract class DAO<T> {
   //public abstract ArrayList<Object> table(String name);
     public abstract ArrayList<Object> retour();
     
-     public abstract ArrayList<Integer> find(T inscriATrouver);
+    public abstract ArrayList<Integer> find(T inscriATrouver);
+    
+    public abstract float moyenneMatiere(String id, String discipline);
+       
    
 }

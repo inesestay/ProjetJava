@@ -69,7 +69,11 @@ public class AnneeScolaireDAO extends DAO<AnneeScolaire>{
             ArrayList<Integer> ines = find(obj);
         for(int nelly : ines){
             //Suppression suplémentaire
+            DAO<Classe>adrien = DAOFactory.getClasseDAO();
+            adrien.delete(new Classe("", "", "", Integer.toString(nelly)));
             
+            DAO<Trimestre>adrienn = DAOFactory.getTrimestreDAO();
+            adrienn.delete(new Trimestre("", "", "",Integer.toString(nelly)));
             //Suppression dans la table
             String requete = "DELETE FROM anneescolaire WHERE  `AnneeScolaireID` =" + nelly;
             PreparedStatement statement = this.connect.prepareStatement(requete);
@@ -228,4 +232,30 @@ public class AnneeScolaireDAO extends DAO<AnneeScolaire>{
       
       return aRetourner;
     }
+    
+    public float moyenneMatiere(String id, String discipline)
+   {
+         float somme=0;
+        ArrayList<Float> notes = new ArrayList<>();
+      
+        try {
+        ResultSet result = this.connect.createStatement(
+        ResultSet.TYPE_SCROLL_INSENSITIVE,
+        ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT DISTINCT note FROM personne,inscription,bulletin,detailbulletin,evaluation,discipline,enseignement WHERE discipline.nom LIKE '"+discipline+"' AND inscription.personneID LIKE "+id+" AND inscription.id LIKE bulletin.inscriptionID AND detailbulletin.bulletinID LIKE bulletin.id AND detailbulletin.id LIKE evaluation.detailBulletinID AND detailbulletin.enseignementID LIKE enseignement.id AND enseignement.disciplineId LIKE discipline.id AND evaluation.detailBulletinID LIKE detailbulletin.id AND detailbulletin.enseignementID LIKE enseignement.id AND enseignement.disciplineId LIKE discipline.id");
+        
+        while(result.next()) {
+       
+               String note = result.getString(1);
+               float note2 = parseFloat(note);
+               notes.add(note2);
+          }
+        
+        } catch (SQLException e) {
+         System.out.println("pas moyenne");
+         System.out.println(e.getMessage());
+        }
+            
+       
+        return somme/notes.size();
+   }
 }
