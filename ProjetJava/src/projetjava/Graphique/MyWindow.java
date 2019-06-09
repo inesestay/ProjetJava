@@ -43,7 +43,7 @@ public class MyWindow extends JFrame implements ActionListener {
     JButton button1, button2,buttonConnexionBDD, addMenu, delMenu, dispMenu, modifMenu, menu, addElement, delElement, modifElement,session,connexionSession,matiereValider, statMenu, etudiantClassement;
 
     //Label pour les information a afficher
-    JLabel label1, label2, label3, label4, errorText,info,info2;
+    JLabel label1, label2, label3, label4, errorText,info,info2,info3;
     //Les deux panel de la fenetre, le premier pour les boutons du bas de la fenetre et le panelPrincipal ou tout est afficher dessus
     JPanel panelForButtons, panelPrincipal;
     //Lieu ou l'utilisateur peut rentrer des informations
@@ -248,11 +248,12 @@ public class MyWindow extends JFrame implements ActionListener {
         //boutton pour valider la matire sélectionnée
         else if(e.getSource()==matiereValider){
             ouvertureSession();
-
+  }
         else if(e.getSource() == etudiantClassement){
             classementEtudiant();
 
         }
+  
     }
 
     // 0 : menu connexion
@@ -270,7 +271,7 @@ public class MyWindow extends JFrame implements ActionListener {
  * @param option numero du menu a afficher
  * Va mettre a jour le panelPrincipal en fonction du menu souhaiter
  */
-    public void updatePannelPrincipal(int option){
+public void updatePannelPrincipal(int option){
         switch(option){
             //Menu connexion
             case 0:
@@ -294,6 +295,7 @@ public class MyWindow extends JFrame implements ActionListener {
                 errorText = new JLabel("");
                 info = new JLabel("");
                 info2 = new JLabel("");
+                info3 = new JLabel("");
 
                 idBDD.setColumns(10);
                 pswBDD.setColumns(10);
@@ -1422,7 +1424,7 @@ public class MyWindow extends JFrame implements ActionListener {
 
 
 /**
- * Methode qui met à jour ouvertureSession pour afficher les informations de la personne selectionnées.
+ * Methode qui met à jour ouvertureSession pour afficher les informations de l eleve selectionné.
  * @param id qui est l id de la personne pour laquelle on veut afficher la moyenne 
  * @param pers pour obtenir les methodes dont j ai besoin pour récupérer les valeurs comme la moyenne par exemple
  * @param p personne correspond à l id qu on cherchait
@@ -1449,10 +1451,21 @@ public class MyWindow extends JFrame implements ActionListener {
         
         d.gridy++;
         info2.setText("moyenne de : "+nelly.getPrenom()+" "+nelly.getNom()+" en "+ matiere.getText() +" est de "+pers.moyenneMatiere(p.getId(), matiere.getText()));
-        panelPrincipal.add(info2, d);    
+        panelPrincipal.add(info2, d);  
+       
+        d.gridy++;
+        info3.setText("Voici les évaluations de : "+nelly.getPrenom()+" "+nelly.getNom()+ " en "+matiere.getText()+ pers.evaluation(p.getId(), matiere.getText() ));
+        panelPrincipal.add(info3, d); 
           
         panelPrincipal.updateUI();
-    }
+}
+     
+     /**
+ * Methode qui met à jour ouvertureSession pour afficher les informations du prof selectionné.
+ * @param id qui est l id de la personne pour laquelle on veut afficher la moyenne 
+ * @param pers pour obtenir les methodes dont j ai besoin pour récupérer les valeurs comme la moyenne par exemple
+ * @param p personne correspond à l id qu on cherchait
+ */
      
      public void updateSessionProf(String id, DAO pers,Personne p){
          panelPrincipal.removeAll();
