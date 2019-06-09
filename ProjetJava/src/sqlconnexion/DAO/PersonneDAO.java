@@ -12,6 +12,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 import sqlconnexion.Model.Discipline;
 
 
@@ -171,11 +176,9 @@ public PersonneDAO(Connection conn) {
         personne = new Personne(result.getString("id"),result.getString("nom"),result.getString("prenom"),result.getString("type"));  
         if(personne.getType().equals("Etudiant"))
         {
-            //System.out.println("moy"+moyenne(personne.getId()));
-            personne.setMoyenne(moyenne(personne.getId()));
-            float m = moyenneMatiere(personne.getId(), discipline);
-            //System.out.println("moyenne physique" + m);
-            
+           
+           // ArrayList< ArrayList<String>> m = evaluation(personne.getId(), discipline);
+          
         }
         else if(personne.getType().equals("Prof"))
         {
@@ -294,6 +297,53 @@ public PersonneDAO(Connection conn) {
             
        
         return somme/notes.size();
+   }
+   
+   
+    public  ArrayList<ArrayList<String>> evaluation(String id, String discipline)
+   {
+        
+        ArrayList<String> eval = new ArrayList<>();
+        ArrayList<ArrayList<String>> tab_eval = new ArrayList<>();
+      
+      
+        try {
+        ResultSet result = this.connect.createStatement(
+        ResultSet.TYPE_SCROLL_INSENSITIVE,
+        ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT DISTINCT evaluation.note, evaluation.appreciation FROM personne,inscription,bulletin,detailbulletin,evaluation,discipline,enseignement WHERE discipline.nom LIKE '"+discipline+"' AND inscription.personneID LIKE "+id+" AND inscription.id LIKE bulletin.inscriptionID AND detailbulletin.bulletinID LIKE bulletin.id AND detailbulletin.id LIKE evaluation.detailBulletinID AND detailbulletin.enseignementID LIKE enseignement.id AND enseignement.disciplineId LIKE discipline.id AND evaluation.detailBulletinID LIKE detailbulletin.id AND detailbulletin.enseignementID LIKE enseignement.id AND enseignement.disciplineId LIKE discipline.id");
+        
+        while(result.next()) {
+       
+            eval.clear();
+               String note = result.getString(1);
+               String appreciation = result.getString(2);
+               eval.add(note);
+               eval.add(appreciation);
+               tab_eval.add(eval);
+                System.out.println("apres ajout tab");
+               
+                System.out.println("apres clear");
+          }
+        
+        } catch (SQLException ex) {
+         System.out.println("pas evaluation");
+         System.out.println(ex.getMessage());
+        }
+        
+        //affichage
+         System.out.println("tab siez"+ tab_eval.size());
+         System.out.println("eval size"+ eval.size());
+        for(int i =0; i<tab_eval.size();i++)
+        {
+            System.out.println( "evaluation n°"+i + ": (note et appréciation :) ");
+            for(int j=0; j<tab_eval.get(i).size(); j++)
+            {
+             System.out.println( tab_eval.get(i).get(j));
+            }
+        }
+        
+       
+        return tab_eval;
    }
    
    
