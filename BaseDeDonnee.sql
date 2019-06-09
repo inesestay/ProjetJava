@@ -1,7 +1,6 @@
 
 CREATE TABLE AnneeScolaire(
 AnneeScolaireID int(11) NOT NULL  PRIMARY KEY
-
 );
 
 CREATE TABLE Trimestre(
@@ -197,7 +196,11 @@ INSERT INTO `Inscription`(`id`,`classID`,`personneId`) VALUES
 (7,7,16),
 (8,8,17),
 (9,9,18),
-(10,10,19)
+(10,10,19),
+(11,1,19),
+(12,2,19),
+(13,3,19),
+(14,4,19)
 ;
 
 INSERT INTO `Bulletin`(`id`,`appreciation`,`trimestreID`, `inscriptionID`) VALUES
@@ -211,6 +214,7 @@ INSERT INTO `Bulletin`(`id`,`appreciation`,`trimestreID`, `inscriptionID`) VALUE
 (8,' pas cool',8,8),
 (9,' bof',9,9),
 (10,'attentif',10,10)
+
 ;
 
 INSERT INTO `DetailBulletin`(`id`,`appreciation`,`bulletinID`,`enseignementID`) VALUES
@@ -223,7 +227,12 @@ INSERT INTO `DetailBulletin`(`id`,`appreciation`,`bulletinID`,`enseignementID`) 
 (7,' est extrement intelligent',7,7),
 (8,' un genie',8,8),
 (9,' precis et methodique',9,9),
-(10,'sympathique mais dois faire plus d efforts',10,10)
+(10,'sympathique mais dois faire plus d efforts',10,10),
+(11,'studieux et précis',10,1),
+(12,'bonne réflexion mais dois faire plus d efforts',10,2),
+(13,'ne cesse de bavarder!',10,3),
+(14,'mauvais élève!!',10,4)
+
 ;
 
 INSERT INTO `Evaluation`(`id`,`appreciation`,`note`,`detailBulletinID`) VALUES
@@ -236,5 +245,9 @@ INSERT INTO `Evaluation`(`id`,`appreciation`,`note`,`detailBulletinID`) VALUES
 (7,' est extrement intelligent',22,7),
 (8,' un genie',23,8),
 (9,' precis et methodique',17,9),
-(10,'sympathique mais dois faire plus d efforts',10,10)
+(10,'sympathique mais dois faire plus d efforts',10,10),
+(11,'de beaux efforts',15,11),
+(12,'tres bien',17,12),
+(13,'moyen',11,13),
+(14,'au bord du redoublement!',2,14)
 ;
