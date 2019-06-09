@@ -37,13 +37,13 @@ public class MyWindow extends JFrame implements ActionListener {
     //boolean pour savoir si on vient d arriver sur la fenetre ou action realiser
     boolean affichageSupp;
     //Les differents bouton
-    JButton button1, button2,buttonConnexionBDD, addMenu, delMenu, dispMenu, modifMenu, menu, addElement, delElement, modifElement,session,connexionSession;
+    JButton button1, button2,buttonConnexionBDD, addMenu, delMenu, dispMenu, modifMenu, menu, addElement, delElement, modifElement,session,connexionSession,matiereValider;
     //Label pour les information a afficher
     JLabel label1, label2, label3, label4, errorText,info;
     //Les deux panel de la fenetre, le premier pour les boutons du bas de la fenetre et le panelPrincipal ou tout est afficher dessus
     JPanel panelForButtons, panelPrincipal;
     //Lieu ou l'utilisateur peut rentrer des informations
-    JTextField idBDD, pswBDD, idSession;
+    JTextField idBDD, pswBDD, idSession,matiere;
     //nom de la bdd en static pour que tout les classes ai accee
     public static JTextField nomBDD;
     //Combo box sont les menus déroulant pour les differentes table avec des action lie
@@ -90,12 +90,14 @@ public class MyWindow extends JFrame implements ActionListener {
         session = new JButton("Session");
 
         connexionSession = new JButton("Ouvrir ma session");
-
+        matiereValider = new JButton("Valider matière");
+        
         idBDD = new JTextField();
         pswBDD = new JTextField();
         nomBDD = new JTextField();
         idSession = new JTextField();
-
+        matiere = new JTextField();
+        
         button1.addActionListener(this);
         button2.addActionListener(this);
 
@@ -112,7 +114,7 @@ public class MyWindow extends JFrame implements ActionListener {
         session.addActionListener(this);
 
         connexionSession.addActionListener(this);
-
+        matiereValider.addActionListener(this);
 
         mw = new ArrayList<MyWindow>();
         tableEtudier = new String();
@@ -226,6 +228,10 @@ public class MyWindow extends JFrame implements ActionListener {
         }
         //Boutton pour se connecter a la sessions
         else if(e.getSource()==connexionSession){
+            ouvertureSession();
+        }
+        //boutton pour valider la matire sélectionnée
+        else if(e.getSource()==matiereValider){
             ouvertureSession();
         }
     }
@@ -1362,7 +1368,7 @@ public class MyWindow extends JFrame implements ActionListener {
  * les informations qui lui correspondent 
  */
     public void ouvertureSession() {
-       idSession.getText();
+       //idSession.getText();
         DAO<Personne> pers = DAOFactory.getPersonneDAO();
 
         ArrayList<Object> myArray = new ArrayList();
@@ -1382,7 +1388,7 @@ public class MyWindow extends JFrame implements ActionListener {
               updateSessionEleve(p.getId(),pers,p);
             }
             else if(p.getId().equals(idSession.getText()) &&  p.getType().equals("Prof")){
-                updateSessionProf();
+                updateSessionProf(p.getId(),pers,p);
             }
         }
     }
@@ -1402,22 +1408,39 @@ public class MyWindow extends JFrame implements ActionListener {
 
         d.gridy = 0;
         d.gridx = 0;
-
-        //float moyenneMatiere = pers.moyenneMatiere(p.getId(),"physique");
         
         Personne nelly = (Personne) pers.find(p.getId());
-
-        info.setText("moyenne de : "+nelly.getPrenom()+" "+nelly.getNom()+" est de "+nelly.getMoyenne());
+        
+        d.gridy=2;
+        info.setText("moyenne générale de : "+nelly.getPrenom()+" "+nelly.getNom()+" est de "+nelly.getMoyenne());
         panelPrincipal.add(info, d);    
         
-        d.gridx++;
-        //info.setText("moyenne de : "+nelly.getPrenom()+" "+nelly.getNom()+" en XXX est de "+pers.);
+        d.gridy++;
+        matiere.setColumns(10);
+        panelPrincipal.add(matiere);
+        
+        d.gridy++;
+        panelPrincipal.add(matiereValider, d);
+        
+        d.gridy++;
+        info.setText("moyenne de : "+nelly.getPrenom()+" "+nelly.getNom()+" en "+ matiere.getText() +" est de "+pers.moyenneMatiere(p.getId(), matiere.getText()));
         panelPrincipal.add(info, d);    
           
         panelPrincipal.updateUI();
     }
      
-     public void updateSessionProf(){
-         
+     public void updateSessionProf(String id, DAO pers,Personne p){
+         panelPrincipal.removeAll();
+
+        GridBagConstraints d = new GridBagConstraints();
+
+        d.gridy = 0;
+        d.gridx = 0;
+        
+        Personne nelly = (Personne) pers.find(p.getId());
+         ArrayList<String> mesDisciplines = new ArrayList<>();
+         mesDisciplines = pers.retourDiscipline(p.getId());
+        d.gridy++;
+        //info.setText("Disciplines enseignées par le professeur: "+nelly.getPrenom()+" "+nelly.getNom()+" sont "+pers.retourDiscipline(p.getId()));
      }
 }
