@@ -1461,7 +1461,7 @@ public void updatePannelPrincipal(int option){
         panelPrincipal.add(info3, d);
 
         d.gridy++;
-        info4.setText("Voici les appréciations de : "+nelly.getPrenom()+" "+nelly.getNom()+nelly.getAppreciation());
+        info4.setText("Voici les appréciations de : "+nelly.getPrenom()+" "+nelly.getNom()+" " +nelly.getAppreciation());
         panelPrincipal.add(info4, d);
 
         panelPrincipal.updateUI();
@@ -1547,7 +1547,7 @@ public void updatePannelPrincipal(int option){
         }
 
         for(int ines = 0; ines < helene.size(); ines++){
-            d.gridy++;
+            d.gridy++;  
             Personne nelly = pers.find(Integer.toString(helene.get(ines)));
 
             panelPrincipal.add(new JLabel(Integer.toString(ines + 1) + " Nom : " + nelly.getNom() + " Prenom : " + nelly.getNom() + " Moyenne : " + nelly.getMoyenne()), d);
