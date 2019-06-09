@@ -1411,18 +1411,22 @@ public class MyWindow extends JFrame implements ActionListener {
         
         Personne nelly = (Personne) pers.find(p.getId());
         
-        d.gridy=2;
+        
         info.setText("moyenne générale de : "+nelly.getPrenom()+" "+nelly.getNom()+" est de "+nelly.getMoyenne());
-        panelPrincipal.add(info, d);    
+        panelPrincipal.add(info, d); 
         
         d.gridy++;
+        
         matiere.setColumns(10);
         panelPrincipal.add(matiere);
         
         d.gridy++;
         panelPrincipal.add(matiereValider, d);
         
+        
+        
         d.gridy++;
+        //Il faut mettre un autre JLabel car là tu réécrie le premier
         info.setText("moyenne de : "+nelly.getPrenom()+" "+nelly.getNom()+" en "+ matiere.getText() +" est de "+pers.moyenneMatiere(p.getId(), matiere.getText()));
         panelPrincipal.add(info, d);    
           
@@ -1437,9 +1441,9 @@ public class MyWindow extends JFrame implements ActionListener {
         d.gridy = 0;
         d.gridx = 0;
         
-        Personne nelly = (Personne) pers.find(p.getId());
-         ArrayList<String> mesDisciplines = new ArrayList<>();
-         mesDisciplines = pers.retourDiscipline(p.getId());
+        //Personne nelly = (Personne) pers.find(p.getId());
+         //ArrayList<String> mesDisciplines = new ArrayList<>();
+         //mesDisciplines = pers.retourDiscipline(p.getId());
         d.gridy++;
         //info.setText("Disciplines enseignées par le professeur: "+nelly.getPrenom()+" "+nelly.getNom()+" sont "+pers.retourDiscipline(p.getId()));
      }
