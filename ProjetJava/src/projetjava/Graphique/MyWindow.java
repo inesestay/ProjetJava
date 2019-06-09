@@ -14,12 +14,14 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import projetjava.Connexion;
 import sqlconnexion.DAO.DAO;
@@ -37,7 +39,9 @@ public class MyWindow extends JFrame implements ActionListener {
     //boolean pour savoir si on vient d arriver sur la fenetre ou action realiser
     boolean affichageSupp;
     //Les differents bouton
-    JButton button1, button2,buttonConnexionBDD, addMenu, delMenu, dispMenu, modifMenu, menu, addElement, delElement, modifElement,session,connexionSession,matiereValider;
+
+    JButton button1, button2,buttonConnexionBDD, addMenu, delMenu, dispMenu, modifMenu, menu, addElement, delElement, modifElement,session,connexionSession,matiereValider, statMenu, etudiantClassement;
+
     //Label pour les information a afficher
     JLabel label1, label2, label3, label4, errorText,info,info2;
     //Les deux panel de la fenetre, le premier pour les boutons du bas de la fenetre et le panelPrincipal ou tout est afficher dessus
@@ -89,7 +93,9 @@ public class MyWindow extends JFrame implements ActionListener {
         delElement = new JButton("Supprimer Element");
         modifElement = new JButton("Modifier Element");
         session = new JButton("Session");
-
+        statMenu = new JButton("Statistique");
+        etudiantClassement = new JButton("Classement Eleve");
+        
         connexionSession = new JButton("Ouvrir ma session");
         matiereValider = new JButton("Valider matière");
         
@@ -115,6 +121,8 @@ public class MyWindow extends JFrame implements ActionListener {
         delElement.addActionListener(this);
         modifElement.addActionListener(this);
         session.addActionListener(this);
+        statMenu.addActionListener(this);
+        etudiantClassement.addActionListener(this);
 
         connexionSession.addActionListener(this);
         matiereValider.addActionListener(this);
@@ -204,6 +212,9 @@ public class MyWindow extends JFrame implements ActionListener {
         //Boutton pour rejoindre la session des stats
         }else if(e.getSource()==session) {
             updatePannelPrincipal(6);
+        //Menu des statistiques global
+        }else if(e.getSource() == statMenu){
+            updatePannelPrincipal(8);
         }
 
         //Menu deroulant dans le menu d affichage
@@ -233,9 +244,14 @@ public class MyWindow extends JFrame implements ActionListener {
         else if(e.getSource()==connexionSession){
             ouvertureSession();
         }
+
         //boutton pour valider la matire sélectionnée
         else if(e.getSource()==matiereValider){
             ouvertureSession();
+
+        else if(e.getSource() == etudiantClassement){
+            classementEtudiant();
+
         }
     }
 
@@ -247,6 +263,7 @@ public class MyWindow extends JFrame implements ActionListener {
     // 5 : modif
     // 6 : session
     // 7 : affichage de la session
+    // 8 : statistique global
 
     /**
  * Met a jour le pannelPrincipal en fonction du menu souhaiter
@@ -331,28 +348,31 @@ public class MyWindow extends JFrame implements ActionListener {
 
                 d.gridy = 0;
                 d.gridx = 0;
+                d.ipady = 10;
+                
+                panelPrincipal.add(new JLabel("Bienvenue sur Campus mdrr"), d);
+                d.fill = GridBagConstraints.HORIZONTAL;
+                d.gridy ++;
                 panelPrincipal.add(addMenu, d);
 
-                d.gridy = 1;
+                d.gridy ++;
                 panelPrincipal.add(delMenu, d);
 
-                d.gridy = 2;
+                d.gridy ++;
                 panelPrincipal.add(dispMenu, d);
 
-                d.gridy = 3;
+                d.gridy ++;
                 panelPrincipal.add(modifMenu, d);
 
-                d.gridy = 4;
+                d.gridy ++;
                 panelPrincipal.add(session, d);
+                
+                d.gridy ++;
+                panelPrincipal.add(statMenu, d);
 
                 errorText.setText("");
                 panelPrincipal.setBackground(Color.GRAY);
 
-                /*
-                DAO<Inscription> obj = DAOFactory.getInscriptionDAO();
-
-                obj.find(new Inscription("", "", "4"));
-                  */
                 break;
             case 2:
                 panelPrincipal.removeAll();
@@ -375,6 +395,10 @@ public class MyWindow extends JFrame implements ActionListener {
             case 6:
                 panelPrincipal.removeAll();
                 connexionSession();
+                break;
+            case 8:
+                panelPrincipal.removeAll();
+                menuStatsGlobal();
                 break;
         }
 
@@ -1460,5 +1484,54 @@ public class MyWindow extends JFrame implements ActionListener {
         
           
         panelPrincipal.updateUI();
+
+    }
+     
+     public void menuStatsGlobal(){
+         
+        GridBagConstraints d = new GridBagConstraints();
+
+        d.gridy = 0;
+        d.gridx = 0;
+        
+        panelPrincipal.add(etudiantClassement, d);
+        
+    }
+     
+     public void classementEtudiant(){
+        
+        panelPrincipal.removeAll();
+        menuStatsGlobal();
+        
+        GridBagConstraints d = new GridBagConstraints();
+
+        d.gridy = 0;
+        d.gridx = 0;
+         
+        ArrayList<Integer> helene = new ArrayList<Integer>();
+         
+        DAO<Personne> pers = DAOFactory.getPersonneDAO();
+        helene = pers.find(new Personne("","", "", "Etudiant"));
+        
+        for(int i = 0; i < helene.size(); i++){
+            for(int j = 0; j < helene.size() - 1; j++){
+                if(pers.find(Integer.toString(helene.get(j))).getMoyenne() <  pers.find(Integer.toString(helene.get(j+ 1))).getMoyenne()){
+                    int temp = helene.get(j + 1);
+                    helene.set(j + 1, helene.get(j));                    
+                    helene.set(j, temp);
+                }
+            }
+        }
+        
+        for(int ines = 0; ines < helene.size(); ines++){
+            d.gridy++;
+            Personne nelly = pers.find(Integer.toString(helene.get(ines)));
+            
+            panelPrincipal.add(new JLabel(Integer.toString(ines + 1) + " Nom : " + nelly.getNom() + " Prenom : " + nelly.getNom() + " Moyenne : " + nelly.getMoyenne()), d);
+        }
+      
+        panelPrincipal.updateUI();
+
      }
 }
+
