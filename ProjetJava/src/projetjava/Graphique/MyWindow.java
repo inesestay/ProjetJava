@@ -1,13 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package projetjava.Graphique;
 
 /**
  *
- * @author quentin coucou
+ * @author quentin
+ *
  */
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -18,39 +14,65 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import projetjava.Connexion;
 import sqlconnexion.DAO.DAO;
 import sqlconnexion.Model.*;
 import sqlconnexion.factory.DAOFactory;
 
+/**
+ * Class MyWindow
+ * Cette classe est la classe qui genere une fenetre pour le projet
+ * Elle est construit de maniere a pouvoir etre utiliser comme la fenetre
+ * principal ou secondaire.
+ */
 public class MyWindow extends JFrame implements ActionListener {
 
+    //boolean pour savoir si on vient d arriver sur la fenetre ou action realiser
     boolean affichageSupp;
-    JButton button1, button2,buttonConnexionBDD, addMenu, delMenu, dispMenu, modifMenu, menu, addElement, delElement, modifElement;
-    JLabel label1, label2, label3, label4, errorText;
+    //Les differents bouton
+    JButton button1, button2,buttonConnexionBDD, addMenu, delMenu, dispMenu, modifMenu, menu, addElement, delElement, modifElement,session,connexionSession, statMenu, etudiantClassement, etudiantRattrapage ,matiereValider;
+    //Label pour les information a afficher
+    JLabel label1, label2, label3, label4, errorText,info,info2,info3,info4;
+    //Les deux panel de la fenetre, le premier pour les boutons du bas de la fenetre et le panelPrincipal ou tout est afficher dessus
     JPanel panelForButtons, panelPrincipal;
-    JTextField idBDD, pswBDD;
+    //Lieu ou l'utilisateur peut rentrer des informations
+    JTextField idBDD, pswBDD, idSession,matiere;
+    //nom de la bdd en static pour que tout les classes ai accee
     public static JTextField nomBDD;
+    //Combo box sont les menus déroulant pour les differentes table avec des action lie
     JComboBox tablesBox, tablesBoxAdd, tablesBoxDel, tablesBoxModif;
+    //ArrayList de toutes les fenetre secondaire
     ArrayList<MyWindow> mw;
+    //Pour les fenetres secondaire on stock le nom de la table a afficher ici
     String tableEtudier;
-
+    //Classe pour se connecter a la BDD
     Connexion myBDD;
 
-    ArrayList<JLabel> arrayJLabel;
+    //Lors des differents affichage, on peut avoir des Array de Jlabel qu on pourait update/enlever facilement si on les stocks
+     ArrayList<JLabel> arrayJLabel;
+    //Pour optimisation des methode de recuperation
     ArrayList<JTextField> arrayJTextField;
 
+    /**
+ * Constructeur d'une frame
+ * @param nom nom de la table a afficher par defaut si c est une fenetre secondaire
+ * On initialise tout les attribue graphique qui seront utiliser dans la fenetre
+ * afin de pouvoir les ajouter ou retirer facilement
+ */
     public MyWindow(String nom) {
 	super();
 
         arrayJLabel = null;
+
         arrayJTextField = null;
         affichageSupp = false;
 	setLayout(new BorderLayout());
@@ -68,10 +90,21 @@ public class MyWindow extends JFrame implements ActionListener {
         addElement = new JButton("Ajout Element");
         delElement = new JButton("Supprimer Element");
         modifElement = new JButton("Modifier Element");
-        
+        session = new JButton("Session");
+        statMenu = new JButton("Statistique");
+        etudiantClassement = new JButton("Classement Eleve");
+        etudiantRattrapage = new JButton("Etudiant en rattrapage");
+
+        connexionSession = new JButton("Ouvrir ma session");
+        matiereValider = new JButton("Valider matière");
+
+
+
         idBDD = new JTextField();
         pswBDD = new JTextField();
         nomBDD = new JTextField();
+        idSession = new JTextField();
+        matiere = new JTextField();
 
         button1.addActionListener(this);
         button2.addActionListener(this);
@@ -86,7 +119,13 @@ public class MyWindow extends JFrame implements ActionListener {
         addElement.addActionListener(this);
         delElement.addActionListener(this);
         modifElement.addActionListener(this);
+        session.addActionListener(this);
+        statMenu.addActionListener(this);
+        etudiantClassement.addActionListener(this);
+        etudiantRattrapage.addActionListener(this);
 
+        connexionSession.addActionListener(this);
+        matiereValider.addActionListener(this);
 
         mw = new ArrayList<MyWindow>();
         tableEtudier = new String();
@@ -98,32 +137,39 @@ public class MyWindow extends JFrame implements ActionListener {
 
         add(panelPrincipal, BorderLayout.CENTER);
 	add(panelForButtons, BorderLayout.SOUTH);
-        
-        
+
+        //Si c est une fenetre secondaire
         if(!nom.equals("")){
-            System.out.println("OUI");
             nomBDD.setText(nom);
         }
-        
-        System.out.println("Bonsoir : " + nomBDD.getText());
+
+        //Lance le chargement du menu principal
         updatePannelPrincipal(0);
     }
-
+/**
+ * Listener des action de la frame
+ * @param e ActionEvent
+ * Listener de tout les bouton ou JComboBox de la fenetre
+ */
     @Override
     public void actionPerformed(ActionEvent e) {
+        //Boutton quiter
         if(e.getSource()==button1) {
             delAllWindowSecondary();
             setVisible(false); //you can't see me!
             dispose(); //Destroy the JFrame object
         }
-        else if(e.getSource()==button2) {             
-            delAllWindowSecondary();         
+        //Bouton deconexion
+        else if(e.getSource()==button2) {
+            delAllWindowSecondary();
             updatePannelPrincipal(0);
         }
+        //Bouton menu principal
         else if(e.getSource()==menu) {
             delAllWindowSecondary();
             updatePannelPrincipal(1);
         }
+        //Boutton de connexion a la BDD
         else if(e.getSource()==buttonConnexionBDD) {
             try{
                 myBDD = null;
@@ -150,33 +196,65 @@ public class MyWindow extends JFrame implements ActionListener {
             }
             panelPrincipal.updateUI();
 
-
+        //Boutton pour rejoindre l'ajout d element
         }else if(e.getSource()==addMenu) {
             updatePannelPrincipal(2);
         }
+        //Boutton pour rejoindre la suppression d'éléments
         else if(e.getSource()==delMenu) {
             updatePannelPrincipal(3);
+        //Boutton pour rejoindre l'affichage des elements
         }else if(e.getSource()==dispMenu) {
             updatePannelPrincipal(4);
+        //Boutton pour rejoindre la modification des éléments
         }else if(e.getSource()==modifMenu) {
             updatePannelPrincipal(5);
+        //Boutton pour rejoindre la session des stats
+        }else if(e.getSource()==session) {
+            updatePannelPrincipal(6);
+        //Menu des statistiques global
+        }else if(e.getSource() == statMenu){
+            updatePannelPrincipal(8);
         }
 
+        //Menu deroulant dans le menu d affichage
         else if(e.getSource()==tablesBox) {
             System.out.println((String)tablesBox.getSelectedItem());
             updateDisplayMenu((String)tablesBox.getSelectedItem(), panelPrincipal, 0,0);
+        //Menu deroulant dans le menu d ajout
         }else if(e.getSource()==tablesBoxAdd) {
             updateMenuAjout((String)tablesBoxAdd.getSelectedItem());
+        //Boutton pour ajouter un element
         }else if(e.getSource()==addElement){
             creationObjetRequetteAjout((String)tablesBoxAdd.getSelectedItem());
+        //Menu deroulant dans le menu de suppression
         }else if(e.getSource()==tablesBoxDel){
             updateMenuDel((String)tablesBoxDel.getSelectedItem());
+        //Boutton pour supprimer un element
         }else if(e.getSource()==delElement){
             creationObjetRequetteDel((String)tablesBoxDel.getSelectedItem());
+        //Menu deroulant dans le menu de modification
         }else if(e.getSource()==tablesBoxModif){
             updateMenuModif((String)tablesBoxModif.getSelectedItem());
+        //Boutton pour modifier un element
         }else if(e.getSource()==modifElement){
             creationObjetRequetteModif((String)tablesBoxModif.getSelectedItem());
+        }
+        //Boutton pour se connecter a la sessions
+        else if(e.getSource()==connexionSession){
+            ouvertureSession();
+        }
+
+        //boutton pour valider la matire sélectionnée
+        else if(e.getSource()==matiereValider){
+            ouvertureSession();
+  }
+        else if(e.getSource() == etudiantClassement){
+            classementEtudiant();
+
+        }
+        else if(e.getSource() ==etudiantRattrapage){
+            rattrapageEtudiant();
         }
     }
 
@@ -186,7 +264,16 @@ public class MyWindow extends JFrame implements ActionListener {
     // 3 : menu del
     // 4 : menu disp
     // 5 : modif
-    public void updatePannelPrincipal(int option){
+    // 6 : session
+    // 7 : affichage de la session
+    // 8 : statistique global
+
+    /**
+ * Met a jour le pannelPrincipal en fonction du menu souhaiter
+ * @param option numero du menu a afficher
+ * Va mettre a jour le panelPrincipal en fonction du menu souhaiter
+ */
+public void updatePannelPrincipal(int option){
         switch(option){
             //Menu connexion
             case 0:
@@ -202,13 +289,16 @@ public class MyWindow extends JFrame implements ActionListener {
 
                 GridBagConstraints c = new GridBagConstraints();
 
-                
+
 
                 label1 = new JLabel("ID connexion");
                 label2 = new JLabel("Password connexion");
                 label3 = new JLabel("Nom BDD");
                 errorText = new JLabel("");
-
+                info = new JLabel("");
+                info2 = new JLabel("");
+                info3 = new JLabel("");
+                info4 = new JLabel("");
 
                 idBDD.setColumns(10);
                 pswBDD.setColumns(10);
@@ -263,19 +353,31 @@ public class MyWindow extends JFrame implements ActionListener {
 
                 d.gridy = 0;
                 d.gridx = 0;
+                d.ipady = 10;
+
+                panelPrincipal.add(new JLabel("Bienvenue sur Campus mdrr"), d);
+                d.fill = GridBagConstraints.HORIZONTAL;
+                d.gridy ++;
                 panelPrincipal.add(addMenu, d);
 
-                d.gridy = 1;
+                d.gridy ++;
                 panelPrincipal.add(delMenu, d);
 
-                d.gridy = 2;
+                d.gridy ++;
                 panelPrincipal.add(dispMenu, d);
 
-                d.gridy = 3;
+                d.gridy ++;
                 panelPrincipal.add(modifMenu, d);
+
+                d.gridy ++;
+                panelPrincipal.add(session, d);
+
+                d.gridy ++;
+                panelPrincipal.add(statMenu, d);
 
                 errorText.setText("");
                 panelPrincipal.setBackground(Color.GRAY);
+
                 break;
             case 2:
                 panelPrincipal.removeAll();
@@ -295,75 +397,107 @@ public class MyWindow extends JFrame implements ActionListener {
                 affichageSupp = false;
                 modifMenu();
                 break;
+            case 6:
+                panelPrincipal.removeAll();
+                connexionSession();
+                break;
+            case 8:
+                panelPrincipal.removeAll();
+                menuStatsGlobal();
+                break;
         }
 
         panelPrincipal.updateUI();
     }
 
+    /**
+ * Menu de connexion a la sessios
+ * Menu pour rentrer son ID et avoir des statistiques en fonction de son ID
+ */
+    public void connexionSession(){
+        GridBagConstraints d = new GridBagConstraints();
+
+        d.gridy = 0;
+        d.gridx = 0;
+
+        d.gridy = 0;
+        d.gridx = 0;
+        d.gridwidth =11;
+        JLabel id = new JLabel("id de connexion: ");
+        panelPrincipal.add(id, d);
+
+
+        d.gridy++;
+        d.gridx++;
+        panelPrincipal.add(connexionSession, d);
+
+
+        idSession.setColumns(10);
+        panelPrincipal.add(idSession);
+
+
+    }
+
+    /**
+ * Lance la requette d ajout d un element a la BDD
+ * @param table nom de la table ou il faut ajouter l element
+ */
     public void creationObjetRequetteAjout(String table){
         //ici
         boolean ines = false;
         try{
             //En fonction de la table, appelle la bonne requette
-                    /////////////a modifier
+
             if(table == "Personne"){
+                //Creer un objet de la table en DAO
                 DAO<Personne> pers = DAOFactory.getPersonneDAO();
-                //idd a regler
-                ines = pers.create(new Personne(arrayJTextField.get(0).getText(),arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText()));
+                //Lance la requette a la bdd
+                ines = pers.create(new Personne(arrayJTextField.get(0).getText(),arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText(),0 ));
+                //anonce que la requette a ete envoye
                 errorText.setText("Personne ajoute !");
             }else if(table == "Inscription"){
                 DAO<Inscription> obj = DAOFactory.getInscriptionDAO();
-                //idd a regler
                 ines = obj.create(new Inscription(arrayJTextField.get(0).getText(),arrayJTextField.get(1).getText()));
                 errorText.setText("Inscription ajoute !");
             }else if(table == "AnneeScolaire"){
                 DAO<AnneeScolaire> obj = DAOFactory.getAnneeScolaireDAO();
-                //idd a regler
                 ines = obj.create(new AnneeScolaire(arrayJTextField.get(0).getText()));
                 errorText.setText("Annee scolaire ajoute !");
             }else if(table == "Bulletin"){
                 DAO<Bulletin> obj = DAOFactory.getBulletinDAO();
-                //idd a regler
                 ines = obj.create(new Bulletin(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText()));
                 errorText.setText(" Bulletin ajoute !");
             }
             else if(table == "Classe"){
                 DAO<Classe> obj = DAOFactory.getClasseDAO();
-                //idd a regler
                 ines = obj.create(new Classe(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText()));
                 errorText.setText(" Classe ajoute !");
             }else if(table == "DetailBulletin"){
                 DAO<DetailBulletin> obj = DAOFactory.getDetailBulletinDAO();
-                //idd a regler
                 ines = obj.create(new DetailBulletin(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText()));
                 errorText.setText(" DetailBulletin ajoute !");
             }else if(table == "Discipline"){
                 DAO<Discipline> obj = DAOFactory.getDisciplineDAO();
-                //idd a regler
                 ines = obj.create(new Discipline(arrayJTextField.get(0).getText()));
                 errorText.setText(" Discipline ajoute !");
             }else if(table == "Enseignement"){
                 DAO<Enseignement> obj = DAOFactory.getEnseignementDAO();
-                //idd a regler
                 ines = obj.create(new Enseignement(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText()));
                 errorText.setText(" Enseignement ajoute !");
             }else if(table == "Evaluation"){
                 DAO<Evaluation> obj = DAOFactory.getEvaluationDAO();
-                //idd a regler
                 ines = obj.create(new Evaluation(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText()));
                 errorText.setText(" Evaluation ajoute !");
             }else if(table == "Trimestre"){
                 DAO<Trimestre> obj = DAOFactory.getTrimestreDAO();
-                //idd a regler
                 ines = obj.create(new Trimestre(arrayJTextField.get(0).getText(),arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText(),arrayJTextField.get(3).getText()));
                 errorText.setText(" Trimestre ajoute !");
             }else if(table == "Niveau"){
                 DAO<Niveau> obj = DAOFactory.getNiveauDAO();
-                //idd a regler
                 ines = obj.create(new Niveau(arrayJTextField.get(0).getText()));
                 errorText.setText(" Niveau ajoute !");
             }
-            
+            //Si la requette est incorect et n a pas ete lance
             if(!ines){
                 errorText.setText("Error : Requette non envoye");
             }
@@ -374,9 +508,12 @@ public class MyWindow extends JFrame implements ActionListener {
         }
     }
 
+    /**
+ * Initialise le menu pour ajouter un element a la BDD
+ * Prepare le menu deroulant pour toutes les tables ou on peut ajouter des elements
+ */
     public void menuAjout(){
         //Liste de toute les tables à mettre dans la box depliant
-        /////////////a modifier
         String[] listTableName = { "Personne", "Inscription", "AnneeScolaire","Bulletin","Classe","DetailBulletin","Discipline","Enseignement","Evaluation","Niveau","Trimestre"};
 
         tablesBoxAdd = new JComboBox(listTableName);
@@ -390,11 +527,17 @@ public class MyWindow extends JFrame implements ActionListener {
         d.gridwidth =11;
         panelPrincipal.add(tablesBoxAdd, d);
 
+        //Lance l'update pour afficher les differents champs pour ajouter l element
         updateMenuAjout((String)tablesBoxAdd.getSelectedItem());
     }
-
+/**
+ * Prepare les champrs pour rentrer les information pour ajout
+ * @param ines nom de la table ou on veut ajouter l element
+ * Va generer tout les JTextField et le bouton ajouter sous le menu deroulant de la selection de table
+ */
     public void updateMenuAjout(String ines){
 
+        //on enleve les ancien composant qui etait present
         panelPrincipal.remove(addElement);
         panelPrincipal.remove(errorText);
 
@@ -421,8 +564,7 @@ public class MyWindow extends JFrame implements ActionListener {
         ArrayList<String> arrayElement = new ArrayList<String>();
 
 
-        //ArrayList des noms de ligne dans chaque table
-        /////////////a modifier
+        //On creer les element pour la generation des champs en fonction de l'ArrayList
         if(ines == "Personne"){
             arrayElement.add("nom");
             arrayElement.add("prenom");
@@ -474,12 +616,14 @@ public class MyWindow extends JFrame implements ActionListener {
         d.gridx = 0;
 
         d.gridwidth = 2;
+        //Ajout du menu déroulant de table
         panelPrincipal.add(tablesBoxAdd, d);
 
         d.gridwidth = 1;
 
+        //Pour chaque element dans notre array list on va ajouter son nom et un JTextField
         for(int i = 0; i < arrayElement.size(); i++){
-
+            //au moins on a fait un peu de code modulaire ^^'
             arrayJTextField.get(i).setColumns(15);
             d.gridy ++;
             d.gridx = 0;
@@ -491,17 +635,24 @@ public class MyWindow extends JFrame implements ActionListener {
         d.gridy += 2;
         d.gridx = 0;
         d.gridwidth = 2;
+        //on oublie pas le bouton d ajout d element
         panelPrincipal.add(addElement, d);
         d.gridy++;
         panelPrincipal.add(errorText,d);
 
+        //on rafraichis tout ça
         panelPrincipal.updateUI();
     }
 
+    /**
+ * Chargement du menu supprimer
+ * On charge le debut du menu de suppression d element
+ */
     public void delMenu(){
-                /////////////a modifier
+        //Bizzarement ça ressemble a ce qu on a fait dans supprimer, et ba c est parce que c est la meme chose mais voila O:-)
         String[] listTableName = { "Personne", "Inscription", "AnneeScolaire","Bulletin","Classe","DetailBulletin","Discipline","Enseignement","Evaluation","Niveau","Trimestre"};
 
+        //Ajout du menu deroulant de toutes les tables avec
         tablesBoxDel = new JComboBox(listTableName);
         tablesBoxDel.addActionListener(this);
 
@@ -513,14 +664,21 @@ public class MyWindow extends JFrame implements ActionListener {
         d.gridwidth = 11;
         panelPrincipal.add(tablesBoxDel, d);
 
+        //On met a jour le menu de suppression avec les champs
         updateMenuDel((String)tablesBoxDel.getSelectedItem());
 
     }
 
+    /**
+ * Mise a jour du menu de suppresion
+ * @param table nom de la table ou l on veut supprimer un element
+ */
     public void updateMenuDel(String table){
+
+        //On retire tout les ancien element du panelPrincipal
         panelPrincipal.remove(delElement);
         panelPrincipal.remove(errorText);
-        
+
 
         if(arrayJLabel == null){
             arrayJLabel = new ArrayList<JLabel>();
@@ -543,7 +701,7 @@ public class MyWindow extends JFrame implements ActionListener {
         }
         ArrayList<String> arrayElement = new ArrayList<String>();
 
-        /////////////a modifier
+        //On refait comme dans l ajout, une liste d element
         if(table == "Personne"){
             arrayElement.add("id");
             arrayElement.add("nom");
@@ -594,6 +752,7 @@ public class MyWindow extends JFrame implements ActionListener {
             arrayElement.add("Année Scolaire ID");
         }
 
+        //On ajoute ces element au array de JLabel et des JTextField
         for(String nelly : arrayElement){
             arrayJLabel.add(new JLabel(nelly));
             arrayJTextField.add(new JTextField());
@@ -610,6 +769,7 @@ public class MyWindow extends JFrame implements ActionListener {
 
         d.gridwidth = 1;
 
+        //Ajoute tous les elements graphiqeu
         for(int i = 0; i < arrayElement.size(); i++){
 
             arrayJTextField.get(i).setColumns(15);
@@ -627,62 +787,62 @@ public class MyWindow extends JFrame implements ActionListener {
 
         d.gridy++;
         panelPrincipal.add(errorText, d);
- 
+
+        //Si on est sur une action et que la fenetre secondaire n'a pas encore ete cree
         if(affichageSupp && !(checkForWindowSecondary(table))){
+            //On creer la fenetre secondaire
             MyWindow helene = new MyWindow(nomBDD.getText());
             helene.setSize(500,1000);
             helene.setVisible(true);
             helene.updateDisplayMenu(table, helene.panelPrincipal, 0, 0);
-            
+
             mw.add(helene);
         }else{
+            //Ca signifie qu on etait sur l initialisation du menu donc la prochaine action
+            // qui va declancher l update aura ete un choix de table donc il faudra
+            //generer la creation d une fenetre secondaire
             affichageSupp = true;
         }
-        
-        
+
+
         panelPrincipal.updateUI();
 
     }
 
+    /**
+ * cCreation de la requette sql pour la modification d un element
+ * @param table nom de la table a modifier
+ * Va lancer la demande de requette de modification des champs remplis
+ */
     public void creationObjetRequetteDel(String table){
-        //ici
         try{
-
-            /////////////a modifier
             if(table == "Personne"){
                 DAO<Personne> pers = DAOFactory.getPersonneDAO();
-                //idd a regler
-
+                   ArrayList<String> dd = new ArrayList<>();
+                //Si la requette a bien ete envoye
                 if(pers.delete(new Personne(arrayJTextField.get(0).getText(),arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText(),arrayJTextField.get(3).getText()))){
                     errorText.setText("Personne supprimée !");
-
                 }else{
                     errorText.setText("Personne pas supprimée !");
                 }
             }
-
             else if(table == "Inscription"){
                 DAO<Inscription> obj = DAOFactory.getInscriptionDAO();
-                    //idd a regler
                 if(obj.delete(new Inscription(arrayJTextField.get(0).getText(),arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText()))){
                     errorText.setText("Inscription supprimée !");
                 }else{
                     errorText.setText("Inscription non supprimée !");
                 }
-
             }
             else if(table == "AnneeScolaire"){
                 DAO<AnneeScolaire> obj = DAOFactory.getAnneeScolaireDAO();
-                //idd a regler
                 if(obj.delete(new AnneeScolaire(arrayJTextField.get(0).getText())))
                 errorText.setText("AnneeScolaire supprimée !");
                 else{
                     errorText.setText("AnneeScolaire non supprimée !");
                 }
-
             }else if(table == "Bulletin"){
                 DAO<Bulletin> obj = DAOFactory.getBulletinDAO();
-                //idd a regler
                if( obj.delete(new Bulletin(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText(),arrayJTextField.get(3).getText())))
                errorText.setText("Bulletin supprimé !");
                 else{
@@ -691,7 +851,6 @@ public class MyWindow extends JFrame implements ActionListener {
             }
             else if(table == "Classe"){
                 DAO<Classe> obj = DAOFactory.getClasseDAO();
-                //idd a regler
                 if(obj.delete(new Classe(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText(),arrayJTextField.get(3).getText())))
                 errorText.setText("Classe supprimée!");
                 else{
@@ -699,7 +858,6 @@ public class MyWindow extends JFrame implements ActionListener {
                 }
             }else if(table == "DetailBulletin"){
                 DAO<DetailBulletin> obj = DAOFactory.getDetailBulletinDAO();
-                //idd a regler
                if( obj.delete(new DetailBulletin(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText(),arrayJTextField.get(3).getText())))
                 errorText.setText("DetailBulletin supprimé !");
                 else{
@@ -707,7 +865,6 @@ public class MyWindow extends JFrame implements ActionListener {
                 }
             }else if(table == "Discipline"){
                 DAO<Discipline> obj = DAOFactory.getDisciplineDAO();
-                //idd a regler
                 if(obj.delete(new Discipline(arrayJTextField.get(0).getText(),arrayJTextField.get(1).getText())))
                errorText.setText("Discipline supprimée !");
                 else{
@@ -715,7 +872,6 @@ public class MyWindow extends JFrame implements ActionListener {
                 }
             }else if(table == "Enseignement"){
                 DAO<Enseignement> obj = DAOFactory.getEnseignementDAO();
-                //idd a regler
                 if(obj.delete(new Enseignement(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText(),arrayJTextField.get(3).getText())))
                 errorText.setText("Enseignement supprimé !");
                 else{
@@ -723,7 +879,6 @@ public class MyWindow extends JFrame implements ActionListener {
                 }
             }else if(table == "Evaluation"){
                 DAO<Evaluation> obj = DAOFactory.getEvaluationDAO();
-                //idd a regler
                 if(obj.delete(new Evaluation(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText(),arrayJTextField.get(3).getText())))
                 errorText.setText("Evaluation supprimée !");
                 else{
@@ -731,7 +886,6 @@ public class MyWindow extends JFrame implements ActionListener {
                 }
             }else if(table == "Trimestre"){
                 DAO<Trimestre> obj = DAOFactory.getTrimestreDAO();
-                //idd a regler
                 if(obj.delete(new Trimestre(arrayJTextField.get(0).getText(),arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText(),arrayJTextField.get(3).getText(),arrayJTextField.get(4).getText())))
                 errorText.setText("Trimestre supprimé !");
                 else{
@@ -740,28 +894,28 @@ public class MyWindow extends JFrame implements ActionListener {
             }
             else if(table == "Niveau"){
                 DAO<Niveau> obj = DAOFactory.getNiveauDAO();
-                //idd a regler
                 if(obj.delete(new Niveau(arrayJTextField.get(0).getText(),arrayJTextField.get(1).getText())))
                 errorText.setText("Niveau supprimé !");
                 else{
                     errorText.setText("Niveau non supprimé !");
                 }
             }
-            
+
             //Update all window
             updateAllWindowSecondary();
-        
-        
+
         }
         catch (Exception e1){
             errorText.setText("Error : " + (String)e1.getMessage() + " " + e1.getStackTrace());
-            System.out.println("Error : " + (String)e1.getMessage() + " " + e1.getStackTrace());
-            e1.getStackTrace();
         }
     }
 
+    /**
+ * Charge le menu qui affiche les tables
+ * Charge le menu qui va afficher le contenue de la table choisis dans le menu deroulant
+ */
     public void displayMenu(){
-        
+
         String[] listTableName = { "Personne", "Inscription", "AnneeScolaire","Bulletin","Classe","DetailBulletin","Discipline","Enseignement","Evaluation","Niveau","Trimestre" };
 
         tablesBox = new JComboBox(listTableName);
@@ -772,21 +926,26 @@ public class MyWindow extends JFrame implements ActionListener {
         updateDisplayMenu((String)tablesBox.getSelectedItem(), panelPrincipal,0,0);
     }
 
+    /**
+ * Met a jour l affichage des information de la table donne dans le panel donnee
+ * @param nomCategorie nom de la table a afficher le contenue
+ * @param thePanel panel ou la table dois etre afficher (generalement panelPrincipal)
+ * @param x position en x du debut de l affichage du tableau
+ * @param y position en y du debut de l affichage du tableau
+
+ */
     public void updateDisplayMenu(String nomCategorie, JPanel thePanel, int x, int y)  {
         thePanel.removeAll();
         thePanel.setBackground(Color.GRAY);
         tableEtudier = nomCategorie;
-        
+
         ArrayList<Object> myArray = new ArrayList<Object>();
         ArrayList<JLabel> lea = new ArrayList<JLabel>();
 
         System.out.println("NOM BDD : " + nomBDD.getText());
-        
-                /////////////a modifier
         if(nomCategorie == "Personne"){
             DAO<Personne> pers = DAOFactory.getPersonneDAO();
             myArray = pers.retour();
-
             lea.add(new JLabel("ID"));
             lea.add(new JLabel("NOM"));
             lea.add(new JLabel("PRENOM"));
@@ -866,8 +1025,6 @@ public class MyWindow extends JFrame implements ActionListener {
         d.gridwidth = 1;
 
         for(int ines = 0; ines < lea.size(); ines ++){
-            // lea.get(ines).setBackground(Color.white);
-            //lea.get(ines).setBorder(BorderFactory.createLineBorder(Color.black));
             lea.get(ines).setForeground(Color.white);
             thePanel.add(lea.get(ines), d);
             d.gridx++;
@@ -876,13 +1033,12 @@ public class MyWindow extends JFrame implements ActionListener {
         d.fill = GridBagConstraints.HORIZONTAL;
         d.gridy = 2;
 
+        //On repete pour chaque ligne
         for(int ines = 0; ines < myArray.size(); ines ++){
             d.gridy++;
             d.gridx = 0;
 
             ArrayList<JLabel> helene = new ArrayList<JLabel>();
-
-                    /////////////a modifier
             if(nomCategorie == "Personne"){
                 Personne nelly = (Personne)myArray.get(ines);
                 helene.add(new JLabel(nelly.getId()));
@@ -903,14 +1059,12 @@ public class MyWindow extends JFrame implements ActionListener {
                 helene.add(new JLabel(nelly.getAppreciation()));
                  helene.add(new JLabel(nelly.getTrimestreID()));
                 helene.add(new JLabel(nelly.getInscriptionID()));
-
             }else if(nomCategorie == "Classe"){
                 Classe nelly = (Classe)myArray.get(ines);
                 helene.add(new JLabel(nelly.getId()));
                 helene.add(new JLabel(nelly.getNom()));
                 helene.add(new JLabel(nelly.getNiveauID()));
                 helene.add(new JLabel(nelly.getAnneescolaireID()));
-
             }else if(nomCategorie == "DetailBulletin"){
                 DetailBulletin nelly = (DetailBulletin)myArray.get(ines);
                 helene.add(new JLabel(nelly.getId()));
@@ -927,14 +1081,12 @@ public class MyWindow extends JFrame implements ActionListener {
                 helene.add(new JLabel(nelly.getClasseID()));
                 helene.add(new JLabel(nelly.getEnseignantID()));
                 helene.add(new JLabel(nelly.getDisciplineID()));
-
             }else if(nomCategorie == "Evaluation"){
                 Evaluation nelly = (Evaluation)myArray.get(ines);
                 helene.add(new JLabel(nelly.getId()));
                 helene.add(new JLabel(nelly.getAppreciation()));
                 helene.add(new JLabel(nelly.getNote()));
                 helene.add(new JLabel(nelly.getDetailBulletinID()));
-
             }else if(nomCategorie == "Niveau"){
                 Niveau nelly = (Niveau)myArray.get(ines);
                 helene.add(new JLabel(nelly.getId()));
@@ -948,8 +1100,7 @@ public class MyWindow extends JFrame implements ActionListener {
                 helene.add(new JLabel(nelly.getAnneescolaireID()));
             }
 
-
-
+            //On ajoute tout les label à la ligne
             for(int adrien = 0; adrien < helene.size(); adrien ++){
                 helene.get(adrien).setOpaque(true);
                 helene.get(adrien).setBackground(Color.white);
@@ -963,6 +1114,9 @@ public class MyWindow extends JFrame implements ActionListener {
 
     }
 
+/**
+ * Menu de modification des champs
+ */
     public void modifMenu(){
                 /////////////a modifier
         String[] listTableName = { "Personne", "Inscription", "AnneeScolaire","Bulletin","Classe","DetailBulletin","Discipline","Enseignement","Evaluation","Niveau","Trimestre"};
@@ -981,6 +1135,10 @@ public class MyWindow extends JFrame implements ActionListener {
         updateMenuModif((String)tablesBoxModif.getSelectedItem());
     }
 
+ /**
+ * Mise a jour du menu de modification
+ * @param table nom de la table à modifier
+ */
     public void updateMenuModif(String table){
         panelPrincipal.remove(modifElement);
         panelPrincipal.remove(errorText);
@@ -1006,8 +1164,6 @@ public class MyWindow extends JFrame implements ActionListener {
             arrayJTextField = new ArrayList<JTextField>();
         }
         ArrayList<String> arrayElement = new ArrayList<String>();
-
-                /////////////a modifier
         if(table == "Personne"){
             arrayElement.add("id");
             arrayElement.add("nom");
@@ -1091,29 +1247,30 @@ public class MyWindow extends JFrame implements ActionListener {
 
         d.gridy++;
         panelPrincipal.add(errorText, d);
-        
+
         if(affichageSupp && !(checkForWindowSecondary(table))){
-            
+
             MyWindow helene = new MyWindow(nomBDD.getText());
             helene.setSize(500,1000);
             helene.setVisible(true);
             helene.updateDisplayMenu(table, helene.panelPrincipal, 0, 0);
-            
+
             mw.add(helene);
         }else{
             affichageSupp = true;
         }
-                
+
         panelPrincipal.updateUI();
     }
 
+       /**
+ * Creation de la requette pour modifier un element d une table
+ * @param table nom de la table a modifier
+ */
     public void creationObjetRequetteModif(String table){
-        //ici
         try{
-                    /////////////a modifier
             if(table == "Personne"){
                 DAO<Personne> pers = DAOFactory.getPersonneDAO();
-                //idd a regler
                 if(pers.update(new Personne(arrayJTextField.get(0).getText(),arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText(),arrayJTextField.get(3).getText()))){
                     errorText.setText("Personne modifiée !");
                 }else{
@@ -1122,26 +1279,21 @@ public class MyWindow extends JFrame implements ActionListener {
             }
             else if(table == "Inscription"){
                 DAO<Inscription> obj = DAOFactory.getInscriptionDAO();
-                //idd a regler
                 if(obj.update(new Inscription(arrayJTextField.get(0).getText(),arrayJTextField.get(1).getText(), arrayJTextField.get(2).getText()))){
                     errorText.setText("Inscription modifier !");
                 }else{
                     errorText.setText("Inscription non modifiée !");
                 }
-
             }
             else if(table == "AnneeScolaire"){
                 DAO<AnneeScolaire> obj = DAOFactory.getAnneeScolaireDAO();
-                //idd a regler
                 if(obj.update(new AnneeScolaire(arrayJTextField.get(0).getText())))
                 errorText.setText("AnneeScolaire modifiée !");
                 else{
                     errorText.setText("AnneeScolaire non modifiée !");
                 }
-
             }else if(table == "Bulletin"){
                 DAO<Bulletin> obj = DAOFactory.getBulletinDAO();
-                //idd a regler
                if( obj.update(new Bulletin(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText(),arrayJTextField.get(3).getText())))
                errorText.setText("Bulletin modifié !");
                 else{
@@ -1150,7 +1302,6 @@ public class MyWindow extends JFrame implements ActionListener {
             }
             else if(table == "Classe"){
                 DAO<Classe> obj = DAOFactory.getClasseDAO();
-                //idd a regler
                 if(obj.update(new Classe(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText(),arrayJTextField.get(3).getText())))
                 errorText.setText("Classe modifiée!");
                 else{
@@ -1158,7 +1309,6 @@ public class MyWindow extends JFrame implements ActionListener {
                 }
             }else if(table == "DetailBulletin"){
                 DAO<DetailBulletin> obj = DAOFactory.getDetailBulletinDAO();
-                //idd a regler
                if( obj.update(new DetailBulletin(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText(),arrayJTextField.get(3).getText())))
                 errorText.setText("DetailBulletin modifié !");
                 else{
@@ -1166,7 +1316,6 @@ public class MyWindow extends JFrame implements ActionListener {
                 }
             }else if(table == "Discipline"){
                 DAO<Discipline> obj = DAOFactory.getDisciplineDAO();
-                //idd a regler
                 if(obj.update(new Discipline(arrayJTextField.get(0).getText(),arrayJTextField.get(1).getText())))
                errorText.setText("Discipline modifiée !");
                 else{
@@ -1174,7 +1323,6 @@ public class MyWindow extends JFrame implements ActionListener {
                 }
             }else if(table == "Enseignement"){
                 DAO<Enseignement> obj = DAOFactory.getEnseignementDAO();
-                //idd a regler
                 if(obj.update(new Enseignement(arrayJTextField.get(0).getText(), arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText(),arrayJTextField.get(3).getText())))
                 errorText.setText("Enseignement modifié !");
                 else{
@@ -1182,7 +1330,6 @@ public class MyWindow extends JFrame implements ActionListener {
                 }
             }else if(table == "Evaluation"){
                 DAO<Evaluation> obj = DAOFactory.getEvaluationDAO();
-                //idd a regler
                 if(obj.update(new Evaluation(arrayJTextField.get(0).getText(),arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText(),arrayJTextField.get(3).getText())))
                 errorText.setText("Evaluation modifiée !");
                 else{
@@ -1190,7 +1337,6 @@ public class MyWindow extends JFrame implements ActionListener {
                 }
             }else if(table == "Trimestre"){
                 DAO<Trimestre> obj = DAOFactory.getTrimestreDAO();
-                //idd a regler
                 if(obj.update(new Trimestre(arrayJTextField.get(0).getText(),arrayJTextField.get(1).getText(),arrayJTextField.get(2).getText(),arrayJTextField.get(3).getText(),arrayJTextField.get(4).getText())))
                 errorText.setText("Trimestre modifié !");
                 else{
@@ -1198,44 +1344,252 @@ public class MyWindow extends JFrame implements ActionListener {
                 }
             }else if(table == "Niveau"){
                 DAO<Niveau> obj = DAOFactory.getNiveauDAO();
-                //idd a regler
                 if(obj.update(new Niveau(arrayJTextField.get(0).getText(),arrayJTextField.get(1).getText())))
                 errorText.setText("Niveau modifié !");
                 else{
                     errorText.setText("Niveau non modifié !");
                 }
             }
-            
+
             updateAllWindowSecondary();
         }
         catch (Exception e1){
             errorText.setText("Error : " + (String)e1.getMessage());
         }
     }
-    
+
+ /**
+ * Mise a jour de l affichage de toutes les fenetres secondaire
+ */
     public void updateAllWindowSecondary(){
         for(MyWindow nelly : mw){
              nelly.updateDisplayMenu(nelly.tableEtudier, nelly.panelPrincipal, 0, 0);
         }
     }
-    
+ /**
+ * Supprime toute les fenetres secondaire
+ */
     public void delAllWindowSecondary(){
         for(MyWindow nelly : mw){
             nelly.setVisible(false); //you can't see me!
-            nelly.dispose(); //Destroy the JFrame object 
+            nelly.dispose(); //Destroy the JFrame object
         }
-        
+
         mw.clear();
     }
-    
+
+ /**
+ * Verifie si la table secondaire a deja ete cree
+ * @param nomTable nom de la table de la fenetre secondaire qu on veut verifier l existance
+ * @return True si la table existe, False sinon
+ */
     public boolean checkForWindowSecondary(String nomTable){
-        
+
         for(MyWindow nelly  : mw){
             if(nomTable.equals(nelly.tableEtudier)){
                 return true;
             }
         }
-        
+
         return false;
     }
+
+
+/**
+ * Methode qui permet d 'identifier la bonne personne qui a été mise dans le JtextField et d ouvrir une page avec
+ * les informations qui lui correspondent
+ */
+    public void ouvertureSession() {
+       //idSession.getText();
+        DAO<Personne> pers = DAOFactory.getPersonneDAO();
+
+        ArrayList<Object> myArray = new ArrayList();
+
+        myArray = pers.retour();
+
+        GridBagConstraints d = new GridBagConstraints();
+
+        d.gridy = 0;
+        d.gridx = 0;
+
+        for (int i=0;i<myArray.size();i++) {
+            Personne p = (Personne)myArray.get(i);
+            p.getId();
+
+            if(p.getId().equals(idSession.getText()) && p.getType().equals("Etudiant")){
+              updateSessionEleve(p.getId(),pers,p);
+            }
+            else if(p.getId().equals(idSession.getText()) &&  p.getType().equals("Prof")){
+                updateSessionProf(p.getId(),pers,p);
+            }
+        }
+    }
+
+
+/**
+ * Methode qui met à jour ouvertureSession pour afficher les informations de l eleve selectionné.
+ * @param id qui est l id de la personne pour laquelle on veut afficher la moyenne
+ * @param pers pour obtenir les methodes dont j ai besoin pour récupérer les valeurs comme la moyenne par exemple
+ * @param p personne correspond à l id qu on cherchait
+ */
+     public void updateSessionEleve(String id, DAO pers,Personne p){
+
+        panelPrincipal.removeAll();
+
+        GridBagConstraints d = new GridBagConstraints();
+
+        d.gridy = 0;
+        d.gridx = 0;
+        d.ipady = 15;
+        
+        Personne nelly = (Personne) pers.find(p.getId());
+        info.setText("moyenne générale de : "+nelly.getPrenom()+" "+nelly.getNom()+" est de "+nelly.getMoyenne());
+        panelPrincipal.add(info, d);
+
+        d.gridy++;
+        matiere.setColumns(10);
+        d.ipady = 5;
+        panelPrincipal.add(matiere,d);
+d.ipady = 15;
+        d.gridy++;
+        panelPrincipal.add(matiereValider, d);
+
+        d.gridy++;
+        info2.setText("moyenne de : "+nelly.getPrenom()+" "+nelly.getNom()+" en "+ matiere.getText() +" est de "+pers.moyenneMatiere(p.getId(), matiere.getText()));
+        panelPrincipal.add(info2, d);
+
+        d.gridy++;
+        info3.setText("Voici les évaluations de : "+nelly.getPrenom()+" "+nelly.getNom()+ " en "+matiere.getText()+ pers.evaluation(p.getId(), matiere.getText() ));
+        panelPrincipal.add(info3, d);
+
+        d.gridy++;
+        info4.setText("Voici les appréciations de : "+nelly.getPrenom()+" "+nelly.getNom()+" " +nelly.getAppreciation());
+        panelPrincipal.add(info4, d);
+
+        panelPrincipal.updateUI();
+}
+
+     /**
+ * Methode qui met à jour ouvertureSession pour afficher les informations du prof selectionné.
+ * @param id qui est l id de la personne pour laquelle on veut afficher la moyenne
+ * @param pers pour obtenir les methodes dont j ai besoin pour récupérer les valeurs comme la moyenne par exemple
+ * @param p personne correspond à l id qu on cherchait
+ */
+
+     public void updateSessionProf(String id, DAO pers,Personne p){
+         panelPrincipal.removeAll();
+
+        GridBagConstraints d = new GridBagConstraints();
+
+        d.gridy = 0;
+        d.gridx = 0;
+
+        Personne nelly = (Personne) pers.find(p.getId());
+
+        ArrayList<String> mesDisciplines = new ArrayList<>();
+
+        for(int i =0; i<nelly.getDd().size(); i++)
+        {
+            mesDisciplines.add(nelly.getDd().get(i));
+        }
+
+        d.gridy ++;
+        info.setText("Professeur "+nelly.getPrenom()+" "+nelly.getNom()+" enseigne : ");
+        panelPrincipal.add(info, d);
+
+        d.ipady = 15;
+        d.fill = GridBagConstraints.HORIZONTAL;
+        
+        for(int i =0; i<mesDisciplines.size(); i++)
+        {
+            d.gridy ++;
+            JLabel helene = new JLabel("   " +mesDisciplines.get(i));
+            helene.setOpaque(true);
+            helene.setBackground(Color.white);
+            helene.setBorder(BorderFactory.createLineBorder(Color.black));
+            panelPrincipal.add(helene, d);
+
+        }
+
+
+        panelPrincipal.updateUI();
+
+    }
+
+     public void menuStatsGlobal(){
+
+        GridBagConstraints d = new GridBagConstraints();
+
+        d.gridy = 0;
+        d.gridx = 0;
+
+        panelPrincipal.add(etudiantClassement, d);
+        d.gridx++;
+        panelPrincipal.add(etudiantRattrapage, d);
+
+    }
+
+     public void classementEtudiant(){
+
+        panelPrincipal.removeAll();
+        menuStatsGlobal();
+
+        GridBagConstraints d = new GridBagConstraints();
+
+        d.gridy = 0;
+        d.gridx = 0;
+        d.gridwidth = 2;
+
+        ArrayList<Integer> helene = new ArrayList<Integer>();
+
+        DAO<Personne> pers = DAOFactory.getPersonneDAO();
+        helene = pers.find(new Personne("","", "", "Etudiant"));
+
+        for(int i = 0; i < helene.size(); i++){
+            for(int j = 0; j < helene.size() - 1; j++){
+                if(pers.find(Integer.toString(helene.get(j))).getMoyenne() <  pers.find(Integer.toString(helene.get(j+ 1))).getMoyenne()){
+                    int temp = helene.get(j + 1);
+                    helene.set(j + 1, helene.get(j));
+                    helene.set(j, temp);
+                }
+            }
+        }
+
+        for(int ines = 0; ines < helene.size(); ines++){
+            d.gridy++;  
+            Personne nelly = pers.find(Integer.toString(helene.get(ines)));
+
+            panelPrincipal.add(new JLabel(Integer.toString(ines + 1) + " Nom : " + nelly.getNom() + " Prenom : " + nelly.getNom() + " Moyenne : " + nelly.getMoyenne()), d);
+        }
+
+        panelPrincipal.updateUI();
+
+     }
+
+     public void rattrapageEtudiant(){
+         panelPrincipal.removeAll();
+        menuStatsGlobal();
+
+        GridBagConstraints d = new GridBagConstraints();
+
+        d.gridy = 0;
+        d.gridx = 0;
+        d.gridwidth = 2;
+        ArrayList<Integer> helene = new ArrayList<Integer>();
+
+        DAO<Personne> pers = DAOFactory.getPersonneDAO();
+        helene = pers.find(new Personne("","", "", "Etudiant"));
+
+
+        for(int ines = 0; ines < helene.size(); ines++){
+            Personne nelly = pers.find(Integer.toString(helene.get(ines)));
+            if(nelly.getMoyenne() < 10){
+                d.gridy++;
+                panelPrincipal.add(new JLabel("Nom : " + nelly.getNom() + " Prenom : " + nelly.getNom() + " Moyenne : " + nelly.getMoyenne()), d);
+            }
+
+        }
+
+        panelPrincipal.updateUI();
+     }
 }

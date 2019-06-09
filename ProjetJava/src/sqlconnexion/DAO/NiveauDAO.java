@@ -5,6 +5,7 @@
  */
 package sqlconnexion.DAO;
 
+import static java.lang.Float.parseFloat;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,6 +13,7 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.util.ArrayList;
 import sqlconnexion.Model.*;
+import sqlconnexion.factory.DAOFactory;
 
 /**
  *
@@ -24,6 +26,14 @@ public NiveauDAO(Connection conn) {
     super(conn);
   }
 
+/**
+ * creer un objet dans la bdd
+ * @param obj
+ * @return true si l'objet est créé dans la bdd
+ * blindage : si un champ est vide, l'objet ne peut etre créé
+ * si aucun champ vide, on ajoute a la bdd
+ * sinon exception créée
+ */
   @Override
     public boolean create(Niveau obj) {
          try {
@@ -47,40 +57,37 @@ public NiveauDAO(Connection conn) {
 
   public boolean delete(Niveau obj) {
      
-       String requete = "DELETE FROM niveau WHERE";
-      boolean virgule = false;
-      
-      if(!("".equals(obj.getNom()))){
-          requete += " `nom`= "+"'" +obj.getNom()+"'" ;
-          virgule=true;
-            System.out.println(obj.getNom());
-           if(virgule==true ){
-              if (!("".equals(obj.getId())) ) {
-                  requete =requete + " AND" ;
-              }
-            }       
-      }
-            
-      
-      if(!("".equals(obj.getId()))){
-          requete += " `id` = "+"'"+obj.getId()+ "' ";
-      }
-      
-      System.out.println(requete);
-                  
-  
-   try {
+      try {
+            ArrayList<Integer> ines = find(obj);
+        for(int nelly : ines){
+            //Suppression suplémentaire
+            //Suppression dans classe
+            DAO<Classe>adrien = DAOFactory.getClasseDAO();
+            adrien.delete(new Classe("", "", Integer.toString(nelly), ""));
+            //Suppression dans la table
+            String requete = "DELETE FROM niveau WHERE  `id` =" + nelly;
             PreparedStatement statement = this.connect.prepareStatement(requete);
             statement.executeUpdate(); 
-             System.out.println("Niveau supp");
-        } catch (SQLException ex) {
-            System.out.println("pas supp Niveau");
-            return false;
+            System.out.println("inscription supp");
         }
+            
+            
+    } catch (SQLException ex) {
+        System.out.println("pas supp");
+        return false;
+    }
         //en spécifiant bien les types SQL cibles 
         
-        return true;
+    return true;
   }
+  
+  /**
+   * modifier un élélement de la bdd
+   * possibilité de modifier n'importe quel champs
+   *
+   * @param obj
+   * @return true si l'objet est modifié, sinon false
+   */
    
   public boolean update(Niveau obj) {
       
@@ -110,6 +117,13 @@ public NiveauDAO(Connection conn) {
         return true;
   }
    
+  
+  /**
+   * recherche d'un element dans la bdd
+   * @param id
+   * @return le niveau recherché
+   * sinon lance exception
+   */
   public Niveau find(String id) {
     Niveau d = new Niveau();      
       
@@ -125,6 +139,12 @@ public NiveauDAO(Connection conn) {
     return d;
   }
   
+  
+  /**
+   * récupérer tous les niveaux
+   * @return ArrayList<Object> de niveaux
+   * 
+   */
    public ArrayList<Object> retour()
   {
        ArrayList<Object> table = new ArrayList();
@@ -150,4 +170,139 @@ public NiveauDAO(Connection conn) {
         }
        return table;
   }
+    public float moyenne(Personne eleve)
+    {
+        float moyenne=0;
+        float somme=0;
+        ArrayList<Float> notes = new ArrayList<>();
+        String id_eleve = eleve.getId();
+      
+        try {
+        ResultSet result = this.connect.createStatement(
+        ResultSet.TYPE_SCROLL_INSENSITIVE,
+        ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT note FROM `personne`,`inscription`,`bulletin`,`detailbulletin`,`evaluation` WHERE `"+id_eleve+"`LIKE `inscription`.`personneID` AND `inscription`.`id` LIKE `bulletin`.`inscriptionID` AND `detailbulletin`.`bulletinID` LIKE `bulletin`.`id` AND `detailbulletin`.`id` LIKE `evaluation`.`detailBulletinID`   ");
+           while(result.next()) {
+
+               String note = result.getString(1);
+               float note2 = parseFloat(note);
+               notes.add(note2);
+          }
+        
+        } catch (SQLException e) {
+         System.out.println("pas moyenne");
+        }
+        for(int i=0; i<notes.size(); i++)
+        {
+            somme = somme+notes.get(i);
+        }
+        return moyenne/notes.size();
+    }
+
+    @Override
+    public ArrayList<Integer> find(Niveau inscriATrouver) {
+        ArrayList<Integer> aRetourner = new ArrayList<Integer>();
+      
+        String requete = "SELECT * FROM niveau WHERE";
+        boolean virgule = false;
+
+        if(!("".equals(inscriATrouver.getId()))){
+            requete += " `id`= "+"'" +inscriATrouver.getId() +"'" ;
+            virgule=true;      
+        }
+
+        if(!("".equals(inscriATrouver.getNom()))){         
+            if(virgule){
+                requete += " AND";
+            }
+            requete += " `nom` = '"+ inscriATrouver.getNom()+ "'";
+            virgule=true;
+        }
+
+        try {
+            ResultSet result = this.connect.createStatement(
+            ResultSet.TYPE_SCROLL_INSENSITIVE,
+            ResultSet.CONCUR_READ_ONLY).executeQuery(requete);
+
+            while(result.next()) {
+                aRetourner.add(result.getInt(1));
+            }
+
+          } catch (SQLException ex) {
+              System.out.println("Requette echouer");
+          }
+
+        return aRetourner;
+    }
+    
+    public float moyenneMatiere(String id, String discipline)
+   {
+         float somme=0;
+        ArrayList<Float> notes = new ArrayList<>();
+      
+        try {
+        ResultSet result = this.connect.createStatement(
+        ResultSet.TYPE_SCROLL_INSENSITIVE,
+        ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT DISTINCT note FROM personne,inscription,bulletin,detailbulletin,evaluation,discipline,enseignement WHERE discipline.nom LIKE '"+discipline+"' AND inscription.personneID LIKE "+id+" AND inscription.id LIKE bulletin.inscriptionID AND detailbulletin.bulletinID LIKE bulletin.id AND detailbulletin.id LIKE evaluation.detailBulletinID AND detailbulletin.enseignementID LIKE enseignement.id AND enseignement.disciplineId LIKE discipline.id AND evaluation.detailBulletinID LIKE detailbulletin.id AND detailbulletin.enseignementID LIKE enseignement.id AND enseignement.disciplineId LIKE discipline.id");
+        
+        while(result.next()) {
+       
+               String note = result.getString(1);
+               float note2 = parseFloat(note);
+               notes.add(note2);
+          }
+        
+        } catch (SQLException e) {
+         System.out.println("pas moyenne");
+         System.out.println(e.getMessage());
+        }
+            
+       
+        return somme/notes.size();
+   }
+    
+        public  ArrayList<ArrayList<String>> evaluation(String id, String discipline)
+   {
+        
+        ArrayList<String> eval = new ArrayList<>();
+        ArrayList<ArrayList<String>> tab_eval = new ArrayList<>();
+      
+      
+        try {
+        ResultSet result = this.connect.createStatement(
+        ResultSet.TYPE_SCROLL_INSENSITIVE,
+        ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT DISTINCT evaluation.note, evaluation.appreciation FROM personne,inscription,bulletin,detailbulletin,evaluation,discipline,enseignement WHERE discipline.nom LIKE '"+discipline+"' AND inscription.personneID LIKE "+id+" AND inscription.id LIKE bulletin.inscriptionID AND detailbulletin.bulletinID LIKE bulletin.id AND detailbulletin.id LIKE evaluation.detailBulletinID AND detailbulletin.enseignementID LIKE enseignement.id AND enseignement.disciplineId LIKE discipline.id AND evaluation.detailBulletinID LIKE detailbulletin.id AND detailbulletin.enseignementID LIKE enseignement.id AND enseignement.disciplineId LIKE discipline.id");
+        
+        while(result.next()) {
+       
+            eval.clear();
+               String note = result.getString(1);
+               String appreciation = result.getString(2);
+               eval.add(note);
+               eval.add(appreciation);
+               tab_eval.add(eval);
+                System.out.println("apres ajout tab");
+               
+                System.out.println("apres clear");
+          }
+        
+        } catch (SQLException ex) {
+         System.out.println("pas evaluation");
+         System.out.println(ex.getMessage());
+        }
+        
+        //affichage
+         System.out.println("tab siez"+ tab_eval.size());
+         System.out.println("eval size"+ eval.size());
+        for(int i =0; i<tab_eval.size();i++)
+        {
+            System.out.println( "evaluation n°"+i + ": (note et appréciation :) ");
+            for(int j=0; j<tab_eval.get(i).size(); j++)
+            {
+             System.out.println( tab_eval.get(i).get(j));
+            }
+        }
+        
+       
+        return tab_eval;
+   }
 }
