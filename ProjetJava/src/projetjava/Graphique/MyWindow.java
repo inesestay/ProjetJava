@@ -1358,7 +1358,8 @@ public class MyWindow extends JFrame implements ActionListener {
 
 
 /**
- * Methode qui permet d 'identifier la bonne personnequi a été ajouté
+ * Methode qui permet d 'identifier la bonne personne qui a été mise dans le JtextField et d ouvrir une page avec 
+ * les informations qui lui correspondent 
  */
     public void ouvertureSession() {
        idSession.getText();
@@ -1377,8 +1378,11 @@ public class MyWindow extends JFrame implements ActionListener {
             Personne p = (Personne)myArray.get(i);
             p.getId();
 
-            if(p.getId().equals(idSession.getText())){
-              updateSession(p.getId(),pers,p);
+            if(p.getId().equals(idSession.getText()) && p.getType().equals("Etudiant")){
+              updateSessionEleve(p.getId(),pers,p);
+            }
+            else if(p.getId().equals(idSession.getText()) &&  p.getType().equals("Prof")){
+                updateSessionProf();
             }
         }
     }
@@ -1386,8 +1390,11 @@ public class MyWindow extends JFrame implements ActionListener {
 
 /**
  * Methode qui met à jour ouvertureSession pour afficher les informations de la personne selectionnées.
+ * @param id qui est l id de la personne pour laquelle on veut afficher la moyenne 
+ * @param pers pour obtenir les methodes dont j ai besoin pour récupérer les valeurs comme la moyenne par exemple
+ * @param p personne correspond à l id qu on cherchait
  */
-     public void updateSession(String id, DAO pers,Personne p){
+     public void updateSessionEleve(String id, DAO pers,Personne p){
 
         panelPrincipal.removeAll();
 
@@ -1396,11 +1403,21 @@ public class MyWindow extends JFrame implements ActionListener {
         d.gridy = 0;
         d.gridx = 0;
 
+        //float moyenneMatiere = pers.moyenneMatiere(p.getId(),"physique");
+        
         Personne nelly = (Personne) pers.find(p.getId());
 
         info.setText("moyenne de : "+nelly.getPrenom()+" "+nelly.getNom()+" est de "+nelly.getMoyenne());
-
-        panelPrincipal.add(info, d);
+        panelPrincipal.add(info, d);    
+        
+        d.gridx++;
+        //info.setText("moyenne de : "+nelly.getPrenom()+" "+nelly.getNom()+" en XXX est de "+pers.);
+        panelPrincipal.add(info, d);    
+          
         panelPrincipal.updateUI();
     }
+     
+     public void updateSessionProf(){
+         
+     }
 }
