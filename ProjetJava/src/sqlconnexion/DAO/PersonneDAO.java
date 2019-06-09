@@ -138,12 +138,8 @@ public PersonneDAO(Connection conn) {
       if(!("".equals(obj.getType()))){
           requete += " type = "+"'"+obj.getType()+ "' " + " ";
        
-      }     
-      
-      
+      }
       requete += "WHERE id = " + obj.getId()+"" ;
-      
-      System.out.println(requete);
                  
      try {
             PreparedStatement statement = this.connect.prepareStatement(requete);
@@ -244,21 +240,16 @@ public PersonneDAO(Connection conn) {
        
         float somme=0;
         ArrayList<Float> notes = new ArrayList<>();
-      //  String id_eleve = eleve.getId();
       
-        try {
-       //  System.out.println("SELECT DISTINCT note FROM `personne`,`inscription`,`bulletin`,`detailbulletin`,`evaluation` WHERE `inscription`.`personneID` LIKE `"+id+"` AND `inscription`.`id` LIKE `bulletin`.`inscriptionID` AND `detailbulletin`.`bulletinID` LIKE `bulletin`.`id` AND `detailbulletin`.`id` LIKE `evaluation`.`detailBulletinID`   ");
-   
+        try {   
         ResultSet result = this.connect.createStatement(
         ResultSet.TYPE_SCROLL_INSENSITIVE,
         ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT DISTINCT note FROM personne,inscription,bulletin,detailbulletin,evaluation WHERE inscription.personneID LIKE "+id+" AND inscription.id LIKE bulletin.inscriptionID AND detailbulletin.bulletinID LIKE bulletin.id AND detailbulletin.id LIKE evaluation.detailBulletinID ");
         
-        System.out.println("SELECT DISTINCT note FROM personne,inscription,bulletin,detailbulletin,evaluation WHERE inscription.personneID LIKE "+id+" AND inscription.id LIKE bulletin.inscriptionID AND detailbulletin.bulletinID LIKE bulletin.id AND detailbulletin.id LIKE evaluation.detailBulletinID ");
         while(result.next()) {
 
                String note = result.getString(1);
                float note2 = parseFloat(note);
-               System.out.println("Note : " + note2);
                notes.add(note2);
                
           }
@@ -289,7 +280,6 @@ public PersonneDAO(Connection conn) {
     {
         
         String app="";
-        //System.out.println("SELECT DISTINCT appreciation FROM inscription,bulletin WHERE inscription.personneID LIKE "+id+" AND inscription.id LIKE bulletin.inscriptionID " );
          try {
         ResultSet result = this.connect.createStatement(
         ResultSet.TYPE_SCROLL_INSENSITIVE,
@@ -298,7 +288,6 @@ public PersonneDAO(Connection conn) {
        result.next();
         
          app = result.getString(1);
-        //System.out.println(" appreciation : "+app );
         } catch (SQLException e) {
          System.out.println("pas appreciation");
          System.out.println(e.getMessage());
@@ -364,29 +353,12 @@ public PersonneDAO(Connection conn) {
                eval.add(note);
                eval.add(appreciation);
                tab_eval.add(eval);
-                System.out.println("apres ajout tab");
-               
-                System.out.println("apres clear");
           }
         
         } catch (SQLException ex) {
          System.out.println("pas evaluation");
          System.out.println(ex.getMessage());
-        }
-        
-        //affichage
-         //System.out.println("tab siez"+ tab_eval.size());
-         //System.out.println("eval size"+ eval.size());
-       /*
-         for(int i =0; i<tab_eval.size();i++)
-        {
-            System.out.println( "evaluation n°"+i + ": (note et appréciation :) ");
-            for(int j=0; j<tab_eval.get(i).size(); j++)
-            {
-             System.out.println( tab_eval.get(i).get(j));
-            }
-        }
-        */
+        } 
        
         return tab_eval;
    }
@@ -411,22 +383,12 @@ public PersonneDAO(Connection conn) {
         
         
         while(result.next()) {
-
                String d = result.getString(1);
-               dd.add(d);
-               
-          }
-        
+               dd.add(d);             
+          }       
         } catch (SQLException e) {
          System.out.println("pas discipline");
         }
-        /*
-        System.out.print("Les disciplines enseignées par ce prof sont : ");
-        for(int i =0; i<dd.size(); i++)
-        {
-        System.out.print(dd.get(i) + " | ");
-        }
-        */
         return dd;
     }
 
@@ -482,6 +444,4 @@ public PersonneDAO(Connection conn) {
 
         return aRetourner;
     }
-
-   
 }

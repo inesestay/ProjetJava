@@ -1440,15 +1440,17 @@ public void updatePannelPrincipal(int option){
 
         d.gridy = 0;
         d.gridx = 0;
-
+        d.ipady = 15;
+        
         Personne nelly = (Personne) pers.find(p.getId());
         info.setText("moyenne générale de : "+nelly.getPrenom()+" "+nelly.getNom()+" est de "+nelly.getMoyenne());
         panelPrincipal.add(info, d);
 
         d.gridy++;
         matiere.setColumns(10);
+        d.ipady = 5;
         panelPrincipal.add(matiere,d);
-
+d.ipady = 15;
         d.gridy++;
         panelPrincipal.add(matiereValider, d);
 
@@ -1495,10 +1497,17 @@ public void updatePannelPrincipal(int option){
         info.setText("Professeur "+nelly.getPrenom()+" "+nelly.getNom()+" enseigne : ");
         panelPrincipal.add(info, d);
 
+        d.ipady = 15;
+        d.fill = GridBagConstraints.HORIZONTAL;
+        
         for(int i =0; i<mesDisciplines.size(); i++)
         {
             d.gridy ++;
-            panelPrincipal.add(new JLabel(mesDisciplines.get(i)), d);
+            JLabel helene = new JLabel("   " +mesDisciplines.get(i));
+            helene.setOpaque(true);
+            helene.setBackground(Color.white);
+            helene.setBorder(BorderFactory.createLineBorder(Color.black));
+            panelPrincipal.add(helene, d);
 
         }
 
