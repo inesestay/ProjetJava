@@ -288,16 +288,19 @@ public PersonneDAO(Connection conn) {
     {
         
         String app="";
-        
-        try {
+        System.out.println("SELECT DISTINCT appreciation FROM inscription,bulletin WHERE inscription.personneID LIKE "+id+" AND inscription.id LIKE bulletin.inscriptionID " );
+         try {
         ResultSet result = this.connect.createStatement(
         ResultSet.TYPE_SCROLL_INSENSITIVE,
-        ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT DISTINCT bulletin.appreciation FROM personne,inscription,bulletin WHERE inscription.personneID LIKE "+id+" AND inscription.id=bulletin.inscriptionID ");
+        ResultSet.CONCUR_READ_ONLY).executeQuery( "SELECT DISTINCT appreciation FROM inscription,bulletin WHERE inscription.personneID LIKE "+id+" AND inscription.id LIKE bulletin.inscriptionID ");
         
-        app = result.getString(1);
+       result.next();
         
+         app = result.getString(1);
+        System.out.println(" appreciation : "+app );
         } catch (SQLException e) {
          System.out.println("pas appreciation");
+         System.out.println(e.getMessage());
         }
         
        

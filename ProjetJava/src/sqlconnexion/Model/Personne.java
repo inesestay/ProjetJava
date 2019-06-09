@@ -28,6 +28,7 @@ public class Personne {
         this.prenom="";
         this.type="";
         this.moyenne=-1;
+        this.appreciation="";
         dd = new ArrayList<>();
         
     }
@@ -39,6 +40,7 @@ public class Personne {
         this.prenom=prenom;
         this.type=type;
         this.moyenne=m;
+        this.appreciation="";
         dd = new ArrayList<>();
     }
     
@@ -48,6 +50,7 @@ public class Personne {
         this.nom=nom;
         this.prenom=prenom;
         this.type=type;
+        this.appreciation="";
         dd = new ArrayList<>();
     }
     /*
