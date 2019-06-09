@@ -318,6 +318,7 @@ public PersonneDAO(Connection conn) {
                String note = result.getString(1);
                float note2 = parseFloat(note);
                notes.add(note2);
+               somme+= note2;
           }
         
         } catch (SQLException e){
